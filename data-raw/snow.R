@@ -12,6 +12,8 @@
 
 source("data-raw/header.R")
 
+## Load CSV data file from BC Data Catalogue. Data liscensed under the Open Data License-BC
+## See metadata record in BC Data Catalogue for details on the data set.
 snow <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86526746-40dd-41d2-82c0-fbee3a2e93a2/resource/0e6afa41-5a2c-4e23-9d5a-e07ed35ef443/download/bcsnowdepthswetrendsbyecoprovince1950-2014.csv")
 
 snow %<>% rename(Ecoprovince = ecoprov)

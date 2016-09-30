@@ -12,6 +12,8 @@
 
 source("data-raw/header.R")
 
-flow_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8-45b5-808e-210036f25044/resource/eecc311c-2e5b-4bec-8d0a-ae5f1956dffe/download/bcriverflowtimingvolumetrends.csv", na = c("", "NA"))
+## Load CSV data file from BC Data Catalogue. Data liscensed under the Open Data License-BC
+## See metadata record in BC Data Catalogue for details on the data set.
+flow_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8-45b5-808e-210036f25044/resource/eecc311c-2e5b-4bec-8d0a-ae5f1956dffe/download/bcriverflowtimingvolumetrends.csv")
 
 warning("input flow_station trend data")

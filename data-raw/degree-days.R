@@ -12,6 +12,8 @@
 
 source("data-raw/header.R")
 
+## Load CSV data file from BC Data Catalogue. Data liscensed under the Open Data License-BC
+## See metadata record in BC Data Catalogue for details on the data set.
 degree_days <- read_csv("https://catalogue.data.gov.bc.ca/dataset/8f0d304e-161d-42e6-a982-cad13e60bd8f/resource/31d62c2b-ab92-49b5-89af-16ebda42aa98/download/growheatcooldegreedaychange1900-2013.csv")
 
 degree_days$Station <- factor(NA)

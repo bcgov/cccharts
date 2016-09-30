@@ -12,6 +12,8 @@
 
 source("data-raw/header.R")
 
+## Load CSV data file from BC Data Catalogue. Data liscensed under the Open Data License-BC
+## See metadata record in BC Data Catalogue for details on the data set.
 precipitation <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86f93096-8d3d-4b68-ab63-175cc68257e6/resource/31b4473e-819e-4c04-becd-655837f05fb5/download/precipitationchange19002013.csv")
 
 precipitation$Station <- factor(NA)
