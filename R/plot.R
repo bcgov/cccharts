@@ -68,8 +68,7 @@ plot_trends_ecoprovince <- function(data, colrs, dir) {
 #' @param dir A string of the directory to store the results in.
 #' @export
 plot_trends <- function(
-  data = cci::precipitation, colrs = "#377eb8", ask = getOption("cci.ask", FALSE),
-  dir = NULL) {
+  data = cccharts::precipitation, colrs = "#377eb8", ask = FALSE, dir = NULL) {
 
   test_data(data)
   check_string(colrs)

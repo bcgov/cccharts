@@ -4,8 +4,8 @@
 \alias{plot_trends}
 \title{Plot Data}
 \usage{
-plot_trends(data = cci::precipitation, colrs = "#377eb8",
-  ask = getOption("cci.ask", FALSE), dir = NULL)
+plot_trends(data = cccharts::precipitation, colrs = "#377eb8",
+  ask = FALSE, dir = NULL)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}

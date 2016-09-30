@@ -1,0 +1,11 @@
+library(cccharts)
+
+plot_trends(data = cccharts::air_temperature, ask = FALSE)
+plot_trends(data = cccharts::degree_days, ask = FALSE)
+# plot_trends(data = cccharts::flow_station, ask = FALSE)
+plot_trends(data = cccharts::glacial, ask = FALSE)
+plot_trends(data = cccharts::precipitation, ask = FALSE)
+plot_trends(data = cccharts::sea_level_station, ask = FALSE)
+plot_trends(data = cccharts::sea_temperature_station, ask = FALSE)
+plot_trends(data = cccharts::snow, ask = FALSE)
+plot_trends(data = cccharts::snow_station, ask = FALSE)
