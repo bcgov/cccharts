@@ -23,8 +23,8 @@
 air_temperature
 }
 \description{
-Air temperature trend data imported and modified from
-\url{https://catalogue.data.gov.bc.ca/dataset/change-in-sea-level-in-bc-1910-2014-}.
+Air temperature trend data imported and reformatted from
+\url{https://catalogue.data.gov.bc.ca/dataset/long-term-change-in-air-temperature-and-precipitation-in-bc}.
 }
 \details{
 Data licensed under the Open Data License-BC.
