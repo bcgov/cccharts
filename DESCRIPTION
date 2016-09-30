@@ -18,7 +18,6 @@ Imports:
     datacheckr,
     dplyr,
     envreportutils,
-    graphics,
     grDevices,
     magrittr,
     plyr,
