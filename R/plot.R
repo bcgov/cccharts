@@ -52,12 +52,12 @@ plot_range <- function(data, x, limits = NULL,
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 }
 
-range_png <- function(data, x, dir, limits, breaks) {
+range_png <- function(data, x, dir, limits, breaks, width, height) {
 
   filename <- get_filename(data) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
-  png(filename = filename, width = 350, height = 500, type = get_png_type())
+  png(filename = filename, width = width, height = height, type = get_png_type())
   gp <- plot_range(data, x = x, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
@@ -70,14 +70,16 @@ range_png <- function(data, x, dir, limits, breaks) {
 #' @param data A data frame of the data to plot
 #' @param x A string of the column to plot on the x-axis.
 #' @param by A character vector of the columns to separate plots by.
+#' @param width A count of the png width in pixels.
+#' @param height A count of the png height in pixels.
 #' @param ask A flag indicating whether to ask before creating the directory
 #' @param dir A string of the directory to store the results in.
 #' @param limits A numeric vector of length two providing limits of the scale.
 #' @param breaks A numeric vector of positions.
 #' @export
 trend_pngs <- function(
-  data = cccharts::precipitation, x = NULL, by = NULL, ask = TRUE, dir = NULL, limits = NULL,
-                       breaks = waiver()) {
+  data = cccharts::precipitation, x = NULL, by = NULL, width = 350L, height = 500L,
+  ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
   test_data(data)
   check_flag(ask)
   if (is.null(dir)) {
@@ -94,7 +96,7 @@ trend_pngs <- function(
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x)
 
-  plyr::ddply(data, by, range_png, x = x, dir = dir,
+  plyr::ddply(data, by, range_png, x = x, dir = dir, width = width, height = height,
               limits = limits, breaks = breaks)
 
   invisible(TRUE)
