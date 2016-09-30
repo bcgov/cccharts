@@ -57,7 +57,7 @@ range_png <- function(data, x, dir, limits, breaks) {
   filename <- get_filename(data) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
-  png(filename = filename, width = 350, height = 500, type = "cairo-png")
+  png(filename = filename, width = 350, height = 500, type = get_png_type())
   gp <- plot_range(data, x = x, limits = limits, breaks = breaks)
   print(gp)
   dev.off()

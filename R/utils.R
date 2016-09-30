@@ -84,3 +84,8 @@ get_x <- function(data) {
   if (!all_identical(data$Ecoprovince)) return("Ecoprovince")
   "Indicator"
 }
+
+get_png_type <- function() {
+  ifelse(.Platform$OS.type == "unix", "png", "png-cairo")
+}
+
