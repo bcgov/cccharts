@@ -10,12 +10,12 @@ Authors@R: c(
     person("Jane", "Wang", role = "aut"))
 Description: Plots climate change indicator trends for British Columbia.
 Depends:
-    R (>= 3.3.1)
+    R (>= 3.3.1),
+    ggplot2
 Imports:
     datacheckr,
     bcmaps,
     envreportutils,
-    ggplot2,
     graphics,
     grDevices,
     magrittr,

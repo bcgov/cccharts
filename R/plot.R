@@ -10,6 +10,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
+#' Plot Range
+#'
+#' @param data The data frame to plot.
+#' @param x A string of the column to plot on the x-axis.
+#'
+#' @return A ggplot2 object.
+#' @export
+#'
+#' @examples
+#' plot_range(cccharts::precipitation) + facet_wrap(~Ecoprovince)
+plot_range <- function(data, x = "Season") {
+  test_data(data)
+
+  ggplot(data, aes_string(x = x)) +
+    geom_pointrange(aes_string(y = "Trend",
+                               ymax = "Trend + Uncertainty",
+                               ymin = "Trend - Uncertainty")) +
+    geom_hline(aes_(yintercept = 0), linetype = 2) +
+    scale_y_continuous(get_ylab(data))
+}
+
 plot_trends_ecoprovince <- function(data, colrs, dir) {
   stopifnot(length(unique(data$Indicator)) == 1)
   stopifnot(length(unique(data$Statistic)) == 1)
@@ -23,8 +44,8 @@ plot_trends_ecoprovince <- function(data, colrs, dir) {
   ylab <- paste(data$Units[1], "per", data$Years[1], "years")
   title <- paste(data$Ecoprovince[1], ifelse(data$Ecoprovince[1] == "British Columbia", "", "Ecoprovince"))
 
-#  data$Significant %<>% factor(levels = c("FALSE", "TRUE"))
-#  levels(data$Significant) <- list(NS = "FALSE", "" = "TRUE")
+  #  data$Significant %<>% factor(levels = c("FALSE", "TRUE"))
+  #  levels(data$Significant) <- list(NS = "FALSE", "" = "TRUE")
   data$Sig <- "NS"
   data$Sig[data$Significant] <- ""
 
