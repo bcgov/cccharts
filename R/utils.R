@@ -43,6 +43,11 @@ get_title <- function(data) {
   data$Indicator[1]
 }
 
+get_limits <- function(data) {
+  x <- c(data$Trend, data$Trend - data$Uncertainty, data$Trend + data$Uncertainty)
+  range(x)
+}
+
 get_filename <- function(data) {
   filename <- NULL
   if (all_identical(data$Indicator)) filename %<>% paste(data$Indicator[1])

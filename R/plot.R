@@ -45,7 +45,7 @@ plot_range <- function(data, x = "Season", limits = NULL,
     geom_text(aes_(y = ~Trend, label = ~Significant), hjust = 1.2, vjust = 1.8,
               colour = "grey30", size = 2.8) +
     scale_y_continuous(get_ylab(data), labels = get_labels(data),
-                       limits = limits, breaks = breaks, expand = c(0,0)) +
+                       limits = limits, breaks = breaks) +
     expand_limits(y = 0) +
     ggtitle(get_title(data)) +
     theme_cccharts() +
@@ -87,6 +87,9 @@ trend_pngs <- function(
   if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+
+  if(is.null(limits))
+    limits <- get_limits(data)
 
   plyr::ddply(data, c("Ecoprovince", "Indicator", "Statistic"), range_png, dir = dir,
               limits = limits, breaks = breaks)
