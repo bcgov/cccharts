@@ -44,4 +44,6 @@ glacial %<>% select(
 
 glacial %<>% filter(!is.na(Trend))
 
+glacial %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+
 use_data(glacial, overwrite = TRUE)

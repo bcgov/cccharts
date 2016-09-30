@@ -43,6 +43,8 @@ degree_days %<>% select(
 degree_days$Trend %<>% as.numeric()
 degree_days$Uncertainty %<>% as.numeric()
 
+degree_days %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+
 use_data(degree_days, overwrite = TRUE)
 
 

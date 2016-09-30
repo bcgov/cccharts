@@ -24,9 +24,12 @@ canada_cities %<>% select(Station = name, Latitude = lat, Longitude = long)
 canada_cities$Station %<>% str_replace("\\s\\w\\w$", "")
 
 sea_level_station %<>% left_join(canada_cities, by = "Station")
-sea_level_station$Station %<>% factor()
 sea_level_station$Latitude[sea_level_station$Station == "Tofino"] <- 49.1530
 sea_level_station$Longitude[sea_level_station$Station == "Tofino"] <- -125.9066
+
+sea_level_station %<>% get_ecoprovince()
+sea_level_station %<>% arrange(Ecoprovince, Longitude, Latitude)
+sea_level_station$Station %<>% factor(unique(sea_level_station$Station))
 
 sea_level_station$Indicator <- "Sea Level"
 
@@ -36,8 +39,6 @@ sea_level_station$Statistic %<>% factor(levels = statistic)
 sea_level_station$Units <- "Millimeter"
 sea_level_station$Years <- 1L
 
-sea_level_station$Ecoprovince <- "Coast and Mountains"
-sea_level_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 sea_level_station$Season <- "Annual"
 sea_level_station$Season %<>% factor(levels = season)
 sea_level_station$Significant <- TRUE
@@ -46,5 +47,7 @@ sea_level_station %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `slope_mm/year`, Uncertainty = `95_percent_mm/year`,
   Significant)
+
+sea_level_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
 
 use_data(sea_level_station, overwrite = TRUE)

@@ -45,4 +45,6 @@ snow %<>% select(
   Trend = slope_percentperyear, Uncertainty,
   Significant = validstat)
 
+snow %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+
 use_data(snow, overwrite = TRUE)

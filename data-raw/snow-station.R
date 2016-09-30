@@ -20,11 +20,9 @@ snow_station %<>% rename(Station = station_id,
                          Latitude = latitude,
                          Longitude = longitude)
 
-warning("need to get Ecoprovince by Lat and Long")
-snow_station$Ecoprovince <- "British Columbia"
-
-warning("need to order stations by Ecoprovince")
-snow_station$Station %<>% factor()
+snow_station %<>% get_ecoprovince()
+snow_station %<>% arrange(Ecoprovince, Longitude, Latitude)
+snow_station$Station %<>% factor(unique(snow_station$Station))
 
 snow_station$Indicator <- NA
 snow_station$Indicator[snow_station$measure == "depth"] <- "Snow Depth"
@@ -46,5 +44,7 @@ snow_station %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = slope_percentperyear, Uncertainty,
   Significant = sigstat)
+
+snow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
 
 use_data(snow_station, overwrite = TRUE)

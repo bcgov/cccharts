@@ -40,4 +40,6 @@ precipitation %<>% select(
   Trend = Trend_percentcentury, Uncertainty = Uncertainty_percentcentury,
   Significant)
 
+precipitation %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+
 use_data(precipitation, overwrite = TRUE)

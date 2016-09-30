@@ -42,4 +42,6 @@ air_temperature %<>% select(
   Trend = Trend_Ccentury, Uncertainty = Uncertainty_Ccentury,
   Significant)
 
+air_temperature %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+
 use_data(air_temperature, overwrite = TRUE)

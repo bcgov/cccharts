@@ -18,11 +18,12 @@ sea_temperature_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/ad
 
 sea_temperature_station %<>% rename(Station = Station_Name)
 
-warning("need to get Ecoprovince by Lat and Long")
-sea_temperature_station$Ecoprovince <- "British Columbia"
+sea_temperature_station %<>% get_ecoprovince()
+warning("hack for Race Rocks ecoprovince")
+sea_temperature_station$Ecoprovince[sea_temperature_station$Station == "Race Rocks"] <- "Coast and Mountains"
 
-warning("need to order stations by Ecoprovince")
-sea_temperature_station$Station %<>% factor()
+sea_temperature_station %<>% arrange(Ecoprovince, Longitude, Latitude)
+sea_temperature_station$Station %<>% factor(unique(sea_temperature_station$Station))
 
 sea_temperature_station$Indicator <- "Sea Surface Temperature"
 
@@ -39,5 +40,7 @@ sea_temperature_station %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `Trend_Slope_degreesC_per_century`, Uncertainty = `95_percent_uncert_degreesC_per_century`,
   Significant = stat_significance)
+
+sea_temperature_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
 
 use_data(sea_temperature_station, overwrite = TRUE)
