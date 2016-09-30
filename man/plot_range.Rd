@@ -4,7 +4,7 @@
 \alias{plot_range}
 \title{Plot Range}
 \usage{
-plot_range(data, x = "Season", limits = NULL, breaks = waiver())
+plot_range(data, x, limits = NULL, breaks = waiver())
 }
 \arguments{
 \item{data}{The data frame to plot.}
@@ -22,6 +22,6 @@ A ggplot2 object.
 Plot Range
 }
 \examples{
-plot_range(cccharts::precipitation) + facet_wrap(~Ecoprovince)
+plot_range(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
 }
 

@@ -21,8 +21,8 @@
 #' @export
 #'
 #' @examples
-#' plot_range(cccharts::precipitation) + facet_wrap(~Ecoprovince)
-plot_range <- function(data, x = "Season", limits = NULL,
+#' plot_range(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
+plot_range <- function(data, x, limits = NULL,
                        breaks = waiver()) {
   test_data(data)
 
@@ -52,13 +52,13 @@ plot_range <- function(data, x = "Season", limits = NULL,
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 }
 
-range_png <- function(data, dir, limits, breaks) {
+range_png <- function(data, x, dir, limits, breaks) {
 
   filename <- get_filename(data) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = 350, height = 500, type = "cairo-png")
-  gp <- plot_range(data, limits = limits, breaks = breaks)
+  gp <- plot_range(data, x = x, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
 }
@@ -91,7 +91,7 @@ trend_pngs <- function(
   if(is.null(limits))
     limits <- get_limits(data)
 
-  plyr::ddply(data, c("Ecoprovince", "Indicator", "Statistic"), range_png, dir = dir,
+  plyr::ddply(data, c("Ecoprovince", "Indicator", "Statistic"), range_png, x = "Season", dir = dir,
               limits = limits, breaks = breaks)
 
   invisible(TRUE)
