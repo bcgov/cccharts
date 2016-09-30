@@ -13,14 +13,16 @@ Depends:
     R (>= 3.3.1),
     ggplot2
 Imports:
-    datacheckr,
     bcmaps,
+    datacheckr,
+    dplyr,
     envreportutils,
     graphics,
     grDevices,
     magrittr,
     plyr,
     RColorBrewer,
+    scales,
     stringr,
     tools,
     yesno

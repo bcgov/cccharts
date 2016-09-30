@@ -4,12 +4,16 @@
 \alias{plot_range}
 \title{Plot Range}
 \usage{
-plot_range(data, x = "Season")
+plot_range(data, x = "Season", limits = NULL, breaks = waiver())
 }
 \arguments{
 \item{data}{The data frame to plot.}
 
 \item{x}{A string of the column to plot on the x-axis.}
+
+\item{limits}{A numeric vector of length two providing limits of the scale.}
+
+\item{breaks}{A numeric vector of positions.}
 }
 \value{
 A ggplot2 object.

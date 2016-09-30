@@ -14,90 +14,72 @@
 #'
 #' @param data The data frame to plot.
 #' @param x A string of the column to plot on the x-axis.
+#' @param limits A numeric vector of length two providing limits of the scale.
+#' @param breaks A numeric vector of positions.
 #'
 #' @return A ggplot2 object.
 #' @export
 #'
 #' @examples
 #' plot_range(cccharts::precipitation) + facet_wrap(~Ecoprovince)
-plot_range <- function(data, x = "Season") {
+plot_range <- function(data, x = "Season", limits = NULL,
+                       breaks = waiver()) {
   test_data(data)
 
-  ggplot(data, aes_string(x = x)) +
-    geom_pointrange(aes_string(y = "Trend",
-                               ymax = "Trend + Uncertainty",
-                               ymin = "Trend - Uncertainty")) +
-    geom_hline(aes_(yintercept = 0), linetype = 2) +
-    scale_y_continuous(get_ylab(data))
+  data$Significant %<>% not_significant()
+
+  if (data$Units[1] == "Percent") {
+    data %<>% dplyr::mutate_(Trend = ~Trend / 100,
+                             Uncertainty = ~Uncertainty / 100)
+    if(is.numeric(limits))
+      limits %<>% magrittr::divide_by(100)
+    if(is.numeric(breaks))
+      breaks %<>% magrittr::divide_by(100)
+  }
+
+  ggplot(data, aes_string(x = x, y = "Trend")) +
+    geom_point(size = 4) +
+    geom_errorbar(aes_string(ymax = "Trend + Uncertainty",
+                             ymin = "Trend - Uncertainty"), width = 0.3, size = 0.5) +
+    geom_hline(aes(yintercept = 0), linetype = 2) +
+    geom_text(aes_(y = ~Trend, label = ~Significant), hjust = 1.2, vjust = 1.8,
+              colour = "grey30", size = 2.8) +
+    scale_y_continuous(get_ylab(data), labels = get_labels(data),
+                       limits = limits, breaks = breaks, expand = c(0,0)) +
+    expand_limits(y = 0) +
+    ggtitle(get_title(data)) +
+    theme_cccharts()
 }
 
-plot_trends_ecoprovince <- function(data, colrs, dir) {
-  stopifnot(length(unique(data$Indicator)) == 1)
-  stopifnot(length(unique(data$Statistic)) == 1)
-  stopifnot(length(unique(data$Units)) == 1)
-  stopifnot(length(unique(data$Years)) == 1)
-  stopifnot(length(unique(data$Ecoprovince)) == 1)
+range_png <- function(data, dir, limits, breaks) {
 
-  filename <- paste0(data$Indicator[1], " ", data$Statistic[1], " ", data$Ecoprovince[1], ".png")
+  filename <- get_filename(data) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
-  ylab <- paste(data$Units[1], "per", data$Years[1], "years")
-  title <- paste(data$Ecoprovince[1], ifelse(data$Ecoprovince[1] == "British Columbia", "", "Ecoprovince"))
-
-  #  data$Significant %<>% factor(levels = c("FALSE", "TRUE"))
-  #  levels(data$Significant) <- list(NS = "FALSE", "" = "TRUE")
-  data$Sig <- "NS"
-  data$Sig[data$Significant] <- ""
-
   png(filename = filename, width = 350, height = 500, type = "cairo-png")
-
-  gp <- ggplot(data, aes_(x = ~Season, y = ~Trend)) +
-    geom_point(aes_(colour = ~colrs), size = 4) +
-    geom_errorbar(aes_(ymax = ~Trend + Uncertainty,
-                       ymin = ~Trend - Uncertainty,
-                       colour = ~colrs), width = 0.3, size = .5) +
-    geom_hline(aes_(yintercept = 0), linetype = 2, colour = "black") +
-    scale_y_continuous(name = ylab, limits = c(-40,50), breaks = seq(-40, 50, 10),
-                       expand = c(0,0)) +
-    ggtitle(title) +
-    envreportutils::theme_soe() +
-    theme(plot.title = element_text(size = rel(1.2)),
-          axis.title.y = element_text(size=13),
-          axis.title.x = element_blank(),
-          axis.line = element_blank(),
-          panel.grid.major.x = element_blank(),
-          panel.grid.minor.y = element_line(),
-          panel.border = element_rect(colour = "grey50", fill = NA),
-          panel.background = element_rect(colour = "grey50", fill = NA),
-          legend.position = ("bottom"),
-          legend.direction = ("horizontal"),
-          plot.margin = unit(c(1,0.1,0,0.5), "lines")) +
-    geom_text(aes_(y = ~Trend, label = ~Sig, hjust = 1.2, vjust = 1.8),
-              colour = "grey30", size = 2.8, family = "Verdana") +
-    scale_colour_manual(name = "", values = colrs,
-                        labels = data$Statistic[1])
-
+  gp <- plot_range(data, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
 }
 
 
-#' Plot Data
+#' Trend PNGs
 #'
-#' Generates plot of climate indicator data as png files.
+#' Generates plots of climate indicator data as png files.
 #' @param data A data frame of the data to plot
-#' @param colrs A string of the palette.
 #' @param ask A flag indicating whether to ask before creating the directory
 #' @param dir A string of the directory to store the results in.
+#' @param limits A numeric vector of length two providing limits of the scale.
+#' @param breaks A numeric vector of positions.
 #' @export
-plot_trends <- function(
-  data = cccharts::precipitation, colrs = "#377eb8", ask = FALSE, dir = NULL) {
-
+trend_pngs <- function(
+  data = cccharts::precipitation, ask = TRUE, dir = NULL, limits = NULL,
+                       breaks = waiver()) {
   test_data(data)
-  check_string(colrs)
   check_flag(ask)
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
+    dir <- file.path("cccharts", dir)
   } else
     check_string(dir)
 
@@ -105,7 +87,27 @@ plot_trends <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
-  plyr::ddply(data, c("Ecoprovince", "Indicator", "Statistic"), plot_trends_ecoprovince, colrs = colrs, dir = dir)
+  plyr::ddply(data, c("Ecoprovince", "Indicator", "Statistic"), range_png, dir = dir,
+              limits = limits, breaks = breaks)
 
   invisible(TRUE)
+}
+
+#' Theme
+#'
+#' ggplot2 theme for cccharts plots
+#'
+#' @export
+theme_cccharts <- function() {
+  theme_soe(base_family = "") +
+    theme(plot.title = element_text(size = rel(1.2)),
+          axis.title.y = element_text(size = 13),
+          axis.title.x = element_blank(),
+          axis.line = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.minor.y = element_line(),
+          panel.border = element_rect(colour = "grey50", fill = NA),
+          panel.background = element_rect(colour = "grey50", fill = NA),
+          legend.position = ("bottom"),
+          legend.direction = ("horizontal"))
 }
