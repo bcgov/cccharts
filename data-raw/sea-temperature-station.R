@@ -12,7 +12,7 @@
 
 source("data-raw/header.R")
 
-## Load CSV data file from BC Data Catalogue. Data liscensed under the Open Data License-BC
+## Load CSV data file from BC Data Catalogue. Data licensed under the Open Data License-BC
 ## See metadata record in BC Data Catalogue for details on the data set.
 sea_temperature_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/ad95a5c1-5e3e-4571-99a8-1090282a9757/resource/231afe68-3aaa-4552-b396-649de1a55bef/download/bcseasurfacetemptrends1935-2014.csv")
 

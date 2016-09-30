@@ -12,7 +12,7 @@
 
 source("data-raw/header.R")
 
-## Load CSV data file from BC Data Catalogue. Data liscensed under the Open Data License-BC
+## Load CSV data file from BC Data Catalogue. Data licensed under the Open Data License-BC
 ## See metadata record in BC Data Catalogue for details on the data set.
 glacial <- read_csv("https://catalogue.data.gov.bc.ca/dataset/89ff86d7-2d04-4c96-b945-ba56688906eb/resource/bf6ba520-dcfd-4a6b-a822-963b77ff7848/download/glacierchange1985-2005.csv")
 

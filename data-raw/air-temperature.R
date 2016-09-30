@@ -12,7 +12,7 @@
 
 source("data-raw/header.R")
 
-## Load CSV data file from BC Data Catalogue. Data liscensed under the Open Data License-BC
+## Load CSV data file from BC Data Catalogue. Data licensed under the Open Data License-BC
 ## See metadata record in BC Data Catalogue for details on the data set.
 air_temperature <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86f93096-8d3d-4b68-ab63-175cc68257e6/resource/2ea26a15-8420-4d85-bba0-742b8c1a4dc2/download/temperaturechange19002013.csv")
 
