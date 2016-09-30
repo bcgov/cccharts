@@ -86,6 +86,6 @@ get_x <- function(data) {
 }
 
 get_png_type <- function() {
-  ifelse(.Platform$OS.type == "unix", "png", "png-cairo")
+  ifelse(.Platform$OS.type == "unix", "cairo", "png-cairo")
 }
 
