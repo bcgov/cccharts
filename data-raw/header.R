@@ -36,7 +36,7 @@ longlat2sp <- function(data) {
   check_data2(data, values = list(Longitude = 1, Latitude = 1))
 
   coords <- data[c("Longitude", "Latitude")]
-  coords %<>% sp::SpatialPointsDataFrame(data = data, proj4string = sp::CRS("+proj=longlat +ellps=GRS80 +datum=NAD83"))
+  coords %<>% sp::SpatialPointsDataFrame(data = data, proj4string = sp::CRS("+init=epsg:4326"))
   coords %<>% spTransform(sp::proj4string(ecoprovinces))
   coords
 }

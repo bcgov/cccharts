@@ -89,3 +89,8 @@ get_png_type <- function() {
   ifelse(.Platform$OS.type == "unix", "cairo", "png-cairo")
 }
 
+get_breaks <- function (x) {
+  scales::pretty_breaks()(x)
+}
+
+

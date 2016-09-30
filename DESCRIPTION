@@ -12,9 +12,10 @@ Description: Plots climate change indicator trends for British Columbia.
 License: 	Apache License 2.0 | file LICENSE
 Depends:
     R (>= 3.3.1),
-    ggplot2
+    ggplot2,
 Imports:
     bcmaps,
+    broom,
     datacheckr,
     dplyr,
     envreportutils,
