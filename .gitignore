@@ -2,7 +2,13 @@
 .Rhistory
 .RData
 .Ruserdata
-/out
-/tmp
-*.html
-*.pdf
+
+air_temperature
+degree_days
+flow_station
+glacial
+precipitation
+sea_level_station
+sea_temperature_station
+snow
+snow_station

@@ -1,0 +1,11 @@
+library(cci)
+
+plot_trends(data = cci::air_temperature, ask = FALSE)
+plot_trends(data = cci::degree_days, ask = FALSE)
+# plot_trends(data = cci::flow_station, ask = FALSE)
+plot_trends(data = cci::glacial, ask = FALSE)
+plot_trends(data = cci::precipitation, ask = FALSE)
+plot_trends(data = cci::sea_level_station, ask = FALSE)
+plot_trends(data = cci::sea_temperature_station, ask = FALSE)
+plot_trends(data = cci::snow, ask = FALSE)
+plot_trends(data = cci::snow_station, ask = FALSE)

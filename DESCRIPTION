@@ -1,0 +1,34 @@
+Package: cccharts
+Title: Plot Climate Change Indicator Trends for British Columbia
+Version: 0.0.0.9000
+Date: 2016-09-29
+Authors@R: c(
+    person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
+    person("Patrick", "Hogan", role = "aut"),
+    person("Stephanie", "Hazlitt", role = "aut"),
+    person("Andy", "Teucher", role = "aut"),
+    person("Jane", "Wang", role = "aut"))
+Description: Plots climate change indicator trends for British Columbia.
+Depends:
+    R (>= 3.3.1)
+Imports:
+    datacheckr,
+    bcmaps,
+    envreportutils,
+    ggplot2,
+    graphics,
+    grDevices,
+    magrittr,
+    plyr,
+    RColorBrewer,
+    stringr,
+    tools,
+    yesno
+Suggests:
+    devtools,
+    readr,
+    testthat
+License: 	Apache License 2.0 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
