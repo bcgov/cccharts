@@ -34,7 +34,7 @@ get_labels <- function(data) {
   check_all_identical(data$Units)
   if (data$Units[1] == "Percent")
     return(percent)
-  ggplot2::waiver
+  return(comma)
 }
 
 get_title <- function(data) {
