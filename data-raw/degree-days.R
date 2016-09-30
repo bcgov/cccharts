@@ -28,7 +28,7 @@ degree_days$Ecoprovince %<>% tolower() %>% toTitleCase()
 degree_days$Ecoprovince %<>%  factor(levels = ecoprovince)
 degree_days$Season %<>% factor(levels = season)
 
-degree_days %<>% mutate(Significance = Stat_Significance == 1)
+degree_days %<>% mutate(Significant = Stat_Significance == 1)
 
 degree_days$Latitude <- NA_real_
 degree_days$Longitude <- NA_real_
@@ -36,7 +36,7 @@ degree_days$Longitude <- NA_real_
 degree_days %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_DDcentury, Uncertainty = Uncertainty_DDcentury,
-  Significance)
+  Significant)
 
 degree_days$Trend %<>% as.numeric()
 degree_days$Uncertainty %<>% as.numeric()

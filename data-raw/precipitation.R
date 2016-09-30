@@ -27,8 +27,8 @@ precipitation$Years <- 100L
 precipitation$Ecoprovince %<>% tolower() %>% tools::toTitleCase()
 precipitation$Ecoprovince %<>%  factor(levels = ecoprovince)
 precipitation$Season %<>% factor(levels = season)
-precipitation %<>% mutate(Significance = 1 - Percent_Confidence/100,
-                            Significance = Significance <= 0.05)
+precipitation %<>% mutate(Significant = 1 - Percent_Confidence/100,
+                            Significant = Significant <= 0.05)
 
 precipitation$Latitude <- NA_real_
 precipitation$Longitude <- NA_real_
@@ -36,6 +36,6 @@ precipitation$Longitude <- NA_real_
 precipitation %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_percentcentury, Uncertainty = Uncertainty_percentcentury,
-  Significance)
+  Significant)
 
 use_data(precipitation, overwrite = TRUE)

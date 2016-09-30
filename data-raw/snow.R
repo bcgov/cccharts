@@ -41,6 +41,6 @@ snow$Longitude <- NA_real_
 snow %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = slope_percentperyear, Uncertainty,
-  Significance = validstat)
+  Significant = validstat)
 
 use_data(snow, overwrite = TRUE)

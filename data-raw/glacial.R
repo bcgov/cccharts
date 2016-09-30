@@ -30,7 +30,7 @@ glacial$Season <- "Annual"
 glacial$Season %<>% factor(levels = season)
 
 glacial$Uncertainty <- NA_real_
-glacial$Significance <- NA
+glacial$Significant <- NA
 
 glacial$Latitude <- NA_real_
 glacial$Longitude <- NA_real_
@@ -38,7 +38,7 @@ glacial$Longitude <- NA_real_
 glacial %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Percentage_Area_Change, Uncertainty,
-  Significance)
+  Significant)
 
 glacial %<>% filter(!is.na(Trend))
 

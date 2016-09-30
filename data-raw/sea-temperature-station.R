@@ -36,6 +36,6 @@ sea_temperature_station$Season %<>% str_to_title() %>% factor(levels = season)
 sea_temperature_station %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `Trend_Slope_degreesC_per_century`, Uncertainty = `95_percent_uncert_degreesC_per_century`,
-  Significance = stat_significance)
+  Significant = stat_significance)
 
 use_data(sea_temperature_station, overwrite = TRUE)

@@ -43,6 +43,6 @@ snow_station %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96
 snow_station %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = slope_percentperyear, Uncertainty,
-  Significance = sigstat)
+  Significant = sigstat)
 
 use_data(snow_station, overwrite = TRUE)

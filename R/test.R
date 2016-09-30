@@ -23,5 +23,5 @@ test_data <- function(data) {
     Longitude = c(1, NA),
     Trend = c(-1000, 250),
     Uncertainty = c(0, 250, NA),
-    Significance = c(TRUE, FALSE, NA)))
+    Significant = c(TRUE, FALSE, NA)))
 }

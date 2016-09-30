@@ -23,8 +23,10 @@ plot_trends_ecoprovince <- function(data, colrs, dir) {
   ylab <- paste(data$Units[1], "per", data$Years[1], "years")
   title <- paste(data$Ecoprovince[1], ifelse(data$Ecoprovince[1] == "British Columbia", "", "Ecoprovince"))
 
+#  data$Significant %<>% factor(levels = c("FALSE", "TRUE"))
+#  levels(data$Significant) <- list(NS = "FALSE", "" = "TRUE")
   data$Sig <- "NS"
-  data$Sig[data$Significance] <- ""
+  data$Sig[data$Significant] <- ""
 
   png(filename = filename, width = 350, height = 500, type = "cairo-png")
 

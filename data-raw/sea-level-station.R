@@ -38,11 +38,11 @@ sea_level_station$Ecoprovince <- "Coast and Mountains"
 sea_level_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 sea_level_station$Season <- "Annual"
 sea_level_station$Season %<>% factor(levels = season)
-sea_level_station$Significance <- TRUE
+sea_level_station$Significant <- TRUE
 
 sea_level_station %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `slope_mm/year`, Uncertainty = `95_percent_mm/year`,
-  Significance)
+  Significant)
 
 use_data(sea_level_station, overwrite = TRUE)

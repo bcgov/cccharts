@@ -29,8 +29,8 @@ air_temperature$Years <- 100L
 air_temperature$Ecoprovince %<>% tolower() %>% tools::toTitleCase()
 air_temperature$Ecoprovince %<>%  factor(levels = ecoprovince)
 air_temperature$Season %<>% factor(levels = season)
-air_temperature %<>% mutate(Significance = 1 - Percent_Confidence/100,
-                            Significance = Significance <= 0.05)
+air_temperature %<>% mutate(Significant = 1 - Percent_Confidence/100,
+                            Significant = Significant <= 0.05)
 
 air_temperature$Latitude <- NA_real_
 air_temperature$Longitude <- NA_real_
@@ -38,6 +38,6 @@ air_temperature$Longitude <- NA_real_
 air_temperature %<>% select(
   Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_Ccentury, Uncertainty = Uncertainty_Ccentury,
-  Significance)
+  Significant)
 
 use_data(air_temperature, overwrite = TRUE)
