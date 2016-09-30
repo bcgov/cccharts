@@ -15,6 +15,16 @@ Utilisation
 
 ``` r
 library(cccharts)
+#> Loading required package: ggplot2
+
+plot_range(cccharts::precipitation) + facet_wrap(~Ecoprovince)
+```
+
+![](README-unnamed-chunk-2-1.png)
+
+``` r
+
+# to generate all plot files
 # demo("cccharts", ask = FALSE)
 ```
 
@@ -34,6 +44,8 @@ Please report any [issues](https://github.com/bcgov/cccharts/issues).
 [Pull requests](https://github.com/bcgov/cccharts/pulls) are always welcome.
 
 If you would like to contribute, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ### License
 

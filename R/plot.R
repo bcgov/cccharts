@@ -48,7 +48,8 @@ plot_range <- function(data, x = "Season", limits = NULL,
                        limits = limits, breaks = breaks, expand = c(0,0)) +
     expand_limits(y = 0) +
     ggtitle(get_title(data)) +
-    theme_cccharts()
+    theme_cccharts() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 }
 
 range_png <- function(data, dir, limits, breaks) {

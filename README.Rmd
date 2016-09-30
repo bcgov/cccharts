@@ -23,8 +23,12 @@ knitr::opts_chunk$set(
 
 ## Utilisation
 
-```{r}
+```{r, fig.width=8, fig.height=8}
 library(cccharts)
+
+plot_range(cccharts::precipitation) + facet_wrap(~Ecoprovince)
+
+# to generate all plot files
 # demo("cccharts", ask = FALSE)
 ```
 
