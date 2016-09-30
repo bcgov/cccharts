@@ -19,8 +19,8 @@ sea_temperature_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/ad
 sea_temperature_station %<>% rename(Station = Station_Name)
 
 sea_temperature_station %<>% get_ecoprovince()
-warning("hack for Race Rocks ecoprovince")
-sea_temperature_station$Ecoprovince[sea_temperature_station$Station == "Race Rocks"] <- "Coast and Mountains"
+# race rocks falls outside BC ecoprovinces
+sea_temperature_station$Ecoprovince[sea_temperature_station$Station == "Race Rocks"] <- "Georgia Depression"
 
 sea_temperature_station %<>% arrange(Ecoprovince, Longitude, Latitude)
 sea_temperature_station$Station %<>% factor(unique(sea_temperature_station$Station))
