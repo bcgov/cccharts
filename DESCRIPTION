@@ -26,6 +26,7 @@ Imports:
     yesno
 Suggests:
     devtools,
+    maps,
     readr,
     testthat
 License: 	Apache License 2.0 | file LICENSE

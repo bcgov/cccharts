@@ -12,6 +12,7 @@
 
 library(devtools)
 library(magrittr)
+library(maps)
 library(readr)
 library(stringr)
 library(tools)
