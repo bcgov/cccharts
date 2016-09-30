@@ -23,6 +23,7 @@ Imports:
     plyr,
     RColorBrewer,
     scales,
+    sp,
     stringr,
     tools,
     yesno
@@ -30,6 +31,8 @@ Suggests:
     devtools,
     maps,
     readr,
+    raster,
+    rmapshaper,
     testthat
 Remotes:
     bcgov/bcmaps,

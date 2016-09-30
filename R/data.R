@@ -209,3 +209,10 @@
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "snow_station"
+
+#' Map of Ecoprovinces
+#'
+#' SpatialPolygonsDataFrame of Ecoprovinces for British Columbia.
+#'
+#' From bcmaps package.
+"map"
