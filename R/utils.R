@@ -70,3 +70,17 @@ not_significant <- function(x) {
   ns[is.na(x) | x] <- ""
   ns
 }
+
+get_by <- function(data, x) {
+  by <- c("Indicator", "Ecoprovince", "Station", "Statistic", "Season")
+  by <- by[by != x]
+  by
+}
+
+get_x <- function(data) {
+  if (!all_identical(data$Season)) return("Season")
+  if (!all_identical(data$Statistic)) return("Statistic")
+  if (!all_identical(data$Station)) return("Station")
+  if (!all_identical(data$Ecoprovince)) return("Ecoprovince")
+  "Indicator"
+}

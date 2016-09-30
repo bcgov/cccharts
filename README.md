@@ -17,16 +17,14 @@ Utilisation
 library(cccharts)
 #> Loading required package: ggplot2
 
-plot_range(cccharts::precipitation) + facet_wrap(~Ecoprovince)
+plot_range(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
 ```
 
 ![](README-unnamed-chunk-2-1.png)
 
-``` r
+To generate all plot files
 
-# to generate all plot files
-# demo("cccharts", ask = FALSE)
-```
+    demo("cccharts", ask = FALSE)
 
 Installation
 ------------

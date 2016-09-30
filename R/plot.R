@@ -68,13 +68,15 @@ range_png <- function(data, x, dir, limits, breaks) {
 #'
 #' Generates plots of climate indicator data as png files.
 #' @param data A data frame of the data to plot
+#' @param x A string of the column to plot on the x-axis.
+#' @param by A character vector of the columns to separate plots by.
 #' @param ask A flag indicating whether to ask before creating the directory
 #' @param dir A string of the directory to store the results in.
 #' @param limits A numeric vector of length two providing limits of the scale.
 #' @param breaks A numeric vector of positions.
 #' @export
 trend_pngs <- function(
-  data = cccharts::precipitation, ask = TRUE, dir = NULL, limits = NULL,
+  data = cccharts::precipitation, x = NULL, by = NULL, ask = TRUE, dir = NULL, limits = NULL,
                        breaks = waiver()) {
   test_data(data)
   check_flag(ask)
@@ -88,10 +90,11 @@ trend_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
-  if(is.null(limits))
-    limits <- get_limits(data)
+  if (is.null(limits)) limits <- get_limits(data)
+  if (is.null(x)) x <- get_x(data)
+  if (is.null(by)) by <- get_by(data, x)
 
-  plyr::ddply(data, c("Ecoprovince", "Indicator", "Statistic"), range_png, x = "Season", dir = dir,
+  plyr::ddply(data, by, range_png, x = x, dir = dir,
               limits = limits, breaks = breaks)
 
   invisible(TRUE)

@@ -4,11 +4,15 @@
 \alias{trend_pngs}
 \title{Trend PNGs}
 \usage{
-trend_pngs(data = cccharts::precipitation, ask = TRUE, dir = NULL,
-  limits = NULL, breaks = waiver())
+trend_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
+  ask = TRUE, dir = NULL, limits = NULL, breaks = waiver())
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
+
+\item{x}{A string of the column to plot on the x-axis.}
+
+\item{by}{A character vector of the columns to separate plots by.}
 
 \item{ask}{A flag indicating whether to ask before creating the directory}
 
