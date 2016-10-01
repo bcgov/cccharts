@@ -7,3 +7,9 @@ addons:
     packages:
       - libgdal-dev
       - libproj-dev
+      - libv8-dev
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
