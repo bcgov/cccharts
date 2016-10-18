@@ -49,7 +49,7 @@ get_limits <- function(data) {
   range(x)
 }
 
-get_filename <- function(data) {
+get_filename <- function(data, by) {
   filename <- NULL
   if (all_identical(data$Indicator)) filename %<>% paste(data$Indicator[1])
   if (all_identical(data$Statistic) && data$Statistic != "Mean")
@@ -61,6 +61,9 @@ get_filename <- function(data) {
       filename %<>% paste(data$Ecoprovince[1])
     } else if (!is.na(data$Station[1]))
       filename %<>% paste(data$Station[1])
+  } else {
+    if (all_identical(data$Ecoprovince))
+      filename %<>% paste(data$Ecoprovince[1])
   }
   stopifnot(!is.null(filename))
   filename
@@ -72,9 +75,9 @@ not_significant <- function(x) {
   ns
 }
 
-get_by <- function(data, x) {
+get_by <- function(data, x, facet) {
   by <- c("Indicator", "Ecoprovince", "Station", "Statistic", "Season")
-  by <- by[by != x]
+  by <- by[!by %in% c(x, facet)]
   by
 }
 

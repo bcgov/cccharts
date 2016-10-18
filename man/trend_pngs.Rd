@@ -5,7 +5,7 @@
 \title{Trend PNGs}
 \usage{
 trend_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
-  dodge = NULL, width = 350L, height = 500L, ask = TRUE, dir = NULL,
+  facet = NULL, width = 350L, height = 500L, ask = TRUE, dir = NULL,
   limits = NULL, breaks = waiver())
 }
 \arguments{
@@ -15,7 +15,7 @@ trend_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 
 \item{by}{A character vector of the factors to separate plots by.}
 
-\item{dodge}{A string indicating the factor to dodge (and color and shape) the points by.}
+\item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{width}{A count of the png width in pixels.}
 
