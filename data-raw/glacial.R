@@ -18,6 +18,9 @@ glacial <- read_csv("https://catalogue.data.gov.bc.ca/dataset/89ff86d7-2d04-4c96
 
 glacial$Station <- factor(NA)
 
+glacial$StartYear <- 1985L
+glacial$EndYear <- 2005L
+
 glacial$Indicator <- "Glacial Area"
 
 glacial$Statistic <- "Mean"
@@ -38,12 +41,12 @@ glacial$Latitude <- NA_real_
 glacial$Longitude <- NA_real_
 
 glacial %<>% select(
-  Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Percentage_Area_Change, Uncertainty,
   Significant)
 
 glacial %<>% filter(!is.na(Trend))
 
-glacial %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+glacial %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
 
 use_data(glacial, overwrite = TRUE)

@@ -36,12 +36,14 @@ air_temperature %<>% mutate(Significant = 1 - Percent_Confidence/100,
 
 air_temperature$Latitude <- NA_real_
 air_temperature$Longitude <- NA_real_
+air_temperature$StartYear <- NA_integer_
+air_temperature$EndYear <- NA_integer_
 
 air_temperature %<>% select(
-  Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_Ccentury, Uncertainty = Uncertainty_Ccentury,
   Significant)
 
-air_temperature %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+air_temperature %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
 
 use_data(air_temperature, overwrite = TRUE)

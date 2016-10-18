@@ -40,11 +40,14 @@ snow_station$Season %<>% factor(levels = season)
 
 snow_station %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96))
 
+snow_station$StartYear <- NA_integer_
+snow_station$EndYear <- NA_integer_
+
 snow_station %<>% select(
-  Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = slope_percentperyear, Uncertainty,
   Significant = sigstat)
 
-snow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+snow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
 
 use_data(snow_station, overwrite = TRUE)

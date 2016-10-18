@@ -19,28 +19,36 @@ flow_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8
 flow_station %<>% rename(Station = station,
                          Latitude = latitude,
                          Longitude = longitude,
-                         Years = nyears,
                          Units = trend_units,
+                         StartYear = start_year,
+                         EndYear = end_year,
                          Trend = percent_change,
-                         Significant = sig)
+                         Significant = sig) %>%
+  mutate(Years = EndYear - StartYear + 1)
 
+stopifnot(identical(flow_station$Years, flow_station$nyears))
 flow_station %<>% get_ecoprovince()
 
 flow_station %<>% arrange(Ecoprovince, Longitude, Latitude)
 flow_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 flow_station$Station %<>% factor(unique(flow_station$Station))
 
-flow_station %<>% mutate(Uncertainty = (((trend - lbound) + (ubound - trend)) / 2)  * Trend / trend)
+flow_station %<>% filter(Units == "m3/sec per year")
+flow_station$Units <- "Percent"
+flow_station$Years <- 10L
+flow_station$Indicator <- "Flow"
+
+warning("assumes trend is across entire period and scales to decadal")
+flow_station %<>% mutate(
+  Trend = Trend / nyears * 10,
+  Uncertainty = (((trend - lbound) + (ubound - trend)) / 2)  * Trend / trend)
 
 warning("because trend and/or percent_change are 0 can't get convert uncertainty to percent trend")
 flow_station %<>% filter(!is.nan(Uncertainty)) %>%
   filter(is.finite(Uncertainty))
 
-flow_station$Indicator <- "Flow"
-flow_station$Units <- "Percent"
-
 flow_station$Statistic <- str_replace(flow_station$trend_type,
-                                        "(.*[.])(\\w+$)", "\\2")
+                                      "(.*[.])(\\w+$)", "\\2")
 
 flow_station$Statistic %<>% str_replace("min", "Minimum") %>%
   str_replace("max", "Maximum") %>% str_replace("mean", "Mean")
@@ -50,7 +58,7 @@ flow_station$Statistic %<>% factor(levels = statistic)
 flow_station %<>% filter(!is.na(Statistic))
 
 flow_station$Season <- str_replace(flow_station$trend_type,
-                                      "(\\w+[.])(\\w+)([.]\\w+$)", "\\2")
+                                   "(\\w+[.])(\\w+)([.]\\w+$)", "\\2")
 
 flow_station$Season %<>% str_replace("ann", "Annual") %>%
   str_replace("DJF", "Winter") %>%
@@ -64,10 +72,10 @@ flow_station$Season %<>% factor(levels = season)
 flow_station$Years %<>% as.integer()
 
 flow_station %<>% select(
-  Indicator, Statistic, Units, Years, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend, Uncertainty,
   Significant)
 
-flow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season)
+flow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
 
 use_data(flow_station, overwrite = TRUE)
