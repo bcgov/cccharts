@@ -40,8 +40,8 @@ sea_level_station$Indicator <- "Sea Level"
 sea_level_station$Statistic <- "Mean"
 sea_level_station$Statistic %<>% factor(levels = statistic)
 
-sea_level_station$Units <- "Millimeter"
-sea_level_station$Period <- 1L
+sea_level_station$Units <- "centimeter"
+sea_level_station$Period <- 10L
 
 sea_level_station$Season <- "Annual"
 sea_level_station$Season %<>% factor(levels = season)
