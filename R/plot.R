@@ -33,7 +33,7 @@ plot_range <- function(data, x, facet = NULL, limits = NULL,
 
   data$Significant %<>% not_significant()
 
-  if (data$Units[1] == "Percent") {
+  if (data$Units[1] == "percent") {
     data %<>% dplyr::mutate_(Trend = ~Trend / 100,
                              Uncertainty = ~Uncertainty / 100)
     if (is.numeric(limits))

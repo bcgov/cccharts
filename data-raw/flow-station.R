@@ -35,7 +35,7 @@ flow_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 flow_station$Station %<>% factor(unique(flow_station$Station))
 
 flow_station %<>% filter(Units == "m3/sec per year")
-flow_station$Units <- "Percent"
+flow_station$Units <- "percent"
 flow_station$Period <- 10L
 flow_station$Indicator <- "Flow"
 

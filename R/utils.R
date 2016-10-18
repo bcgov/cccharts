@@ -33,7 +33,7 @@ get_ylab <- function(data) {
 
 get_labels <- function(data) {
   check_all_identical(data$Units)
-  if (data$Units[1] == "Percent")
+  if (data$Units[1] == "percent")
     return(percent)
   return(comma)
 }

@@ -34,7 +34,7 @@ sea_temperature_station$Indicator <- "Sea Surface Temperature"
 sea_temperature_station$Statistic <- "Mean"
 sea_temperature_station$Statistic %<>% factor(levels = statistic)
 
-sea_temperature_station$Units <- "Celsius"
+sea_temperature_station$Units <- "degrees celsius"
 sea_temperature_station$Period <- 100L
 
 sea_temperature_station$Ecoprovince %<>%  factor(levels = ecoprovince)

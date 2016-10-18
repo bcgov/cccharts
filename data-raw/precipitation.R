@@ -27,7 +27,7 @@ precipitation$Indicator <- "Precipitation"
 precipitation$Statistic <- "Mean"
 precipitation$Statistic %<>% factor(levels = statistic)
 
-precipitation$Units <- "Percent"
+precipitation$Units <- "percent"
 precipitation$Period <- 100L
 
 precipitation$Ecoprovince %<>% tolower() %>% tools::toTitleCase()

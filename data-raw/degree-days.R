@@ -28,7 +28,7 @@ degree_days$Indicator <- degree_days$Measure %>% str_replace_all("_", " ")
 degree_days$Statistic <- "Mean"
 degree_days$Statistic %<>% factor(levels = statistic)
 
-degree_days$Units <- "Degree Days"
+degree_days$Units <- "degree days"
 degree_days$Period <- 100L
 
 degree_days$Ecoprovince %<>% tolower() %>% toTitleCase()

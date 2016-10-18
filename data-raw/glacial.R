@@ -28,7 +28,7 @@ glacial$Indicator <- "Glacial Area"
 glacial$Statistic <- "Mean"
 glacial$Statistic %<>% factor(levels = statistic)
 
-glacial$Units <- "Percent"
+glacial$Units <- "percent"
 glacial$Period <- 10L
 
 glacial %<>% mutate(Trend = Percentage_Area_Change / (EndYear - StartYear + 1) * Period)

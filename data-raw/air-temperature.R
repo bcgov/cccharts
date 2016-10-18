@@ -29,7 +29,7 @@ air_temperature$Statistic %<>% str_replace("^Mean_Temp$", "Mean") %>%
   str_replace("^Min_Temp$", "Minimum") %>% str_replace("^Max_Temp$", "Maximum")
 air_temperature$Statistic %<>% factor(levels = statistic)
 
-air_temperature$Units <- "Celsius"
+air_temperature$Units <- "celsius"
 air_temperature$Period <- 100L
 
 air_temperature$Ecoprovince %<>% tolower() %>% tools::toTitleCase()

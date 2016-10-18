@@ -35,7 +35,7 @@ snow_station$Indicator[snow_station$measure == "swe"] <- "Snow Water Equivalent"
 snow_station$Statistic <- "Mean"
 snow_station$Statistic %<>% factor(levels = statistic)
 
-snow_station$Units <- "Percent"
+snow_station$Units <- "percent"
 snow_station$Period <- 1L
 
 snow_station$Ecoprovince %<>%  factor(levels = ecoprovince)
