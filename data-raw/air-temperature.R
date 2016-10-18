@@ -26,7 +26,7 @@ air_temperature$Statistic %<>% str_replace("^Mean_Temp$", "Mean") %>%
 air_temperature$Statistic %<>% factor(levels = statistic)
 
 air_temperature$Units <- "Celsius"
-air_temperature$Years <- 100L
+air_temperature$Period <- 100L
 
 air_temperature$Ecoprovince %<>% tolower() %>% tools::toTitleCase()
 air_temperature$Ecoprovince %<>%  factor(levels = ecoprovince)
@@ -40,7 +40,7 @@ air_temperature$StartYear <- NA_integer_
 air_temperature$EndYear <- NA_integer_
 
 air_temperature %<>% select(
-  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_Ccentury, Uncertainty = Uncertainty_Ccentury,
   Significant)
 

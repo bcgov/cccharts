@@ -23,7 +23,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -48,7 +48,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -73,7 +73,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -98,7 +98,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -123,7 +123,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -148,7 +148,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -173,7 +173,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -198,7 +198,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -223,7 +223,7 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
-#' \item{Years}{The period in years (int)}
+#' \item{Period}{The period in years (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}

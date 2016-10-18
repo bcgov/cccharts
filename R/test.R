@@ -15,7 +15,7 @@ test_data <- function(data) {
     Indicator = "",
     Statistic = factor(.statistic, levels = .statistic),
     Units = "",
-    Years = c(1L, 102L),
+    Period = c(1L, 10L, 100L),
     StartYear = c(1900L, 2012L, NA),
     EndYear = c(1900L, 2012L, NA),
     Ecoprovince = factor(.ecoprovince, levels = .ecoprovince),

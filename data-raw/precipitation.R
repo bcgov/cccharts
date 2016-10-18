@@ -24,7 +24,7 @@ precipitation$Statistic <- "Mean"
 precipitation$Statistic %<>% factor(levels = statistic)
 
 precipitation$Units <- "Percent"
-precipitation$Years <- 100L
+precipitation$Period <- 100L
 
 precipitation$Ecoprovince %<>% tolower() %>% tools::toTitleCase()
 precipitation$Ecoprovince %<>%  factor(levels = ecoprovince)
@@ -38,7 +38,7 @@ precipitation$StartYear <- NA_integer_
 precipitation$EndYear <- NA_integer_
 
 precipitation %<>% select(
-  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_percentcentury, Uncertainty = Uncertainty_percentcentury,
   Significant)
 

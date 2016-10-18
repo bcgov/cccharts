@@ -27,7 +27,9 @@ glacial$Statistic <- "Mean"
 glacial$Statistic %<>% factor(levels = statistic)
 
 glacial$Units <- "Percent"
-glacial$Years <- 20L
+glacial$Period <- 10L
+
+glacial %<>% mutate(Trend = Percentage_Area_Change / (EndYear - StartYear + 1) * Period)
 
 glacial$Ecoprovince %<>% tolower() %>% tools::toTitleCase()
 glacial$Ecoprovince %<>%  factor(levels = ecoprovince)
@@ -41,7 +43,7 @@ glacial$Latitude <- NA_real_
 glacial$Longitude <- NA_real_
 
 glacial %<>% select(
-  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Percentage_Area_Change, Uncertainty,
   Significant)
 

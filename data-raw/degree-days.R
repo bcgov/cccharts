@@ -24,7 +24,7 @@ degree_days$Statistic <- "Mean"
 degree_days$Statistic %<>% factor(levels = statistic)
 
 degree_days$Units <- "Degree Days"
-degree_days$Years <- 100L
+degree_days$Period <- 100L
 
 degree_days$Ecoprovince %<>% tolower() %>% toTitleCase()
 degree_days$Ecoprovince %<>%  factor(levels = ecoprovince)
@@ -39,7 +39,7 @@ degree_days$StartYear <- NA_integer_
 degree_days$EndYear <- NA_integer_
 
 degree_days %<>% select(
-  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_DDcentury, Uncertainty = Uncertainty_DDcentury,
   Significant)
 

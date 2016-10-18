@@ -37,7 +37,7 @@ sea_level_station$Statistic <- "Mean"
 sea_level_station$Statistic %<>% factor(levels = statistic)
 
 sea_level_station$Units <- "Millimeter"
-sea_level_station$Years <- 1L
+sea_level_station$Period <- 1L
 
 sea_level_station$Season <- "Annual"
 sea_level_station$Season %<>% factor(levels = season)
@@ -47,7 +47,7 @@ sea_level_station$StartYear <- NA_integer_
 sea_level_station$EndYear <- NA_integer_
 
 sea_level_station %<>% select(
-  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `slope_mm/year`, Uncertainty = `95_percent_mm/year`,
   Significant)
 

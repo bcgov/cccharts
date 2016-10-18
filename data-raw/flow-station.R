@@ -24,9 +24,9 @@ flow_station %<>% rename(Station = station,
                          EndYear = end_year,
                          Trend = percent_change,
                          Significant = sig) %>%
-  mutate(Years = EndYear - StartYear + 1)
+  mutate(Period = EndYear - StartYear + 1)
 
-stopifnot(identical(flow_station$Years, flow_station$nyears))
+stopifnot(identical(flow_station$Period, flow_station$nyears))
 flow_station %<>% get_ecoprovince()
 
 flow_station %<>% arrange(Ecoprovince, Longitude, Latitude)
@@ -35,7 +35,7 @@ flow_station$Station %<>% factor(unique(flow_station$Station))
 
 flow_station %<>% filter(Units == "m3/sec per year")
 flow_station$Units <- "Percent"
-flow_station$Years <- 10L
+flow_station$Period <- 10L
 flow_station$Indicator <- "Flow"
 
 warning("assumes trend is across entire period and scales to decadal")
@@ -69,10 +69,10 @@ flow_station$Season %<>% str_replace("ann", "Annual") %>%
   str_replace("SON", "Fall")
 
 flow_station$Season %<>% factor(levels = season)
-flow_station$Years %<>% as.integer()
+flow_station$Period %<>% as.integer()
 
 flow_station %<>% select(
-  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend, Uncertainty,
   Significant)
 

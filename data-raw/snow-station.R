@@ -32,7 +32,7 @@ snow_station$Statistic <- "Mean"
 snow_station$Statistic %<>% factor(levels = statistic)
 
 snow_station$Units <- "Percent"
-snow_station$Years <- 1L
+snow_station$Period <- 1L
 
 snow_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 snow_station$Season <- "Annual"
@@ -44,7 +44,7 @@ snow_station$StartYear <- NA_integer_
 snow_station$EndYear <- NA_integer_
 
 snow_station %<>% select(
-  Indicator, Statistic, Units, Years, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = slope_percentperyear, Uncertainty,
   Significant = sigstat)
 

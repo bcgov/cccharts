@@ -21,10 +21,11 @@ check_all_identical <- function(x) {
 
 get_ylab <- function(data) {
   check_all_identical(data$Units)
-  check_all_identical(data$Years)
+  check_all_identical(data$Period)
 
-  ylab <- paste0("Trend (", data$Units[1], " per ", data$Years[1], " years)")
+  ylab <- paste0("Trend (", data$Units[1], " per ", data$Period[1], " years)")
   ylab %<>% stringr::str_replace("100 years", "century") %>%
+    stringr::str_replace("10 years", "decade") %>%
     stringr::str_replace("1 years", "year") %>%
     stringr::str_replace("Percent", "percent") %>%
     ylab
