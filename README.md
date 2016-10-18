@@ -22,7 +22,7 @@ plot_range(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
 
 ![](README-unnamed-chunk-2-1.png)
 
-To generate all plot files
+To generate all plot files (creates a folder in the working directory called `cccharts`).
 
     demo("cccharts", ask = FALSE)
 
