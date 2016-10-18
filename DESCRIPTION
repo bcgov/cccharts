@@ -4,7 +4,6 @@ Version: 0.0.0.9000
 Date: 2016-09-29
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
-    person("Patrick", "Hogan", role = "aut"),
     person("Stephanie", "Hazlitt", role = "aut"),
     person("Andy", "Teucher", role = "aut"),
     person("Jane", "Wang", role = "aut"))
