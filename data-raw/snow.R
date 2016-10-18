@@ -34,21 +34,28 @@ snow$Statistic <- "Mean"
 snow$Statistic %<>% factor(levels = statistic)
 
 snow$Units <- "percent"
-snow$Period <- 1L
+snow$Period <- 10L
 
 snow$Ecoprovince %<>%  factor(levels = ecoprovince)
 snow$Season <- "Annual"
 snow$Season %<>% factor(levels = season)
 
 snow %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96))
+snow %<>% mutate(Trend = slope_percentperyear,
+                 Uncertainty = Uncertainty * 10,
+                 Trend = Trend * 10)
 
 snow$Latitude <- NA_real_
 snow$Longitude <- NA_real_
 
+snow$Period <- 1L
+
 snow %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend = slope_percentperyear, Uncertainty,
+  Trend, Uncertainty,
   Significant = validstat)
+
+
 
 snow %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
