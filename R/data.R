@@ -24,7 +24,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -50,7 +50,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -76,7 +76,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -102,7 +102,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -128,7 +128,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -154,7 +154,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -180,7 +180,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -206,7 +206,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -232,7 +232,7 @@
 #' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
-#' \item{Term}{The term of the analysis with levels 'Short', 'Medium' and 'Long' (fctr)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-9 years), 'Medium' (10-49 years) and 'Long' (50+ years) (fctr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}

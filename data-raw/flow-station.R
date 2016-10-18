@@ -26,7 +26,7 @@ flow_station %<>% rename(Station = station,
                          Trend = percent_change,
                          Significant = sig)
 
-flow_station$Term %<>% str_to_title() %>% factor(levels = .term)
+flow_station$Term %<>% str_to_title() %>% factor(levels = term)
 
 flow_station %<>% get_ecoprovince()
 

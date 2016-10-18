@@ -18,6 +18,10 @@ sea_temperature_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/ad
 
 sea_temperature_station %<>% rename(Station = Station_Name)
 
+sea_temperature_station$StartYear <- 1935L
+sea_temperature_station$EndYear <- 2014L
+sea_temperature_station$Term <- factor("Long", levels = term)
+
 sea_temperature_station %<>% get_ecoprovince()
 # race rocks falls outside BC ecoprovinces
 sea_temperature_station$Ecoprovince[sea_temperature_station$Station == "Race Rocks"] <- "Georgia Depression"
@@ -35,10 +39,6 @@ sea_temperature_station$Period <- 100L
 
 sea_temperature_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 sea_temperature_station$Season %<>% str_to_title() %>% factor(levels = season)
-
-sea_temperature_station$StartYear <- NA_integer_
-sea_temperature_station$EndYear <- NA_integer_
-sea_temperature_station$Term <- factor(NA, levels = .term)
 
 sea_temperature_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

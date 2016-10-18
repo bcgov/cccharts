@@ -18,6 +18,11 @@ degree_days <- read_csv("https://catalogue.data.gov.bc.ca/dataset/8f0d304e-161d-
 
 degree_days$Station <- factor(NA)
 
+degree_days$StartYear <- 1900L
+degree_days$EndYear <- 2013L
+
+degree_days$Term <- factor("Long", levels = term)
+
 degree_days$Indicator <- degree_days$Measure %>% str_replace_all("_", " ")
 
 degree_days$Statistic <- "Mean"
@@ -34,11 +39,6 @@ degree_days %<>% mutate(Significant = Stat_Significance == 1)
 
 degree_days$Latitude <- NA_real_
 degree_days$Longitude <- NA_real_
-
-degree_days$StartYear <- NA_integer_
-degree_days$EndYear <- NA_integer_
-
-degree_days$Term <- factor(NA, levels = .term)
 
 degree_days %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

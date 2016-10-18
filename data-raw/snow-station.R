@@ -16,6 +16,10 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 snow_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86526746-40dd-41d2-82c0-fbee3a2e93a2/resource/f1c6257b-6596-483e-82ac-59ccdc8df898/download/bcsnowdepthswetrendsbystation1950-2014.csv")
 
+snow_station$StartYear <- 1950L
+snow_station$EndYear <- 2014L
+snow_station$Term <- factor("Long", levels = term)
+
 snow_station %<>% rename(Station = station_id,
                          Latitude = latitude,
                          Longitude = longitude)
@@ -39,10 +43,6 @@ snow_station$Season <- "Annual"
 snow_station$Season %<>% factor(levels = season)
 
 snow_station %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96))
-
-snow_station$StartYear <- NA_integer_
-snow_station$EndYear <- NA_integer_
-snow_station$Term <- factor(NA, levels = .term)
 
 snow_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

@@ -16,6 +16,10 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 sea_level_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/4458bace-7dc2-4c64-9ec8-c5df75117dbd/resource/43d8bc87-926d-426c-bb3d-53951f01e2dc/download/bcsealeveltrends1910-2014.csv")
 
+sea_level_station$StartYear <- 1910L
+sea_level_station$EndYear <- 2014L
+sea_level_station$Term <- factor("Long", levels = term)
+
 sea_level_station %<>% rename(Station = station_id)
 sea_level_station$Station %<>% str_replace("^Prince_Rupert$", "Prince Rupert")
 
@@ -43,9 +47,6 @@ sea_level_station$Season <- "Annual"
 sea_level_station$Season %<>% factor(levels = season)
 sea_level_station$Significant <- TRUE
 
-sea_level_station$StartYear <- NA_integer_
-sea_level_station$EndYear <- NA_integer_
-sea_level_station$Term <- factor(NA, levels = .term)
 
 sea_level_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

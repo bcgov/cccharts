@@ -32,6 +32,8 @@ ecoprovince <- c("Coast and Mountains", "Georgia Depression", "Central Interior"
 
 statistic <- c("Minimum", "Mean", "Maximum")
 
+term <- c("Short", "Medium", "Long")
+
 longlat2sp <- function(data) {
   check_data2(data, values = list(Longitude = 1, Latitude = 1))
 

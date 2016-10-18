@@ -16,6 +16,11 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 snow <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86526746-40dd-41d2-82c0-fbee3a2e93a2/resource/0e6afa41-5a2c-4e23-9d5a-e07ed35ef443/download/bcsnowdepthswetrendsbyecoprovince1950-2014.csv")
 
+snow$StartYear <- 1950L
+snow$EndYear <- 2014L
+
+snow$Term <- factor("Long", levels = term)
+
 snow %<>% rename(Ecoprovince = ecoprov)
 snow$Ecoprovince %<>% tolower() %>% toTitleCase()
 
@@ -39,10 +44,6 @@ snow %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96))
 
 snow$Latitude <- NA_real_
 snow$Longitude <- NA_real_
-snow$StartYear <- NA_integer_
-snow$EndYear <- NA_integer_
-
-snow$Term <- factor(NA, levels = .term)
 
 snow %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

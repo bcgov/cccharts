@@ -21,6 +21,8 @@ glacial$Station <- factor(NA)
 glacial$StartYear <- 1985L
 glacial$EndYear <- 2005L
 
+glacial$Term <- factor("Medium", levels = term)
+
 glacial$Indicator <- "Glacial Area"
 
 glacial$Statistic <- "Mean"
@@ -41,8 +43,6 @@ glacial$Significant <- NA
 
 glacial$Latitude <- NA_real_
 glacial$Longitude <- NA_real_
-
-glacial$Term <- factor(NA, levels = .term)
 
 glacial %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

@@ -18,6 +18,10 @@ precipitation <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86f93096-8d3
 
 precipitation$Station <- factor(NA)
 
+precipitation$StartYear <- 1900L
+precipitation$EndYear <- 2013L
+precipitation$Term <- factor("Long", levels = term)
+
 precipitation$Indicator <- "Precipitation"
 
 precipitation$Statistic <- "Mean"
@@ -34,9 +38,6 @@ precipitation %<>% mutate(Significant = 1 - Percent_Confidence/100,
 
 precipitation$Latitude <- NA_real_
 precipitation$Longitude <- NA_real_
-precipitation$StartYear <- NA_integer_
-precipitation$EndYear <- NA_integer_
-precipitation$Term <- factor(NA, levels = .term)
 
 precipitation %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

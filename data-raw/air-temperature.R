@@ -16,6 +16,10 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 air_temperature <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86f93096-8d3d-4b68-ab63-175cc68257e6/resource/2ea26a15-8420-4d85-bba0-742b8c1a4dc2/download/temperaturechange19002013.csv")
 
+air_temperature$StartYear <- 1900L
+air_temperature$EndYear <- 2013L
+air_temperature$Term <- factor("Long", levels = term)
+
 air_temperature$Station <- factor(NA)
 
 air_temperature$Indicator <- "Air Temperature"
@@ -36,9 +40,6 @@ air_temperature %<>% mutate(Significant = 1 - Percent_Confidence/100,
 
 air_temperature$Latitude <- NA_real_
 air_temperature$Longitude <- NA_real_
-air_temperature$StartYear <- NA_integer_
-air_temperature$EndYear <- NA_integer_
-air_temperature$Term <- factor(NA, levels = .term)
 
 air_temperature %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
