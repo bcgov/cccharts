@@ -38,12 +38,13 @@ sea_temperature_station$Season %<>% str_to_title() %>% factor(levels = season)
 
 sea_temperature_station$StartYear <- NA_integer_
 sea_temperature_station$EndYear <- NA_integer_
+sea_temperature_station$Term <- factor(NA, levels = .term)
 
 sea_temperature_station %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `Trend_Slope_degreesC_per_century`, Uncertainty = `95_percent_uncert_degreesC_per_century`,
   Significant = stat_significance)
 
-sea_temperature_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+sea_temperature_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
 use_data(sea_temperature_station, overwrite = TRUE)

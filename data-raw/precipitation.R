@@ -36,12 +36,13 @@ precipitation$Latitude <- NA_real_
 precipitation$Longitude <- NA_real_
 precipitation$StartYear <- NA_integer_
 precipitation$EndYear <- NA_integer_
+precipitation$Term <- factor(NA, levels = .term)
 
 precipitation %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_percentcentury, Uncertainty = Uncertainty_percentcentury,
   Significant)
 
-precipitation %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+precipitation %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
 use_data(precipitation, overwrite = TRUE)

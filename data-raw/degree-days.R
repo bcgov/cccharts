@@ -38,15 +38,17 @@ degree_days$Longitude <- NA_real_
 degree_days$StartYear <- NA_integer_
 degree_days$EndYear <- NA_integer_
 
+degree_days$Term <- factor(NA, levels = .term)
+
 degree_days %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_DDcentury, Uncertainty = Uncertainty_DDcentury,
   Significant)
 
 degree_days$Trend %<>% as.numeric()
 degree_days$Uncertainty %<>% as.numeric()
 
-degree_days %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+degree_days %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
 use_data(degree_days, overwrite = TRUE)
 

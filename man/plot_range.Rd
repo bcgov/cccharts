@@ -4,12 +4,14 @@
 \alias{plot_range}
 \title{Plot Range}
 \usage{
-plot_range(data, x, limits = NULL, breaks = waiver())
+plot_range(data, x, dodge = NULL, limits = NULL, breaks = waiver())
 }
 \arguments{
 \item{data}{The data frame to plot.}
 
 \item{x}{A string of the column to plot on the x-axis.}
+
+\item{dodge}{A string indicating the factor to dodge (and color and shape) the points by.}
 
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 

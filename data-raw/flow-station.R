@@ -20,13 +20,14 @@ flow_station %<>% rename(Station = station,
                          Latitude = latitude,
                          Longitude = longitude,
                          Units = trend_units,
+                         Term = analysis_term,
                          StartYear = start_year,
                          EndYear = end_year,
                          Trend = percent_change,
-                         Significant = sig) %>%
-  mutate(Period = EndYear - StartYear + 1)
+                         Significant = sig)
 
-stopifnot(identical(flow_station$Period, flow_station$nyears))
+flow_station$Term %<>% str_to_title() %>% factor(levels = .term)
+
 flow_station %<>% get_ecoprovince()
 
 flow_station %<>% arrange(Ecoprovince, Longitude, Latitude)
@@ -72,10 +73,10 @@ flow_station$Season %<>% factor(levels = season)
 flow_station$Period %<>% as.integer()
 
 flow_station %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend, Uncertainty,
   Significant)
 
-flow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+flow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
 use_data(flow_station, overwrite = TRUE)

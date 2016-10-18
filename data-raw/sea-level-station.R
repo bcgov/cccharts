@@ -45,12 +45,13 @@ sea_level_station$Significant <- TRUE
 
 sea_level_station$StartYear <- NA_integer_
 sea_level_station$EndYear <- NA_integer_
+sea_level_station$Term <- factor(NA, levels = .term)
 
 sea_level_station %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `slope_mm/year`, Uncertainty = `95_percent_mm/year`,
   Significant)
 
-sea_level_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+sea_level_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
 use_data(sea_level_station, overwrite = TRUE)

@@ -15,3 +15,6 @@
 .ecoprovince <- c("Coast and Mountains", "Georgia Depression", "Central Interior", "Southern Interior", "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains", "Northern Boreal Mountains", "British Columbia")
 
 .statistic <- c("Minimum", "Mean", "Maximum")
+
+.term <- c("Short", "Medium", "Long")
+

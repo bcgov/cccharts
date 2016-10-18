@@ -38,9 +38,10 @@ air_temperature$Latitude <- NA_real_
 air_temperature$Longitude <- NA_real_
 air_temperature$StartYear <- NA_integer_
 air_temperature$EndYear <- NA_integer_
+air_temperature$Term <- factor(NA, levels = .term)
 
 air_temperature %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Trend_Ccentury, Uncertainty = Uncertainty_Ccentury,
   Significant)
 

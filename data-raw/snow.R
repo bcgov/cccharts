@@ -42,11 +42,13 @@ snow$Longitude <- NA_real_
 snow$StartYear <- NA_integer_
 snow$EndYear <- NA_integer_
 
+snow$Term <- factor(NA, levels = .term)
+
 snow %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = slope_percentperyear, Uncertainty,
   Significant = validstat)
 
-snow %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+snow %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
 use_data(snow, overwrite = TRUE)

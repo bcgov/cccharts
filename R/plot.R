@@ -14,6 +14,7 @@
 #'
 #' @param data The data frame to plot.
 #' @param x A string of the column to plot on the x-axis.
+#' @param dodge A string indicating the factor to dodge (and color and shape) the points by.
 #' @param limits A numeric vector of length two providing limits of the scale.
 #' @param breaks A numeric vector of positions.
 #'
@@ -22,23 +23,27 @@
 #'
 #' @examples
 #' plot_range(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
-plot_range <- function(data, x, limits = NULL,
+plot_range <- function(data, x, dodge = NULL, limits = NULL,
                        breaks = waiver()) {
   test_data(data)
+  if (!is.null(dodge)) {
+    check_string(dodge)
+    check_cols(data, dodge)
+  }
 
   data$Significant %<>% not_significant()
 
   if (data$Units[1] == "Percent") {
     data %<>% dplyr::mutate_(Trend = ~Trend / 100,
                              Uncertainty = ~Uncertainty / 100)
-    if(is.numeric(limits))
+    if (is.numeric(limits))
       limits %<>% magrittr::divide_by(100)
-    if(is.numeric(breaks))
+    if (is.numeric(breaks))
       breaks %<>% magrittr::divide_by(100)
   }
 
   ggplot(data, aes_string(x = x, y = "Trend")) +
-    geom_point(size = 4) +
+    geom_point(size = 4, aes_string(color = dodge)) +
     geom_errorbar(aes_string(ymax = "Trend + Uncertainty",
                              ymin = "Trend - Uncertainty"), width = 0.3, size = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = 2) +
@@ -52,13 +57,13 @@ plot_range <- function(data, x, limits = NULL,
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 }
 
-range_png <- function(data, x, dir, limits, breaks, width, height) {
+range_png <- function(data, x, dodge, dir, limits, breaks, width, height) {
 
   filename <- get_filename(data) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = width, height = height, type = get_png_type())
-  gp <- plot_range(data, x = x, limits = limits, breaks = breaks)
+  gp <- plot_range(data, x = x, dodge = dodge, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
 }
@@ -69,7 +74,8 @@ range_png <- function(data, x, dir, limits, breaks, width, height) {
 #' Generates plots of climate indicator data as png files.
 #' @param data A data frame of the data to plot
 #' @param x A string of the column to plot on the x-axis.
-#' @param by A character vector of the columns to separate plots by.
+#' @param by A character vector of the factors to separate plots by.
+#' @param dodge A string indicating the factor to dodge (and color and shape) the points by.
 #' @param width A count of the png width in pixels.
 #' @param height A count of the png height in pixels.
 #' @param ask A flag indicating whether to ask before creating the directory
@@ -78,7 +84,7 @@ range_png <- function(data, x, dir, limits, breaks, width, height) {
 #' @param breaks A numeric vector of positions.
 #' @export
 trend_pngs <- function(
-  data = cccharts::precipitation, x = NULL, by = NULL, width = 350L, height = 500L,
+  data = cccharts::precipitation, x = NULL, by = NULL, dodge = NULL, width = 350L, height = 500L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
   test_data(data)
   check_flag(ask)
@@ -96,7 +102,7 @@ trend_pngs <- function(
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x)
 
-  plyr::ddply(data, by, range_png, x = x, dir = dir, width = width, height = height,
+  plyr::ddply(data, by, range_png, x = x, dodge = dodge, dir = dir, width = width, height = height,
               limits = limits, breaks = breaks)
 
   invisible(TRUE)

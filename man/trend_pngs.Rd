@@ -5,15 +5,17 @@
 \title{Trend PNGs}
 \usage{
 trend_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
-  width = 350L, height = 500L, ask = TRUE, dir = NULL, limits = NULL,
-  breaks = waiver())
+  dodge = NULL, width = 350L, height = 500L, ask = TRUE, dir = NULL,
+  limits = NULL, breaks = waiver())
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
 
 \item{x}{A string of the column to plot on the x-axis.}
 
-\item{by}{A character vector of the columns to separate plots by.}
+\item{by}{A character vector of the factors to separate plots by.}
+
+\item{dodge}{A string indicating the factor to dodge (and color and shape) the points by.}
 
 \item{width}{A count of the png width in pixels.}
 

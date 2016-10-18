@@ -42,13 +42,15 @@ glacial$Significant <- NA
 glacial$Latitude <- NA_real_
 glacial$Longitude <- NA_real_
 
+glacial$Term <- factor(NA, levels = .term)
+
 glacial %<>% select(
-  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = Percentage_Area_Change, Uncertainty,
   Significant)
 
 glacial %<>% filter(!is.na(Trend))
 
-glacial %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+glacial %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
 use_data(glacial, overwrite = TRUE)
