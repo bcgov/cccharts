@@ -166,9 +166,9 @@
 #' }
 "sea_level_station"
 
-#' Sea Temperature Station Trend Data
+#' Sea Surface Temperature Station Trend Data
 #'
-#' Sea temperature station trend data imported and reformatted from
+#' Sea surfacte temperature station trend data imported and reformatted from
 #' \url{https://catalogue.data.gov.bc.ca/dataset/change-in-sea-surface-temperature-in-bc-1935-2014-}.
 #'
 #' Data licensed under the Open Data License-BC.
@@ -190,7 +190,7 @@
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
-"sea_temperature_station"
+"sea_surface_temperature_station"
 
 #' Snow Trend Data
 #'

@@ -6,6 +6,6 @@ trend_pngs(data = cccharts::flow_station, facet = c("Term", "Statistic"), width 
 trend_pngs(data = cccharts::glacial, height = 350L, ask = FALSE)
 trend_pngs(data = cccharts::precipitation, x = "Ecoprovince", facet = "Season", width = 500L, ask = FALSE)
 trend_pngs(data = cccharts::sea_level_station, x = "Station", by = c("Indicator", "Statistic", "Season"), ask = FALSE)
-trend_pngs(data = cccharts::sea_temperature_station, x = "Station", c("Indicator", "Statistic", "Season"), ask = FALSE)
+trend_pngs(data = cccharts::sea_surface_temperature_station, x = "Station", c("Indicator", "Statistic", "Season"), ask = FALSE)
 trend_pngs(data = cccharts::snow, ask = FALSE)
 trend_pngs(data = cccharts::snow_station, x = "Station", by = c("Indicator"), ask = FALSE)
