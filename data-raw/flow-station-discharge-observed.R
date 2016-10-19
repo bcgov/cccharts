@@ -12,19 +12,19 @@
 
 source("data-raw/header.R")
 
-flow_station_discharge_data <- read_csv("data-raw/annual_river_flow_volumes.csv")
+flow_station_discharge_observed <- read_csv("data-raw/annual_river_flow_volumes.csv")
 
-flow_station_discharge_data %<>% rename(Station = station, Year = year,
+flow_station_discharge_observed %<>% rename(Station = station, Year = year,
                                         Value = annual_flow_value)
 
-flow_station_discharge_data %<>% get_flow_statistic_season(col = "annual_flow_summary")
+flow_station_discharge_observed %<>% get_flow_statistic_season(col = "annual_flow_summary")
 
-flow_station_discharge_data %<>% filter(!is.na(Value))
+flow_station_discharge_observed %<>% filter(!is.na(Value))
 
-flow_station_discharge_data$Units <- "cumecs"
+flow_station_discharge_observed$Units <- "cumecs"
 
-flow_station_discharge_data %<>% select(Statistic, Season, Station, Year, Value, Units)
+flow_station_discharge_observed %<>% select(Statistic, Season, Station, Year, Value, Units)
 
-flow_station_discharge_data %<>% arrange(Statistic, Season, Station, Year)
+flow_station_discharge_observed %<>% arrange(Statistic, Season, Station, Year)
 
-use_data(flow_station_discharge_data, overwrite = TRUE)
+use_data(flow_station_discharge_observed, overwrite = TRUE)

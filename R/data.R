@@ -280,7 +280,7 @@
 #' }
 "snow_station"
 
-#' Flow Station Discharge Data
+#' Flow Station Discharge Observed Data
 #'
 #' @format A tbl data frame:
 #' \describe{
@@ -291,9 +291,9 @@
 #' \item{Value}{The discharge (dbl)}
 #' \item{Units}{The units (chr)}
 #' }
-"flow_station_discharge_data"
+"flow_station_discharge_observed"
 
-#' Flow Station Timing Data
+#' Flow Station Timing Observed Data
 #'
 #' @format A tbl data frame:
 #' \describe{
@@ -304,7 +304,7 @@
 #' \item{Value}{The timing (dbl)}
 #' \item{Units}{The units (chr)}
 #' }
-"flow_station_timing_data"
+"flow_station_timing_observed"
 
 #' Map of Ecoprovinces
 #'
