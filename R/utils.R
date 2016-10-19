@@ -19,7 +19,7 @@ check_all_identical <- function(x) {
   x
 }
 
-get_ylab <- function(data) {
+get_ylab_trend <- function(data) {
   check_all_identical(data$Units)
   check_all_identical(data$Period)
 
@@ -29,6 +29,14 @@ get_ylab <- function(data) {
     stringr::str_replace("1 years", "year") %>%
     stringr::str_replace("Percent", "percent") %>%
     ylab
+}
+
+get_ylab_observed <- function(data) {
+  check_all_identical(data$Units)
+
+  ylab <- paste0("Observed (", data$Units[1], ")") %>%
+    stringr::str_replace("Percent", "percent")
+  ylab
 }
 
 get_labels <- function(data) {
@@ -93,3 +101,31 @@ get_png_type <- function() {
   ifelse(.Platform$OS.type == "unix", "cairo", "png-cairo")
 }
 
+add_segment_xyend <- function(data, observed) {
+  data$x <- min(observed$Year)
+  data$xend <- max(observed$Year)
+  data$y <- data$Intercept + data$Trend * data$x
+  data$yend <- data$Intercept + data$Trend * data$xend
+  data
+}
+
+#' Change Period
+#'
+#' Changes Period of data by scaling the trend and its upper and lower limits.
+#'
+#' @param data The data to
+#' @param period The new value for the period.
+#'
+#' @return The modified data.
+#' @export
+change_period <- function(data, period = 1L) {
+  check_data1(data)
+  check_cols(data, c("Trend", "TrendLower", "TrendUpper", "Period"))
+  check_scalar(period, c(1L, 10L, 100L))
+
+    data %<>% dplyr::mutate_(Trend = ~Trend / Period * period,
+                   TrendLower = ~TrendLower / Period * period,
+                   TrendUpper = ~TrendUpper / Period * period,
+                   Period = period)
+    data
+}

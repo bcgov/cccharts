@@ -23,12 +23,7 @@ flow_station_timing_observed %<>% semi_join(flow_station_timing, by = c("Statist
 flow_station_timing$Station %<>% droplevels()
 flow_station_timing_observed$Station %<>% droplevels()
 
-flow_station_timing %<>% mutate(
-  Trend = Trend * 10,
-  TrendLower = TrendLower * 10,
-  TrendUpper = TrendUpper * 10,
-  Intercept = Intercept * 10,
-  Period = 10L)
+flow_station_timing %<>% cccharts::change_period(10L)
 
 use_data(flow_station_timing, overwrite = TRUE)
 use_data(flow_station_timing_observed, overwrite = TRUE)

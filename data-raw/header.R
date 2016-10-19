@@ -83,5 +83,3 @@ get_flow_statistic_season <- function(data, col) {
 
   data
 }
-
-

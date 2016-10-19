@@ -36,20 +36,18 @@ plot_trend_observed <- function(data, observed, facet, nrow = NULL, limits = NUL
   }
 
   if (data$Units[1] == "percent") {
-    data %<>% dplyr::mutate_(Trend = ~Trend / 100,
-                             TrendLower = ~TrendLower / 100,
-                             TrendUpper = ~TrendUpper / 100)
-    if (is.numeric(limits))
-      limits %<>% magrittr::divide_by(100)
-    if (is.numeric(breaks))
-      breaks %<>% magrittr::divide_by(100)
+    stop()
   }
+
+  data %<>% change_period(1L)
+
+  data %<>% add_segment_xyend(observed)
 
   gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
     geom_point() +
-#    scale_y_continuous(get_ylab(data), labels = get_labels(data),
-#                       limits = limits, breaks = breaks) +
-#    expand_limits(y = 0) +
+    geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend")) +
+    scale_y_continuous(get_ylab_observed(data), labels = get_labels(observed),
+                       limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
     theme_cccharts()
 
@@ -99,7 +97,7 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
     geom_hline(aes(yintercept = 0), linetype = 2) +
     geom_text(aes_(y = ~Trend, label = ~Significant), hjust = 1.2, vjust = 1.8,
               colour = "grey30", size = 2.8) +
-    scale_y_continuous(get_ylab(data), labels = get_labels(data),
+    scale_y_continuous(get_ylab_trend(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
     expand_limits(y = 0) +
     ggtitle(get_title(data)) +
