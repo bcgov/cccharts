@@ -12,7 +12,8 @@
 
 source("data-raw/air-temperature.R")
 source("data-raw/degree-days.R")
-source("data-raw/flow-station.R")
+source("data-raw/flow-station-timing.R")
+source("data-raw/flow-station-discharge.R")
 source("data-raw/glacial.R")
 source("data-raw/precipitation.R")
 source("data-raw/sea-level-station.R")

@@ -62,9 +62,9 @@
 #' }
 "degree_days"
 
-#' Flow Station Trend Data
+#' Flow Station Discharge Trend Data
 #'
-#' Flow station trend data imported and reformatted from
+#' Flow station discharge trend data imported and reformatted from
 #' \url{https://catalogue.data.gov.bc.ca/dataset/xx}.
 #'
 #' Data licensed under the Open Data License-BC.
@@ -86,7 +86,33 @@
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
-"flow_station"
+"flow_station_discharge"
+
+#' Flow Station Timing Trend Data
+#'
+#' Flow station timing trend data imported and reformatted from
+#' \url{https://catalogue.data.gov.bc.ca/dataset/xx}.
+#'
+#' Data licensed under the Open Data License-BC.
+#' See metadata record in BC Data Catalogue for more details on the original data set.
+#'
+#' @format A tbl data frame:
+#' \describe{
+#' \item{Indicator}{The indicator name (chr)}
+#' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
+#' \item{Units}{The units (chr)}
+#' \item{Period}{The period of the estimated change in years (int)}
+#' \item{Term}{The term of the analysis with levels 'Short' (2-19 years), 'Medium' (20-59 years) and 'Long' (60+ years) (fctr)}
+#' \item{Ecoprovince}{The Ecoprovince (fctr)}
+#' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
+#' \item{Station}{The station name if a station (fctr)}
+#' \item{Latitude}{The longitude if a station (dbl)}
+#' \item{Longitude}{The latitude if a station (dbl)}
+#' \item{Trend}{The estimated change (dbl)}
+#' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
+#' }
+"flow_station_timing"
 
 #' Glacial Trend Data
 #'

@@ -63,7 +63,9 @@ get_flow_statistic_season <- function(data, col) {
   data$Statistic <- str_replace(col, "(^\\w+[.])(\\w+$)", "\\2")
 
   data$Statistic %<>% str_replace("min", "Minimum") %>%
-    str_replace("max", "Maximum") %>% str_replace("mean", "Mean")
+    str_replace("max", "Maximum") %>% str_replace("mean", "Mean") %>%
+    str_replace("1halfdate", "Mean") %>%
+    str_replace("1thrdate", "Mean")
 
   data$Statistic %<>% factor(levels = statistic)
 
