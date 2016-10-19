@@ -4,15 +4,17 @@
 \alias{plot_trend_observed}
 \title{Plot Trend Observed}
 \usage{
-plot_trend_observed(data, observed, facet = NULL, limits = NULL,
+plot_trend_observed(data, observed, facet, nrow = NULL, limits = NULL,
   breaks = waiver())
 }
 \arguments{
-\item{data}{The trend data to plot.}
+\item{data}{A data frame of the data to plot}
 
 \item{observed}{The observed data to plot.}
 
-\item{facet}{A string indicating the factor to facet by.}
+\item{facet}{A string indicating the factor to facet wrap by.}
+
+\item{nrow}{A count of the number of rows when facet wrapping.}
 
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 
@@ -25,7 +27,7 @@ A ggplot2 object.
 Plots trends with observed data.
 }
 \examples{
-plot_trend_observed(flow_station_timing, flow_station_timing_observed) +
-  facet_wrap(~Ecoprovince)
+plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
+  facet = "Station", nrow = 2)
 }
 

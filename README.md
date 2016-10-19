@@ -17,10 +17,17 @@ Utilisation
 library(cccharts)
 #> Loading required package: ggplot2
 
-plot_trend_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season")
+plot_trend_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nrow = 2)
 ```
 
 ![](README-unnamed-chunk-2-1.png)
+
+``` r
+plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed, 
+                    facet = "Station", nrow = 2)
+```
+
+![](README-unnamed-chunk-3-1.png)
 
 To generate all plot files (creates a folder in the working directory called `cccharts`).
 

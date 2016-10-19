@@ -5,8 +5,8 @@
 \title{Trend PNGs}
 \usage{
 trend_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
-  facet = NULL, width = 350L, height = 500L, ask = TRUE, dir = NULL,
-  limits = NULL, breaks = waiver())
+  facet = NULL, nrow = NULL, width = 350L, height = 500L, ask = TRUE,
+  dir = NULL, limits = NULL, breaks = waiver())
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -16,6 +16,8 @@ trend_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 \item{by}{A character vector of the factors to separate plots by.}
 
 \item{facet}{A string indicating the factor to facet wrap by.}
+
+\item{nrow}{A count of the number of rows when facet wrapping.}
 
 \item{width}{A count of the png width in pixels.}
 

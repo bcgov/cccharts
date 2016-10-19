@@ -14,19 +14,16 @@
 #'
 #' Plots trends with observed data.
 #'
-#' @param data The trend data to plot.
+#' @inheritParams trend_estimates_pngs
 #' @param observed The observed data to plot.
-#' @param facet A string indicating the factor to facet by.
-#' @param limits A numeric vector of length two providing limits of the scale.
-#' @param breaks A numeric vector of positions.
 #'
 #' @return A ggplot2 object.
 #' @export
 #'
 #' @examples
-#' plot_trend_observed(flow_station_timing, flow_station_timing_observed) +
-#'   facet_wrap(~Ecoprovince)
-plot_trend_observed <- function(data, observed, facet = NULL, limits = NULL,
+#' plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
+#'   facet = "Station", nrow = 2)
+plot_trend_observed <- function(data, observed, facet, nrow = NULL, limits = NULL,
                        breaks = waiver()) {
   test_trend_data(data)
   test_observed_data(observed)
@@ -57,7 +54,7 @@ plot_trend_observed <- function(data, observed, facet = NULL, limits = NULL,
     theme_cccharts()
 
   if (length(facet) == 1) {
-    gp <- gp + facet_wrap(facet, nrow = 1)
+    gp <- gp + facet_wrap(facet, nrow = nrow)
   } else if (length(facet) == 2) {
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
@@ -68,20 +65,16 @@ plot_trend_observed <- function(data, observed, facet = NULL, limits = NULL,
 #'
 #' Plots trend estimates with uncertainty if available.
 #'
-#' @param data The data frame to plot.
-#' @param x A string of the column to plot on the x-axis.
-#' @param facet A string indicating the factor to facet by.
-#' @param limits A numeric vector of length two providing limits of the scale.
-#' @param breaks A numeric vector of positions.
-#'
+#' @inheritParams trend_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-#'
 #' @examples
-#' plot_trend_estimates(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
-plot_trend_estimates <- function(data, x, facet = NULL, limits = NULL,
+#' plot_trend_estimates(cccharts::precipitation, x = "Season",
+#'   facet = "Ecoprovince", nrow = 2)
+plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
                        breaks = waiver()) {
   test_trend_data(data)
+
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
@@ -114,20 +107,20 @@ plot_trend_estimates <- function(data, x, facet = NULL, limits = NULL,
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
   if (length(facet) == 1) {
-    gp <- gp + facet_wrap(facet, nrow = 1)
+    gp <- gp + facet_wrap(facet, nrow = nrow)
   } else if (length(facet) == 2) {
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
   gp
 }
 
-trend_estimates_png <- function(data, x, facet, dir, limits, breaks, width, height) {
+trend_estimates_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height) {
 
   filename <- get_filename(data, by) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = width, height = height, type = get_png_type())
-  gp <- plot_trend_estimates(data, x = x, facet = facet, limits = limits, breaks = breaks)
+  gp <- plot_trend_estimates(data, x = x, facet = facet, nrow = nrow, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
 }
@@ -140,6 +133,7 @@ trend_estimates_png <- function(data, x, facet, dir, limits, breaks, width, heig
 #' @param x A string of the column to plot on the x-axis.
 #' @param by A character vector of the factors to separate plots by.
 #' @param facet A string indicating the factor to facet wrap by.
+#' @param nrow A count of the number of rows when facet wrapping.
 #' @param width A count of the png width in pixels.
 #' @param height A count of the png height in pixels.
 #' @param ask A flag indicating whether to ask before creating the directory
@@ -148,7 +142,7 @@ trend_estimates_png <- function(data, x, facet, dir, limits, breaks, width, heig
 #' @param breaks A numeric vector of positions.
 #' @export
 trend_estimates_pngs <- function(
-  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, width = 350L, height = 500L,
+  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 500L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
   test_trend_data(data)
   check_flag(ask)
@@ -166,7 +160,7 @@ trend_estimates_pngs <- function(
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x, facet)
 
-  plyr::ddply(data, by, trend_estimates_png, x = x, facet = facet, dir = dir, width = width, height = height,
+  plyr::ddply(data, by, trend_estimates_png, x = x, facet = facet, nrow = nrow, dir = dir, width = width, height = height,
               limits = limits, breaks = breaks)
 
   invisible(TRUE)

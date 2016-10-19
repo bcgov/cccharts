@@ -4,15 +4,17 @@
 \alias{plot_trend_estimates}
 \title{Plot Trend Estimates}
 \usage{
-plot_trend_estimates(data, x, facet = NULL, limits = NULL,
+plot_trend_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
   breaks = waiver())
 }
 \arguments{
-\item{data}{The data frame to plot.}
+\item{data}{A data frame of the data to plot}
 
 \item{x}{A string of the column to plot on the x-axis.}
 
-\item{facet}{A string indicating the factor to facet by.}
+\item{facet}{A string indicating the factor to facet wrap by.}
+
+\item{nrow}{A count of the number of rows when facet wrapping.}
 
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 
@@ -25,6 +27,7 @@ A ggplot2 object.
 Plots trend estimates with uncertainty if available.
 }
 \examples{
-plot_trend_estimates(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
+plot_trend_estimates(cccharts::precipitation, x = "Season",
+  facet = "Ecoprovince", nrow = 2)
 }
 
