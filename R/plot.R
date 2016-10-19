@@ -10,6 +10,61 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
+#' Plot Trend Fit
+#'
+#' Plots trends with observed data.
+#'
+#' @param data The data frame to plot.
+#' @param x A string of the column to plot on the x-axis.
+#' @param facet A string indicating the factor to facet by.
+#' @param limits A numeric vector of length two providing limits of the scale.
+#' @param breaks A numeric vector of positions.
+#'
+#' @return A ggplot2 object.
+#' @export
+#'
+#' @examples
+#' plot_trend_data(cccharts::flow_station_timing, x = "Season") + facet_wrap(~Ecoprovince)
+plot_trend_data <- function(data, x, facet = NULL, limits = NULL,
+                       breaks = waiver()) {
+  test_trend_data(data)
+  if (!is.null(facet)) {
+    check_vector(facet, "", min_length = 1, max_length = 2)
+    check_cols(data, facet)
+  }
+
+  if (data$Units[1] == "percent") {
+    data %<>% dplyr::mutate_(Trend = ~Trend / 100,
+                             TrendLower = ~TrendLower / 100,
+                             TrendUpper = ~TrendUpper / 100)
+    if (is.numeric(limits))
+      limits %<>% magrittr::divide_by(100)
+    if (is.numeric(breaks))
+      breaks %<>% magrittr::divide_by(100)
+  }
+
+  gp <- ggplot(data, aes_string(x = x, y = "Trend")) +
+    geom_point(size = 4) +
+    geom_errorbar(aes_string(ymax = "TrendUpper",
+                             ymin = "TrendLower"), width = 0.3, size = 0.5) +
+    geom_hline(aes(yintercept = 0), linetype = 2) +
+    geom_text(aes_(y = ~Trend, label = ~Significant), hjust = 1.2, vjust = 1.8,
+              colour = "grey30", size = 2.8) +
+    scale_y_continuous(get_ylab(data), labels = get_labels(data),
+                       limits = limits, breaks = breaks) +
+    expand_limits(y = 0) +
+    ggtitle(get_title(data)) +
+    theme_cccharts() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+  if (length(facet) == 1) {
+    gp <- gp + facet_wrap(facet, nrow = 1)
+  } else if (length(facet) == 2) {
+    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
+  }
+  gp
+}
+
 #' Plot Trend Estimates
 #'
 #' Plots trend estimates with uncertainty if available.
@@ -27,7 +82,7 @@
 #' plot_trend_estimates(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
 plot_trend_estimates <- function(data, x, facet = NULL, limits = NULL,
                        breaks = waiver()) {
-  test_data(data)
+  test_trend_data(data)
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
@@ -96,7 +151,7 @@ trend_estimates_png <- function(data, x, facet, dir, limits, breaks, width, heig
 trend_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, width = 350L, height = 500L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
-  test_data(data)
+  test_trend_data(data)
   check_flag(ask)
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
