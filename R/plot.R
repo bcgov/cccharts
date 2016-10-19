@@ -10,7 +10,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-#' Plot Range
+#' Plot Trend Estimates
+#'
+#' Plots trend estimates with uncertainty if available.
 #'
 #' @param data The data frame to plot.
 #' @param x A string of the column to plot on the x-axis.
@@ -22,8 +24,8 @@
 #' @export
 #'
 #' @examples
-#' plot_range(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
-plot_range <- function(data, x, facet = NULL, limits = NULL,
+#' plot_trend_estimates(cccharts::precipitation, x = "Season") + facet_wrap(~Ecoprovince)
+plot_trend_estimates <- function(data, x, facet = NULL, limits = NULL,
                        breaks = waiver()) {
   test_data(data)
   if (!is.null(facet)) {
@@ -65,13 +67,13 @@ plot_range <- function(data, x, facet = NULL, limits = NULL,
   gp
 }
 
-range_png <- function(data, x, facet, dir, limits, breaks, width, height) {
+trend_estimates_png <- function(data, x, facet, dir, limits, breaks, width, height) {
 
   filename <- get_filename(data, by) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = width, height = height, type = get_png_type())
-  gp <- plot_range(data, x = x, facet = facet, limits = limits, breaks = breaks)
+  gp <- plot_trend_estimates(data, x = x, facet = facet, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
 }
@@ -91,7 +93,7 @@ range_png <- function(data, x, facet, dir, limits, breaks, width, height) {
 #' @param limits A numeric vector of length two providing limits of the scale.
 #' @param breaks A numeric vector of positions.
 #' @export
-trend_pngs <- function(
+trend_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, width = 350L, height = 500L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
   test_data(data)
@@ -110,7 +112,7 @@ trend_pngs <- function(
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x, facet)
 
-  plyr::ddply(data, by, range_png, x = x, facet = facet, dir = dir, width = width, height = height,
+  plyr::ddply(data, by, trend_estimates_png, x = x, facet = facet, dir = dir, width = width, height = height,
               limits = limits, breaks = breaks)
 
   invisible(TRUE)
