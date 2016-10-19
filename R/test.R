@@ -12,6 +12,7 @@
 
 test_observed_data <- function(data) {
   check_data3(data, values = list(
+    Indicator = "",
     Statistic = factor(.statistic, levels = .statistic),
     Season = factor(.season, levels = .season),
     Station = factor(c("", NA)),

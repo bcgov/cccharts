@@ -24,9 +24,10 @@ flow_station_timing_observed %<>% filter(!is.na(Value))
 flow_station_timing_observed$Statistic <- factor("Mean", levels = statistic)
 flow_station_timing_observed$Season <- factor("Annual", levels = season)
 flow_station_timing_observed$Units <- "days"
+flow_station_timing_observed$Indicator <- "Flow"
 
-flow_station_timing_observed %<>% select(Statistic, Season, Station, Year, Value, Units)
+flow_station_timing_observed %<>% select(Indicator, Statistic, Season, Station, Year, Value, Units)
 
-flow_station_timing_observed %<>% arrange(Statistic, Season, Station, Year)
+flow_station_timing_observed %<>% arrange(Indicator, Statistic, Season, Station, Year)
 
 use_data(flow_station_timing_observed, overwrite = TRUE)

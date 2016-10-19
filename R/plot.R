@@ -28,7 +28,7 @@ plot_trend_observed <- function(data, observed, facet, nrow = NULL, limits = NUL
   test_trend_data(data)
   test_observed_data(observed)
 
-  observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units), by = c("Statistic", "Season", "Station"))
+  observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units), by = c("Indicator", "Statistic", "Season", "Station"))
 
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
@@ -50,7 +50,7 @@ plot_trend_observed <- function(data, observed, facet, nrow = NULL, limits = NUL
 #    scale_y_continuous(get_ylab(data), labels = get_labels(data),
 #                       limits = limits, breaks = breaks) +
 #    expand_limits(y = 0) +
-#    ggtitle(get_title(data)) +
+    ggtitle(get_title(data)) +
     theme_cccharts()
 
   if (length(facet) == 1) {

@@ -22,9 +22,10 @@ flow_station_discharge_observed %<>% get_flow_statistic_season(col = "annual_flo
 flow_station_discharge_observed %<>% filter(!is.na(Value))
 
 flow_station_discharge_observed$Units <- "cumecs"
+flow_station_discharge_observed$Indicator <- "Flow"
 
-flow_station_discharge_observed %<>% select(Statistic, Season, Station, Year, Value, Units)
+flow_station_discharge_observed %<>% select(Indicator, Statistic, Season, Station, Year, Value, Units)
 
-flow_station_discharge_observed %<>% arrange(Statistic, Season, Station, Year)
+flow_station_discharge_observed %<>% arrange(Indicator, Statistic, Season, Station, Year)
 
 use_data(flow_station_discharge_observed, overwrite = TRUE)
