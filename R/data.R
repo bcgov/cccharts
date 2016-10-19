@@ -25,6 +25,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -52,6 +54,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -79,6 +83,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -106,6 +112,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -133,6 +141,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -160,6 +170,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -187,6 +199,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -214,6 +228,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -241,6 +257,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}
@@ -268,6 +286,8 @@
 #' \item{Units}{The units (chr)}
 #' \item{Period}{The period of the estimated change in years (int)}
 #' \item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
+#' \item{StartYear}{The first year (int)}
+#' \item{EndYear}{The last year (int)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
 #' \item{Station}{The station name if a station (fctr)}

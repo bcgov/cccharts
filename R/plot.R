@@ -16,6 +16,7 @@
 #'
 #' @inheritParams trend_estimates_pngs
 #' @param observed The observed data to plot.
+#' @param color A string indicating the column to plot by color.
 #'
 #' @return A ggplot2 object.
 #' @export
@@ -23,7 +24,7 @@
 #' @examples
 #' plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
-plot_trend_observed <- function(data, observed, facet, nrow = NULL, limits = NULL,
+plot_trend_observed <- function(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
                        breaks = waiver()) {
   test_trend_data(data)
   test_observed_data(observed)
@@ -44,12 +45,17 @@ plot_trend_observed <- function(data, observed, facet, nrow = NULL, limits = NUL
   data %<>% add_segment_xyend(observed)
 
   gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
-    geom_point() +
-    geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend")) +
+    geom_point(alpha = 1/3) +
     scale_y_continuous(get_ylab_observed(data), labels = get_labels(observed),
                        limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
     theme_cccharts()
+
+  if (is.null(color)) {
+    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"))
+  } else {
+    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color))
+  }
 
   if (length(facet) == 1) {
     gp <- gp + facet_wrap(facet, nrow = nrow)

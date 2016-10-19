@@ -102,10 +102,10 @@ get_png_type <- function() {
 }
 
 add_segment_xyend <- function(data, observed) {
-  data$x <- min(observed$Year)
-  data$xend <- max(observed$Year)
-  data$y <- data$Intercept + data$Trend * data$x
-  data$yend <- data$Intercept + data$Trend * data$xend
+  data$x <- data$StartYear
+  data$xend <- data$EndYear
+  data$y <- data$Intercept + data$Trend * (data$x - data$StartYear - 1)
+  data$yend <- data$Intercept + data$Trend * (data$xend - data$StartYear - 1)
   data
 }
 

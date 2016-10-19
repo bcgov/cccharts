@@ -4,8 +4,8 @@
 \alias{plot_trend_observed}
 \title{Plot Trend Observed}
 \usage{
-plot_trend_observed(data, observed, facet, nrow = NULL, limits = NULL,
-  breaks = waiver())
+plot_trend_observed(data, observed, facet, nrow = NULL, color = NULL,
+  limits = NULL, breaks = waiver())
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -15,6 +15,8 @@ plot_trend_observed(data, observed, facet, nrow = NULL, limits = NULL,
 \item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{nrow}{A count of the number of rows when facet wrapping.}
+
+\item{color}{A string indicating the column to plot by color.}
 
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 

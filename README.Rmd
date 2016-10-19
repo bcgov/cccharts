@@ -31,7 +31,7 @@ plot_trend_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season
 
 ```{r, fig.width=8, fig.height=8}
 plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed, 
-                    facet = "Station", nrow = 2)
+                    facet = "Station", nrow = 2, color = "Term")
 ```
 
 To generate all plot files (creates a folder in the working directory called `cccharts`).
