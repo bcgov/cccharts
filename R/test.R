@@ -10,6 +10,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
+test_observed_data <- function(data) {
+  check_data3(data, values = list(
+    Statistic = factor(.statistic, levels = .statistic),
+    Season = factor(.season, levels = .season),
+    Station = factor(c("", NA)),
+    Year = c(1900L, 2015L),
+    Value = 1,
+    Units = ""))
+}
+
 test_trend_data <- function(data) {
   check_data3(data, values = list(
     Indicator = "",

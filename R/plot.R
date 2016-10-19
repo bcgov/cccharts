@@ -10,7 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-#' Plot Trend Fit
+#' Plot Trend Observed
 #'
 #' Plots trends with observed data.
 #'
@@ -24,8 +24,8 @@
 #' @export
 #'
 #' @examples
-#' plot_trend_data(cccharts::flow_station_timing, x = "Season") + facet_wrap(~Ecoprovince)
-plot_trend_data <- function(data, x, facet = NULL, limits = NULL,
+#' plot_trend_observed(cccharts::flow_station_timing, x = "Season") + facet_wrap(~Ecoprovince)
+plot_trend_observed <- function(data, x, facet = NULL, limits = NULL,
                        breaks = waiver()) {
   test_trend_data(data)
   if (!is.null(facet)) {

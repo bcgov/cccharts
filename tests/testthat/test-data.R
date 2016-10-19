@@ -12,3 +12,8 @@ test_that("trend_data", {
   expect_is(test_trend_data(cccharts::snow), "tbl_df")
   expect_is(test_trend_data(cccharts::snow_station), "tbl_df")
 })
+
+test_that("observed_data", {
+  expect_is(test_observed_data(cccharts::flow_station_discharge_observed), "tbl_df")
+  expect_is(test_observed_data(cccharts::flow_station_discharge_observed), "tbl_df")
+})
