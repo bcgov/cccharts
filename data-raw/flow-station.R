@@ -48,29 +48,8 @@ warning("because trend and/or percent_change are 0 can't get convert uncertainty
 flow_station %<>% filter(!is.nan(Uncertainty)) %>%
   filter(is.finite(Uncertainty))
 
-flow_station$Statistic <- str_replace(flow_station$trend_type,
-                                      "(.*[.])(\\w+$)", "\\2")
-
-flow_station$Statistic %<>% str_replace("min", "Minimum") %>%
-  str_replace("max", "Maximum") %>% str_replace("mean", "Mean")
-
-flow_station$Statistic %<>% factor(levels = statistic)
-
+flow_station %<>% get_flow_statistic_season(col = "trend_type")
 flow_station %<>% filter(!is.na(Statistic))
-
-flow_station$Season <- str_replace(flow_station$trend_type,
-                                   "(\\w+[.])(\\w+)([.]\\w+$)", "\\2")
-
-flow_station$Season %<>% str_replace("ann", "Annual") %>%
-  str_replace("DJF", "Winter") %>%
-  str_replace("MAM", "Spring") %>%
-  str_replace("AMJ", "Spring") %>%
-  str_replace("JJA", "Summer") %>%
-  str_replace("JAS", "Summer") %>%
-  str_replace("SON", "Fall")
-
-flow_station$Season %<>% factor(levels = season)
-flow_station$Period %<>% as.integer()
 
 flow_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

@@ -49,9 +49,35 @@ get_ecoprovince <- function(data) {
 
   station <- dplyr::bind_cols(station@data, dplyr::select_(sp::over(station, ecoprovinces), ~CPRVNCNM))
   station %<>% dplyr::mutate_(Ecoprovince = ~CPRVNCNM,
-                      CPRVNCNM = ~NULL)
+                              CPRVNCNM = ~NULL)
   station$Ecoprovince %<>% tolower() %>% tools::toTitleCase() %>%
     factor(levels = ecoprovince)
   station
 }
+
+get_flow_statistic_season <- function(data, col) {
+  col <- data[[col]]
+
+  data$Statistic <- str_replace(col, "(.*[.])(\\w+$)", "\\2")
+
+  data$Statistic %<>% str_replace("min", "Minimum") %>%
+    str_replace("max", "Maximum") %>% str_replace("mean", "Mean")
+
+  data$Statistic %<>% factor(levels = statistic)
+
+  data$Season <- str_replace(col, "(\\w+[.])(\\w+)([.]\\w+$)", "\\2")
+
+  data$Season %<>% str_replace("ann", "Annual") %>%
+    str_replace("DJF", "Winter") %>%
+    str_replace("MAM", "Spring") %>%
+    str_replace("AMJ", "Spring") %>%
+    str_replace("JJA", "Summer") %>%
+    str_replace("JAS", "Summer") %>%
+    str_replace("SON", "Fall")
+
+  data$Season %<>% factor(levels = season)
+
+  data
+}
+
 
