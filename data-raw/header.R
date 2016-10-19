@@ -58,14 +58,18 @@ get_ecoprovince <- function(data) {
 get_flow_statistic_season <- function(data, col) {
   col <- data[[col]]
 
-  data$Statistic <- str_replace(col, "(.*[.])(\\w+$)", "\\2")
+  col %<>% str_replace("^trend[.]", "")
+
+  print(col)
+
+  data$Statistic <- str_replace(col, "(^\\w+[.])(\\w+$)", "\\2")
 
   data$Statistic %<>% str_replace("min", "Minimum") %>%
     str_replace("max", "Maximum") %>% str_replace("mean", "Mean")
 
   data$Statistic %<>% factor(levels = statistic)
 
-  data$Season <- str_replace(col, "(\\w+[.])(\\w+)([.]\\w+$)", "\\2")
+  data$Season <- str_replace(col, "(^\\w+)([.]\\w+$)", "\\1")
 
   data$Season %<>% str_replace("ann", "Annual") %>%
     str_replace("DJF", "Winter") %>%

@@ -49,6 +49,7 @@ flow_station %<>% filter(!is.nan(Uncertainty)) %>%
   filter(is.finite(Uncertainty))
 
 flow_station %<>% get_flow_statistic_season(col = "trend_type")
+
 flow_station %<>% filter(!is.na(Statistic))
 
 flow_station %<>% select(
