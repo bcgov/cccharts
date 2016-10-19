@@ -244,9 +244,36 @@
 #' }
 "snow_station"
 
+#' Flow Station Discharge Data
+#'
+#' @format A tbl data frame:
+#' \describe{
+#' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
+#' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
+#' \item{Station}{The station name (fctr)}
+#' \item{Year}{The flow year (int)}
+#' \item{Value}{The discharge (dbl)}
+#' \item{Units}{The units (chr)}
+#' }
+"flow_station_discharge_data"
+
+#' Flow Station Timing Data
+#'
+#' @format A tbl data frame:
+#' \describe{
+#' \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
+#' \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
+#' \item{Station}{The station name (fctr)}
+#' \item{Year}{The flow year (int)}
+#' \item{Value}{The timing (dbl)}
+#' \item{Units}{The units (chr)}
+#' }
+"flow_station_timing_data"
+
 #' Map of Ecoprovinces
 #'
 #' SpatialPolygonsDataFrame of Ecoprovinces for British Columbia.
 #'
 #' From bcmaps package.
 "map"
+

@@ -60,8 +60,6 @@ get_flow_statistic_season <- function(data, col) {
 
   col %<>% str_replace("^trend[.]", "")
 
-  print(col)
-
   data$Statistic <- str_replace(col, "(^\\w+[.])(\\w+$)", "\\2")
 
   data$Statistic %<>% str_replace("min", "Minimum") %>%
