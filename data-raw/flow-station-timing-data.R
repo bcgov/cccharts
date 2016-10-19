@@ -23,7 +23,7 @@ flow_station_timing_data %<>% filter(!is.na(Value))
 
 flow_station_timing_data$Statistic <- factor("Mean", levels = statistic)
 flow_station_timing_data$Season <- factor("Annual", levels = season)
-flow_station_timing_data$Units <- "Days"
+flow_station_timing_data$Units <- "days"
 
 flow_station_timing_data %<>% select(Statistic, Season, Station, Year, Value, Units)
 
