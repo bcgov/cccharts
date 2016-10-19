@@ -35,7 +35,8 @@ plot_range <- function(data, x, facet = NULL, limits = NULL,
 
   if (data$Units[1] == "percent") {
     data %<>% dplyr::mutate_(Trend = ~Trend / 100,
-                             Uncertainty = ~Uncertainty / 100)
+                             TrendLower = ~TrendLower / 100,
+                             TrendUpper = ~TrendUpper / 100)
     if (is.numeric(limits))
       limits %<>% magrittr::divide_by(100)
     if (is.numeric(breaks))
@@ -44,8 +45,8 @@ plot_range <- function(data, x, facet = NULL, limits = NULL,
 
   gp <- ggplot(data, aes_string(x = x, y = "Trend")) +
     geom_point(size = 4) +
-    geom_errorbar(aes_string(ymax = "Trend + Uncertainty",
-                             ymin = "Trend - Uncertainty"), width = 0.3, size = 0.5) +
+    geom_errorbar(aes_string(ymax = "TrendUpper",
+                             ymin = "TrendLower"), width = 0.3, size = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = 2) +
     geom_text(aes_(y = ~Trend, label = ~Significant), hjust = 1.2, vjust = 1.8,
               colour = "grey30", size = 2.8) +

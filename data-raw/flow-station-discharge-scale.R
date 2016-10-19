@@ -27,7 +27,8 @@ flow_station_discharge_data$Station %<>% droplevels()
 
 flow_station_discharge %<>% mutate(
   Trend = Trend / MAD * 10,
-  Uncertainty = Uncertainty / MAD * 10,
+  TrendLower = TrendLower / MAD * 10,
+  TrendUpper = TrendUpper / MAD * 10,
   Intercept = Intercept / MAD * 10,
   Units = "percent",
   Period = 10L)

@@ -41,9 +41,15 @@ sea_surface_temperature_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 sea_surface_temperature_station$Season %<>% str_to_title() %>% factor(levels = season)
 sea_surface_temperature_station$Intercept <- NA_real_
 
+sea_surface_temperature_station %<>% mutate(
+  Trend = `Trend_Slope_degreesC_per_century`,
+  TrendLower = `Trend_Slope_degreesC_per_century` - `95_percent_uncert_degreesC_per_century`,
+  TrendUpper = `Trend_Slope_degreesC_per_century` + `95_percent_uncert_degreesC_per_century`)
+
+
 sea_surface_temperature_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend = `Trend_Slope_degreesC_per_century`, Uncertainty = `95_percent_uncert_degreesC_per_century`,
+  Trend, TrendLower, TrendUpper,
   Intercept,
   Significant = stat_significance)
 

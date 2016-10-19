@@ -45,7 +45,7 @@ get_title <- function(data) {
 }
 
 get_limits <- function(data) {
-  x <- c(data$Trend, data$Trend - data$Uncertainty, data$Trend + data$Uncertainty)
+  x <- c(data$TrendLower, data$TrendUpper)
   range(x)
 }
 

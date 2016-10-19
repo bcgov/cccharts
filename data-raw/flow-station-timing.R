@@ -24,6 +24,8 @@ flow_station_timing %<>% rename(Station = station,
                          StartYear = start_year,
                          EndYear = end_year,
                          Trend = trend,
+                         TrendLower = lbound,
+                         TrendUpper = ubound,
                          Intercept = intercept,
                          Significant = sig)
 
@@ -43,11 +45,9 @@ flow_station_timing$Indicator <- "Flow"
 
 flow_station_timing %<>% get_flow_statistic_season(col = "trend_type")
 
-flow_station_timing %<>% mutate(Uncertainty = ((Trend - lbound) + (ubound - Trend)) / 2)
-
 flow_station_timing %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Uncertainty, Intercept,
+  Trend, TrendLower, TrendUpper, Intercept,
   Significant)
 
 flow_station_timing %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

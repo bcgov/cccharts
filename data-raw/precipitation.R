@@ -40,9 +40,13 @@ precipitation$Latitude <- NA_real_
 precipitation$Longitude <- NA_real_
 precipitation$Intercept <- NA_real_
 
+precipitation %<>% mutate(Trend = Trend_percentcentury,
+                          TrendLower = Trend_percentcentury - Uncertainty_percentcentury,
+                          TrendUpper = Trend_percentcentury + Uncertainty_percentcentury)
+
 precipitation %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend = Trend_percentcentury, Uncertainty = Uncertainty_percentcentury, Intercept,
+  Trend, TrendLower, TrendUpper, Intercept,
   Significant)
 
 precipitation %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

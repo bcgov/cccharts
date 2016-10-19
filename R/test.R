@@ -24,8 +24,9 @@ test_data <- function(data) {
     Station = factor(c("", NA)),
     Latitude = c(1, NA),
     Longitude = c(1, NA),
-    Trend = c(-1000, 250),
-    Uncertainty = c(0, 250, NA),
+    Trend = c(1),
+    TrendLower = c(1, NA),
+    TrendUpper = c(1, NA),
     Intercept = c(1, NA),
     Significant = c(TRUE, FALSE, NA)))
 }
