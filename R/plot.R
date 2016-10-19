@@ -14,8 +14,8 @@
 #'
 #' Plots trends with observed data.
 #'
-#' @param data The data frame to plot.
-#' @param x A string of the column to plot on the x-axis.
+#' @param data The trend data to plot.
+#' @param observed The observed data to plot.
 #' @param facet A string indicating the factor to facet by.
 #' @param limits A numeric vector of length two providing limits of the scale.
 #' @param breaks A numeric vector of positions.
@@ -24,10 +24,15 @@
 #' @export
 #'
 #' @examples
-#' plot_trend_observed(cccharts::flow_station_timing, x = "Season") + facet_wrap(~Ecoprovince)
-plot_trend_observed <- function(data, x, facet = NULL, limits = NULL,
+#' plot_trend_observed(flow_station_timing, flow_station_timing_observed) +
+#'   facet_wrap(~Ecoprovince)
+plot_trend_observed <- function(data, observed, facet = NULL, limits = NULL,
                        breaks = waiver()) {
   test_trend_data(data)
+  test_observed_data(observed)
+
+  observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units), by = c("Statistic", "Season", "Station"))
+
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
@@ -43,19 +48,13 @@ plot_trend_observed <- function(data, x, facet = NULL, limits = NULL,
       breaks %<>% magrittr::divide_by(100)
   }
 
-  gp <- ggplot(data, aes_string(x = x, y = "Trend")) +
-    geom_point(size = 4) +
-    geom_errorbar(aes_string(ymax = "TrendUpper",
-                             ymin = "TrendLower"), width = 0.3, size = 0.5) +
-    geom_hline(aes(yintercept = 0), linetype = 2) +
-    geom_text(aes_(y = ~Trend, label = ~Significant), hjust = 1.2, vjust = 1.8,
-              colour = "grey30", size = 2.8) +
-    scale_y_continuous(get_ylab(data), labels = get_labels(data),
-                       limits = limits, breaks = breaks) +
-    expand_limits(y = 0) +
-    ggtitle(get_title(data)) +
-    theme_cccharts() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+  gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
+    geom_point() +
+#    scale_y_continuous(get_ylab(data), labels = get_labels(data),
+#                       limits = limits, breaks = breaks) +
+#    expand_limits(y = 0) +
+#    ggtitle(get_title(data)) +
+    theme_cccharts()
 
   if (length(facet) == 1) {
     gp <- gp + facet_wrap(facet, nrow = 1)

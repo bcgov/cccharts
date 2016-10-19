@@ -15,5 +15,5 @@ test_that("trend_data", {
 
 test_that("observed_data", {
   expect_is(test_observed_data(cccharts::flow_station_discharge_observed), "tbl_df")
-  expect_is(test_observed_data(cccharts::flow_station_discharge_observed), "tbl_df")
+  expect_is(test_observed_data(cccharts::flow_station_timing_observed), "tbl_df")
 })

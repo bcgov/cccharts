@@ -4,13 +4,13 @@
 \alias{plot_trend_observed}
 \title{Plot Trend Observed}
 \usage{
-plot_trend_observed(data, x, facet = NULL, limits = NULL,
+plot_trend_observed(data, observed, facet = NULL, limits = NULL,
   breaks = waiver())
 }
 \arguments{
-\item{data}{The data frame to plot.}
+\item{data}{The trend data to plot.}
 
-\item{x}{A string of the column to plot on the x-axis.}
+\item{observed}{The observed data to plot.}
 
 \item{facet}{A string indicating the factor to facet by.}
 
@@ -25,6 +25,7 @@ A ggplot2 object.
 Plots trends with observed data.
 }
 \examples{
-plot_trend_observed(cccharts::flow_station_timing, x = "Season") + facet_wrap(~Ecoprovince)
+plot_trend_observed(flow_station_timing, flow_station_timing_observed) +
+  facet_wrap(~Ecoprovince)
 }
 
