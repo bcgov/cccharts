@@ -41,6 +41,7 @@ air_temperature %<>% mutate(Significant = 1 - Percent_Confidence/100,
 air_temperature$Latitude <- NA_real_
 air_temperature$Longitude <- NA_real_
 air_temperature$Intercept <- NA_real_
+air_temperature$Scale <- NA_real_
 
 air_temperature %<>% mutate(Trend = Trend_Ccentury,
   TrendLower = Trend - Uncertainty_Ccentury,
@@ -49,7 +50,7 @@ air_temperature %<>% mutate(Trend = Trend_Ccentury,
 air_temperature %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend, TrendLower, TrendUpper,
-  Intercept,
+  Intercept, Scale,
   Significant)
 
 

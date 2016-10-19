@@ -45,10 +45,11 @@ glacial$Significant <- NA
 glacial$Latitude <- NA_real_
 glacial$Longitude <- NA_real_
 glacial$Intercept <- NA_real_
+glacial$Scale <- NA_real_
 
 glacial %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend = Percentage_Area_Change, TrendLower, TrendUpper, Intercept,
+  Trend = Percentage_Area_Change, TrendLower, TrendUpper, Intercept, Scale,
   Significant)
 
 glacial %<>% filter(!is.na(Trend))

@@ -28,5 +28,6 @@ test_data <- function(data) {
     TrendLower = c(1, NA),
     TrendUpper = c(1, NA),
     Intercept = c(1, NA),
+    Scale = c(1, NA),
     Significant = c(TRUE, FALSE, NA)))
 }

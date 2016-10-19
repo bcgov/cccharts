@@ -41,12 +41,13 @@ flow_station_discharge %<>% filter(Units == "m3/sec per year")
 flow_station_discharge$Units <- "cumecs"
 flow_station_discharge$Period <- 1L
 flow_station_discharge$Indicator <- "Flow"
+flow_station_discharge$Scale <- NA_real_
 
 flow_station_discharge %<>% get_flow_statistic_season(col = "trend_type")
 
 flow_station_discharge %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, TrendLower, TrendUpper, Intercept,
+  Trend, TrendLower, TrendUpper, Intercept, Scale,
   Significant)
 
 flow_station_discharge %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

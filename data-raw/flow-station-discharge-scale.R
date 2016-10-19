@@ -33,9 +33,8 @@ flow_station_discharge %<>% mutate(
   Units = "percent",
   Period = 10L)
 
-flow_station_discharge %<>% rename(Scale = MAD)
-
-flow_station_discharge$Scale <- NULL
+flow_station_discharge$Scale <- flow_station_discharge$MAD
+flow_station_discharge$MAD <- NULL
 
 use_data(flow_station_discharge, overwrite = TRUE)
 use_data(flow_station_discharge_data, overwrite = TRUE)
