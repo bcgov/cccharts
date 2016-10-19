@@ -46,7 +46,7 @@ flow_station_discharge %<>% mutate(Uncertainty = ((Trend - lbound) + (ubound - T
 
 flow_station_discharge %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Uncertainty,
+  Trend, Uncertainty, Intercept,
   Significant)
 
 flow_station_discharge %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

@@ -49,13 +49,12 @@ snow$Latitude <- NA_real_
 snow$Longitude <- NA_real_
 
 snow$Period <- 1L
+snow$Intercept <- NA_real_
 
 snow %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Uncertainty,
+  Trend, Uncertainty, Intercept,
   Significant = validstat)
-
-
 
 snow %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 

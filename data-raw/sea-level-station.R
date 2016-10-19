@@ -46,11 +46,11 @@ sea_level_station$Period <- 10L
 sea_level_station$Season <- "Annual"
 sea_level_station$Season %<>% factor(levels = season)
 sea_level_station$Significant <- TRUE
-
+sea_level_station$Intercept <- NA_real_
 
 sea_level_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend = `slope_mm/year`, Uncertainty = `95_percent_mm/year`,
+  Trend = `slope_mm/year`, Uncertainty = `95_percent_mm/year`, Intercept,
   Significant)
 
 sea_level_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

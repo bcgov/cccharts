@@ -18,6 +18,7 @@
 \item{Longitude}{The latitude if a station (dbl)}
 \item{Trend}{The estimated change (dbl)}
 \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+\item{Intercept}{The estimated intercept (dbl)}
 \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 }}
 \usage{

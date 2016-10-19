@@ -39,10 +39,12 @@ sea_surface_temperature_station$Period <- 100L
 
 sea_surface_temperature_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 sea_surface_temperature_station$Season %<>% str_to_title() %>% factor(levels = season)
+sea_surface_temperature_station$Intercept <- NA_real_
 
 sea_surface_temperature_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Trend = `Trend_Slope_degreesC_per_century`, Uncertainty = `95_percent_uncert_degreesC_per_century`,
+  Intercept,
   Significant = stat_significance)
 
 sea_surface_temperature_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

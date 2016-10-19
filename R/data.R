@@ -32,6 +32,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "air_temperature"
@@ -58,6 +59,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "degree_days"
@@ -84,6 +86,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "flow_station_discharge"
@@ -110,6 +113,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "flow_station_timing"
@@ -136,6 +140,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "glacial"
@@ -162,6 +167,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "precipitation"
@@ -188,6 +194,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "sea_level_station"
@@ -214,6 +221,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "sea_surface_temperature_station"
@@ -240,6 +248,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "snow"
@@ -266,6 +275,7 @@
 #' \item{Longitude}{The latitude if a station (dbl)}
 #' \item{Trend}{The estimated change (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "snow_station"

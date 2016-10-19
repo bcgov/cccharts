@@ -47,7 +47,7 @@ flow_station_timing %<>% mutate(Uncertainty = ((Trend - lbound) + (ubound - Tren
 
 flow_station_timing %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Uncertainty,
+  Trend, Uncertainty, Intercept,
   Significant)
 
 flow_station_timing %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

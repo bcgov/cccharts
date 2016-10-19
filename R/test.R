@@ -26,5 +26,6 @@ test_data <- function(data) {
     Longitude = c(1, NA),
     Trend = c(-1000, 250),
     Uncertainty = c(0, 250, NA),
+    Intercept = c(1, NA),
     Significant = c(TRUE, FALSE, NA)))
 }
