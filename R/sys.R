@@ -16,5 +16,5 @@
 
 .statistic <- c("Minimum", "Mean", "Maximum")
 
-.term <- c("Short", "Medium", "Long")
+.term <- c("Medium", "Long")
 
