@@ -41,7 +41,7 @@ air_temperature %<>% mutate(Significant = 1 - Percent_Confidence/100,
 air_temperature$Latitude <- NA_real_
 air_temperature$Longitude <- NA_real_
 air_temperature$Intercept <- NA_real_
-air_temperature$Scale <- NA_real_
+air_temperature$Scale <- 1
 
 air_temperature %<>% mutate(Trend = Trend_Ccentury,
   TrendLower = Trend - Uncertainty_Ccentury,

@@ -45,7 +45,7 @@ glacial$Significant <- NA
 glacial$Latitude <- NA_real_
 glacial$Longitude <- NA_real_
 glacial$Intercept <- NA_real_
-glacial$Scale <- NA_real_
+glacial$Scale <- 1
 
 glacial %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

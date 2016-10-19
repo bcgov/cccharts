@@ -42,7 +42,7 @@ flow_station_timing %<>% filter(Units == "days per year") %>%
 flow_station_timing$Units <- "days"
 flow_station_timing$Period <- 1L
 flow_station_timing$Indicator <- "Flow"
-flow_station_timing$Scale <- NA_real_
+flow_station_timing$Scale <- 1
 
 flow_station_timing %<>% get_flow_statistic_season(col = "trend_type")
 

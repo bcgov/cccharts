@@ -52,7 +52,7 @@ snow$Latitude <- NA_real_
 snow$Longitude <- NA_real_
 
 snow$Intercept <- NA_real_
-snow$Scale <- NA_real_
+snow$Scale <- 1
 
 snow %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,

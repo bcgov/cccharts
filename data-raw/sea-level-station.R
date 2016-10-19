@@ -47,7 +47,7 @@ sea_level_station$Season <- "Annual"
 sea_level_station$Season %<>% factor(levels = season)
 sea_level_station$Significant <- TRUE
 sea_level_station$Intercept <- NA_real_
-sea_level_station$Scale <- NA_real_
+sea_level_station$Scale <- 1
 
 sea_level_station %<>% mutate(
   Trend = `slope_mm/year`,

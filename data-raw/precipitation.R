@@ -39,7 +39,7 @@ precipitation %<>% mutate(Significant = 1 - Percent_Confidence/100,
 precipitation$Latitude <- NA_real_
 precipitation$Longitude <- NA_real_
 precipitation$Intercept <- NA_real_
-precipitation$Scale <- NA_real_
+precipitation$Scale <- 1
 
 precipitation %<>% mutate(Trend = Trend_percentcentury,
                           TrendLower = Trend_percentcentury - Uncertainty_percentcentury,

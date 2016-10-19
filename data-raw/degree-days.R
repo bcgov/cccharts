@@ -40,7 +40,7 @@ degree_days %<>% mutate(Significant = Stat_Significance == 1)
 degree_days$Latitude <- NA_real_
 degree_days$Longitude <- NA_real_
 degree_days$Intercept <- NA_real_
-degree_days$Scale <- NA_real_
+degree_days$Scale <- 1
 
 degree_days %<>% mutate(Trend = Trend_DDcentury,
                         TrendLower = Trend_DDcentury - Uncertainty_DDcentury,
