@@ -2,6 +2,9 @@ language: R
 sudo: required
 dist: trusty
 
+r_binary_packages:
+ - rgeos
+
 addons:
   apt:
     packages:
