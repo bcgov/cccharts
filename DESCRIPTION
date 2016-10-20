@@ -14,13 +14,16 @@ Depends:
     ggplot2
 Imports:
     bcmaps,
+    broom,
     datacheckr,
     dplyr,
     envreportutils,
+    geojsonio,
     grDevices,
     magrittr,
     plyr,
     RColorBrewer,
+    rgeos,
     scales,
     sp,
     stringr,

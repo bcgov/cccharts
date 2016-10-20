@@ -25,7 +25,7 @@
 #' plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
 plot_trend_observed <- function(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
-                       breaks = waiver()) {
+                                breaks = waiver()) {
   test_trend_data(data)
   test_observed_data(observed)
 
@@ -76,7 +76,7 @@ plot_trend_observed <- function(data, observed, facet, nrow = NULL, color = NULL
 #' plot_trend_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
 plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
-                       breaks = waiver()) {
+                                 breaks = waiver()) {
   test_trend_data(data)
 
   if (!is.null(facet)) {
@@ -115,6 +115,48 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
   } else if (length(facet) == 2) {
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
+  gp
+}
+
+#' Map Trend Estimates
+#'
+#' Maps trend estimates
+#'
+#' @inheritParams trend_estimates_pngs
+#' @param file A string specifying the filename for a geojson file.
+#' @param map A SpatialPolygonsDataFrame object.
+#' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
+#' @return A ggplot2 object.
+#' @export
+#' @examples
+#' map_trend_estimates(cccharts::glacial)
+map_trend_estimates <- function(data, map = cccharts::map, proj4string = "+init=epsg:3005", file = NULL) {
+  test_trend_data(data)
+  check_unique(data$Ecoprovince)
+  check_string(proj4string)
+
+  map %<>% sp::merge(data, by = "Ecoprovince", all.x = TRUE)
+
+  if (!is.null(file)) {
+    check_string(file)
+    # remove Lat and Long so not confuse geojson_write
+    map@data %<>% dplyr::select_(~-Latitude, ~-Longitude)
+    geojsonio::geojson_write(map, file = file, precision = 5)
+  }
+  map %<>% sp::spTransform(sp::CRS(proj4string))
+  suppressMessages(polygon <- broom::tidy(map))
+  polygon %<>% dplyr::rename_(.dots = list(Ecoprovince = "id"))
+  polygon$Ecoprovince %<>% as.integer()
+  polygon$Ecoprovince <- levels(data$Ecoprovince)[polygon$Ecoprovince]
+  polygon$Ecoprovince %<>% factor(levels = levels(data$Ecoprovince))
+
+  polygon %<>% dplyr::left_join(data, by = "Ecoprovince")
+
+  gp <- ggplot2::ggplot(data = polygon, ggplot2::aes_string(x = "long",
+                                                            y = "lat",
+                                                            group = "Ecoprovince")) +
+    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~!hole)) +
+    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~hole), fill = "white")
   gp
 }
 
