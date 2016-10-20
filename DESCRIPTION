@@ -1,7 +1,7 @@
 Package: cccharts
 Title: Plot Climate Change Indicator Trends for British Columbia
-Version: 0.0.0.9000
-Date: 2016-09-29
+Version: 0.0.0.9001
+Date: 2016-20-20
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Stephanie", "Hazlitt", role = "aut"),
@@ -15,7 +15,7 @@ Depends:
 Imports:
     bcmaps,
     broom,
-    datacheckr,
+    datacheckr (>= 0.1.1.9002),
     dplyr,
     envreportutils,
     geojsonio,
@@ -38,6 +38,7 @@ Suggests:
     testthat
 Remotes:
     bcgov/bcmaps,
+    poissonconsulting/datacheckr,
     bcgov/envreportutils,
     poissonconsulting/yesno
 Encoding: UTF-8
