@@ -4,9 +4,18 @@
 \alias{theme_cccharts}
 \title{Theme}
 \usage{
-theme_cccharts()
+theme_cccharts(facet = FALSE, map = FALSE)
+}
+\arguments{
+\item{facet}{A flag indicating whether to use the theme for facetted graphs.}
+
+\item{map}{A flag indicating whether to use the theme for maps.}
 }
 \description{
 ggplot2 theme for cccharts plots
+}
+\seealso{
+\code{\link[envreportutils]{theme_soe}} and
+ \code{\link[envreportutils]{theme_soe_facet}}
 }
 

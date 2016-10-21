@@ -154,9 +154,10 @@ map_trend_estimates <- function(data, map = cccharts::map, proj4string = "+init=
 
   gp <- ggplot2::ggplot(data = polygon, ggplot2::aes_string(x = "long",
                                                             y = "lat",
-                                                            group = "Ecoprovince")) +
+                                                            group = "group")) +
     ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~!hole)) +
-    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~hole), fill = "white")
+    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~hole), fill = "white") +
+    theme_cccharts(map = TRUE)
   gp
 }
 
@@ -215,10 +216,15 @@ trend_estimates_pngs <- function(
 #' Theme
 #'
 #' ggplot2 theme for cccharts plots
-#'
+#' @param facet A flag indicating whether to use the theme for facetted graphs.
+#' @param map A flag indicating whether to use the theme for maps.
+#' @seealso \code{\link[envreportutils]{theme_soe}} and
+#'  \code{\link[envreportutils]{theme_soe_facet}}
 #' @export
-theme_cccharts <- function() {
-  theme_soe(base_family = "") +
+theme_cccharts <- function(facet = FALSE, map = FALSE) {
+  ifelse(facet,
+         envreportutils::theme_soe_facet(base_family = ""),
+         envreportutils::theme_soe(base_family = "")) +
     theme(plot.title = element_text(size = rel(1.2)),
           axis.title.y = element_text(size = 13),
           axis.title.x = element_blank(),
@@ -228,5 +234,8 @@ theme_cccharts <- function() {
           panel.border = element_rect(colour = "grey50", fill = NA),
           panel.background = element_rect(colour = "grey50", fill = NA),
           legend.position = ("bottom"),
-          legend.direction = ("horizontal"))
+          legend.direction = ("horizontal")) +
+    ifelse(map, theme(panel.grid = element_blank(), panel.border = element_blank(),
+                      panel.background = element_rect(color = "white", fill = NA),
+                      axis.title = element_blank()), NULL)
 }
