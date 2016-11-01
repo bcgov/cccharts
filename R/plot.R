@@ -14,7 +14,7 @@
 #'
 #' Plots trends with observed data.
 #'
-#' @inheritParams trend_estimates_pngs
+#' @inheritParams plot_estimates_pngs
 #' @param observed The observed data to plot.
 #' @param color A string indicating the column to plot by color.
 #'
@@ -69,7 +69,7 @@ plot_trend_observed <- function(data, observed, facet, nrow = NULL, color = NULL
 #'
 #' Plots trend estimates with uncertainty if available.
 #'
-#' @inheritParams trend_estimates_pngs
+#' @inheritParams plot_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
 #' @examples
@@ -125,7 +125,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
 #'
 #' Maps trend estimates
 #'
-#' @inheritParams trend_estimates_pngs
+#' @inheritParams plot_estimates_pngs
 #' @param file A string specifying the filename for a geojson file.
 #' @param map A SpatialPolygonsDataFrame object.
 #' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
@@ -191,7 +191,7 @@ trend_estimates_png <- function(data, x, facet, nrow, dir, limits, breaks, width
 #' @param limits A numeric vector of length two providing limits of the scale.
 #' @param breaks A numeric vector of positions.
 #' @export
-trend_estimates_pngs <- function(
+plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 500L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
   test_trend_data(data)
