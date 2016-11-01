@@ -136,7 +136,7 @@ complete_missing <- function (data, missing, na = NA_real_) {
 }
 
 complete_data <- function(data) {
-  data %<>% complete_missing(missing = c("Latitude", "Longitude", "Intercept"))
+  data %<>% complete_missing(missing = c("Latitude", "Longitude", "Intercept", "Lower", "Upper"))
 
   if (!tibble::has_name(data, "Scale")) data$Scale <- 1
   if (!tibble::has_name(data, "Station")) data$Station <- factor(NA)

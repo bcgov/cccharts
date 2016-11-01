@@ -84,6 +84,7 @@
 #' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Lower}{The estimated lower 95\% confidence interval in the trend (dbl)}
 #' \item{Upper}{The estimated lower 95\% confidence interval in the trend (dbl)}
+#' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 #' }
 "flow_station_discharge"

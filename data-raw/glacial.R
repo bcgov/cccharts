@@ -21,12 +21,7 @@ glacial$Station <- factor(NA)
 glacial$StartYear <- 1985L
 glacial$EndYear <- 2005L
 
-glacial$Term <- factor("Medium", levels = term)
-
 glacial$Indicator <- "Glacial Area"
-
-glacial$Statistic <- "Mean"
-glacial$Statistic %<>% factor(levels = statistic)
 
 glacial$Units <- "percent"
 glacial$Period <- 10L
@@ -38,22 +33,15 @@ glacial$Ecoprovince %<>%  factor(levels = ecoprovince)
 glacial$Season <- "Annual"
 glacial$Season %<>% factor(levels = season)
 
-glacial$Lower <- NA_real_
-glacial$Upper <- NA_real_
 glacial$Significant <- NA
 
-glacial$Latitude <- NA_real_
-glacial$Longitude <- NA_real_
-glacial$Intercept <- NA_real_
-glacial$Scale <- 1
-
 glacial %<>% select(
-  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Estimate = Percentage_Area_Change, Lower, Upper, Intercept, Scale,
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station,
+  Estimate = Percentage_Area_Change,
   Significant)
 
 glacial %<>% filter(!is.na(Estimate))
 
-glacial %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
+glacial %<>% arrange(Indicator, Ecoprovince, Station, Season, StartYear, EndYear)
 
 use_data(glacial, overwrite = TRUE)
