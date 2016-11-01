@@ -1,7 +1,9 @@
 library(cccharts)
 
 plot_estimates_pngs(data = cccharts::air_temperature, facet = "Statistic", height = 350L, ask = FALSE)
-plot_estimates_pngs(data = cccharts::degree_days, ask = FALSE)
+plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Cooling Degree Days"), dir = "degree_days", ask = FALSE)
+plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Heating Degree Days"), dir = "degree_days", ask = FALSE)
+plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Growing Degree Days"), dir = "degree_days", ask = FALSE)
 plot_estimates_pngs(data = cccharts::flow_station_discharge, facet = c("Statistic", "Term"), width = 500L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::flow_station_timing, x = "Station", by = "Statistic", facet = "Term", width = 500L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::glacial, height = 350L, ask = FALSE)

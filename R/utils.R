@@ -53,8 +53,8 @@ get_title <- function(data) {
 }
 
 get_limits <- function(data) {
-  x <- c(data$Lower, data$Upper)
-  range(x)
+  x <- c(data$Estimate, data$Lower, data$Upper)
+  range(x, na.rm = TRUE)
 }
 
 get_filename <- function(data, by) {

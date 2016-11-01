@@ -103,7 +103,6 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
     geom_hline(aes(yintercept = 0), linetype = 2) +
     scale_y_continuous(get_ylab_trend(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
-    expand_limits(y = 0) +
     ggtitle(get_title(data)) +
     theme_cccharts() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
@@ -199,9 +198,10 @@ plot_estimates_pngs <- function(
 
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
-    dir <- file.path("cccharts", dir)
   } else
     check_string(dir)
+
+  dir <- file.path("cccharts", dir)
 
   data %<>% complete_data()
 
@@ -212,6 +212,9 @@ plot_estimates_pngs <- function(
   if (is.null(limits)) limits <- get_limits(data)
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x, facet)
+
+  if (all(limits > 0)) limits[1] <- 0
+  if (all(limits < 0)) limits[2] <- 0
 
   plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks,
