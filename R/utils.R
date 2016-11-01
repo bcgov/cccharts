@@ -139,6 +139,7 @@ complete_data <- function(data) {
   data %<>% complete_missing(missing = c("Latitude", "Longitude", "Intercept"))
 
   if (!tibble::has_name(data, "Scale")) data$Scale <- 1
+  if (!tibble::has_name(data, "Station")) data$Station <- factor(NA)
 
   data %<>% dplyr::select_(
     ~Indicator, ~Statistic, ~Units, ~Period, ~Term, ~StartYear, ~EndYear,

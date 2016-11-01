@@ -20,8 +20,6 @@ air_temperature$StartYear <- 1900L
 air_temperature$EndYear <- 2013L
 air_temperature$Term <- factor("Long", levels = term)
 
-air_temperature$Station <- factor(NA)
-
 air_temperature$Indicator <- "Air Temperature"
 
 air_temperature$Statistic <- air_temperature$Measure
@@ -43,9 +41,9 @@ air_temperature %<>% mutate(Estimate = Trend_Ccentury,
   Upper = Estimate + Uncertainty_Ccentury)
 
 air_temperature %<>% select(
-  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station,
+  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season,
   Estimate, Lower, Upper, Significant)
 
-air_temperature %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
+air_temperature %<>% arrange(Indicator, Statistic, Ecoprovince, Season, StartYear, EndYear)
 
 use_data(air_temperature, overwrite = TRUE)
