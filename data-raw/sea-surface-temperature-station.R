@@ -20,7 +20,6 @@ sea_surface_temperature_station %<>% rename(Station = Station_Name)
 
 sea_surface_temperature_station$StartYear <- 1935L
 sea_surface_temperature_station$EndYear <- 2014L
-sea_surface_temperature_station$Term <- factor("Long", levels = term)
 
 sea_surface_temperature_station %<>% get_ecoprovince()
 # race rocks falls outside BC ecoprovinces
@@ -31,16 +30,11 @@ sea_surface_temperature_station$Station %<>% factor(unique(sea_surface_temperatu
 
 sea_surface_temperature_station$Indicator <- "Sea Surface Temperature"
 
-sea_surface_temperature_station$Statistic <- "Mean"
-sea_surface_temperature_station$Statistic %<>% factor(levels = statistic)
-
 sea_surface_temperature_station$Units <- "degrees celsius"
 sea_surface_temperature_station$Period <- 100L
 
 sea_surface_temperature_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 sea_surface_temperature_station$Season %<>% str_to_title() %>% factor(levels = season)
-sea_surface_temperature_station$Intercept <- NA_real_
-sea_surface_temperature_station$Scale <- 1
 
 sea_surface_temperature_station %<>% mutate(
   Estimate = `Trend_Slope_degreesC_per_century`,
@@ -49,11 +43,9 @@ sea_surface_temperature_station %<>% mutate(
 
 
 sea_surface_temperature_station %<>% select(
-  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Estimate, Lower, Upper,
-  Intercept, Scale,
-  Significant = stat_significance)
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
+  Estimate, Lower, Upper, Significant = stat_significance)
 
-sea_surface_temperature_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
+sea_surface_temperature_station %<>% arrange(Indicator, Ecoprovince, Station, StartYear, EndYear)
 
 use_data(sea_surface_temperature_station, overwrite = TRUE)

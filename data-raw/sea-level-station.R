@@ -18,7 +18,6 @@ sea_level_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/4458bace
 
 sea_level_station$StartYear <- 1910L
 sea_level_station$EndYear <- 2014L
-sea_level_station$Term <- factor("Long", levels = term)
 
 sea_level_station %<>% rename(Station = station_id)
 sea_level_station$Station %<>% str_replace("^Prince_Rupert$", "Prince Rupert")
@@ -37,17 +36,10 @@ sea_level_station$Station %<>% factor(unique(sea_level_station$Station))
 
 sea_level_station$Indicator <- "Sea Level"
 
-sea_level_station$Statistic <- "Mean"
-sea_level_station$Statistic %<>% factor(levels = statistic)
-
 sea_level_station$Units <- "centimeter"
 sea_level_station$Period <- 10L
 
-sea_level_station$Season <- "Annual"
-sea_level_station$Season %<>% factor(levels = season)
 sea_level_station$Significant <- TRUE
-sea_level_station$Intercept <- NA_real_
-sea_level_station$Scale <- 1
 
 sea_level_station %<>% mutate(
   Estimate = `slope_mm/year`,
@@ -55,10 +47,10 @@ sea_level_station %<>% mutate(
   Upper = `slope_mm/year` + `95_percent_mm/year`)
 
 sea_level_station %<>% select(
-  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Estimate, Lower, Upper, Intercept, Scale,
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Station, Latitude, Longitude,
+  Estimate, Lower, Upper,
   Significant)
 
-sea_level_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
+sea_level_station %<>% arrange(Indicator, Ecoprovince, Station, StartYear, EndYear)
 
 use_data(sea_level_station, overwrite = TRUE)
