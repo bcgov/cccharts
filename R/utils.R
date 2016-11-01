@@ -77,12 +77,6 @@ get_filename <- function(data, by) {
   filename
 }
 
-not_significant <- function(x) {
-  ns <- rep("NS", length(x))
-  ns[is.na(x) | x] <- ""
-  ns
-}
-
 get_by <- function(data, x, facet) {
   by <- c("Indicator", "Ecoprovince", "Station", "Statistic", "Season")
   by <- by[!by %in% c(x, facet)]

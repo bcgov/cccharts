@@ -84,8 +84,6 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
     check_cols(data, facet)
   }
 
-  data$Significant %<>% not_significant()
-
   if (data$Units[1] == "percent") {
     data %<>% dplyr::mutate_(Trend = ~Trend / 100,
                              TrendLower = ~TrendLower / 100,
@@ -96,15 +94,14 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
       breaks %<>% magrittr::divide_by(100)
   }
 
-  gp <- ggplot(data, aes_string(x = x, y = "Trend")) +
+  gp <- ggplot(data, aes_string(x = x, y = "Trend", alpha = "Significant")) +
     geom_point(size = 4) +
     geom_errorbar(aes_string(ymax = "TrendUpper",
                              ymin = "TrendLower"), width = 0.3, size = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = 2) +
-    geom_text(aes_(y = ~Trend, label = ~Significant), hjust = 1.2, vjust = 1.8,
-              colour = "grey30", size = 2.8) +
     scale_y_continuous(get_ylab_trend(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
+    scale_alpha_discrete(range = c(0.5, 1), drop = FALSE) +
     expand_limits(y = 0) +
     ggtitle(get_title(data)) +
     theme_cccharts() +
