@@ -140,6 +140,7 @@ complete_data <- function(data) {
 
   if (!tibble::has_name(data, "Scale")) data$Scale <- 1
   if (!tibble::has_name(data, "Station")) data$Station <- factor(NA)
+  if (!tibble::has_name(data, "Term")) data$Term <- factor(NA)
 
   data %<>% dplyr::select_(
     ~Indicator, ~Statistic, ~Units, ~Period, ~Term, ~StartYear, ~EndYear,

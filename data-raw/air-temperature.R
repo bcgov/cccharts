@@ -18,7 +18,6 @@ air_temperature <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86f93096-8
 
 air_temperature$StartYear <- 1900L
 air_temperature$EndYear <- 2013L
-air_temperature$Term <- factor("Long", levels = term)
 
 air_temperature$Indicator <- "Air Temperature"
 
@@ -41,7 +40,7 @@ air_temperature %<>% mutate(Estimate = Trend_Ccentury,
   Upper = Estimate + Uncertainty_Ccentury)
 
 air_temperature %<>% select(
-  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season,
+  Indicator, Statistic, Units, Period, StartYear, EndYear, Ecoprovince, Season,
   Estimate, Lower, Upper, Significant)
 
 air_temperature %<>% arrange(Indicator, Statistic, Ecoprovince, Season, StartYear, EndYear)
