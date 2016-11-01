@@ -10,14 +10,13 @@
 \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
 \item{Units}{The units (chr)}
 \item{Period}{The period of the estimated change in years (int)}
-\item{Term}{The term of the analysis with levels 'Medium' or 'Long' (fctr)}
 \item{StartYear}{The first year (int)}
 \item{EndYear}{The last year (int)}
 \item{Ecoprovince}{The Ecoprovince (fctr)}
 \item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
-\item{Station}{The station name if a station (fctr)}
 \item{Estimate}{The estimated trend (dbl)}
-\item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
+\item{Lower}{The estimated lower 95\% confidence interval in the trend (dbl)}
+\item{Upper}{The estimated lower 95\% confidence interval in the trend (dbl)}
 \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 }}
 \usage{

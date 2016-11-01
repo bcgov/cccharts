@@ -19,8 +19,8 @@
 \item{Latitude}{The longitude if a station (dbl)}
 \item{Longitude}{The latitude if a station (dbl)}
 \item{Estimate}{The estimated trend (dbl)}
-\item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
-\item{Intercept}{The estimated intercept (dbl)}
+\item{Lower}{The estimated lower 95\% confidence interval in the trend (dbl)}
+\item{Upper}{The estimated lower 95\% confidence interval in the trend (dbl)}
 \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
 }}
 \usage{
