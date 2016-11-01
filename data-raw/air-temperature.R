@@ -38,19 +38,14 @@ air_temperature$Season %<>% factor(levels = season)
 air_temperature %<>% mutate(Significant = 1 - Percent_Confidence/100,
                             Significant = Significant <= 0.05)
 
-air_temperature$Scale <- 1
-
 air_temperature %<>% mutate(Estimate = Trend_Ccentury,
   Lower = Estimate - Uncertainty_Ccentury,
   Upper = Estimate + Uncertainty_Ccentury)
 
 air_temperature %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station,
-  Estimate, Lower, Upper, Scale, Significant)
-
+  Estimate, Lower, Upper, Significant)
 
 air_temperature %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, StartYear, EndYear)
-
-air_temperature %<>% complete_data()
 
 use_data(air_temperature, overwrite = TRUE)
