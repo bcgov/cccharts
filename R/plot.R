@@ -24,8 +24,10 @@
 #' @examples
 #' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
-plot_fit <- function(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
+plot_fit <- function(data, observed, x = "Year", facet = NULL, nrow = NULL, color = NULL, limits = NULL,
                                 breaks = waiver(), ylab = ylab_fit) {
+
+  check_string(x)
   test_trend_data(data)
   test_observed_data(observed)
 
@@ -44,7 +46,7 @@ plot_fit <- function(data, observed, facet, nrow = NULL, color = NULL, limits = 
 
   data %<>% add_segment_xyend(observed)
 
-  gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
+  gp <- ggplot(observed, aes_string(x = x, y = "Value")) +
     geom_point(alpha = 1/3) +
     scale_y_continuous(ylab(data), labels = get_labels(observed),
                        limits = limits, breaks = breaks) +
