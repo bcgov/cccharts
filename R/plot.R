@@ -103,11 +103,15 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
     geom_hline(aes(yintercept = 0), linetype = 2) +
     scale_y_continuous(get_ylab_trend(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
-    scale_alpha_discrete(range = c(0.5, 1), drop = FALSE) +
     expand_limits(y = 0) +
     ggtitle(get_title(data)) +
     theme_cccharts() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+  if (all(is.na(data$Significant))) {
+      gp <- gp + scale_alpha_discrete(range = c(1, 1), drop = TRUE)
+  } else
+    gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE)
 
   if (length(facet) == 1) {
     gp <- gp + facet_wrap(facet, nrow = nrow)
