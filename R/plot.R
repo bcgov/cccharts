@@ -87,7 +87,7 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
   if (data$Units[1] == "percent") {
     data %<>% dplyr::mutate_(Trend = ~Trend / 100,
                              Lower = ~Lower / 100,
-                             TrendUpper = ~TrendUpper / 100)
+                             Upper = ~Upper / 100)
     if (is.numeric(limits))
       limits %<>% magrittr::divide_by(100)
     if (is.numeric(breaks))
@@ -98,7 +98,7 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
 
   gp <- ggplot(data, aes_string(x = x, y = "Trend", alpha = "Significant")) +
     geom_point(size = 4) +
-    geom_errorbar(aes_string(ymax = "TrendUpper",
+    geom_errorbar(aes_string(ymax = "Upper",
                              ymin = "Lower"), width = 0.3, size = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = 2) +
     scale_y_continuous(get_ylab_trend(data), labels = get_labels(data),

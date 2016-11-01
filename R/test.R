@@ -37,7 +37,7 @@ test_trend_data <- function(data) {
     Longitude = c(1, NA),
     Trend = c(1),
     Lower = c(1, NA),
-    TrendUpper = c(1, NA),
+    Upper = c(1, NA),
     Intercept = c(1, NA),
     Scale = c(1),
     Significant = c(TRUE, FALSE, NA)))

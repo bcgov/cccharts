@@ -39,7 +39,7 @@ glacial$Season <- "Annual"
 glacial$Season %<>% factor(levels = season)
 
 glacial$Lower <- NA_real_
-glacial$TrendUpper <- NA_real_
+glacial$Upper <- NA_real_
 glacial$Significant <- NA
 
 glacial$Latitude <- NA_real_
@@ -49,7 +49,7 @@ glacial$Scale <- 1
 
 glacial %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend = Percentage_Area_Change, Lower, TrendUpper, Intercept, Scale,
+  Trend = Percentage_Area_Change, Lower, Upper, Intercept, Scale,
   Significant)
 
 glacial %<>% filter(!is.na(Trend))

@@ -44,15 +44,15 @@ degree_days$Scale <- 1
 
 degree_days %<>% mutate(Trend = Trend_DDcentury,
                         Lower = Trend_DDcentury - Uncertainty_DDcentury,
-                        TrendUpper = Trend_DDcentury + Uncertainty_DDcentury)
+                        Upper = Trend_DDcentury + Uncertainty_DDcentury)
 
 degree_days$Trend %<>% as.numeric()
 degree_days$Lower %<>% as.numeric()
-degree_days$TrendUpper %<>% as.numeric()
+degree_days$Upper %<>% as.numeric()
 
 degree_days %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Lower, TrendUpper,
+  Trend, Lower, Upper,
   Intercept, Scale,
   Significant)
 

@@ -52,11 +52,11 @@ sea_level_station$Scale <- 1
 sea_level_station %<>% mutate(
   Trend = `slope_mm/year`,
   Lower = `slope_mm/year` - `95_percent_mm/year`,
-  TrendUpper = `slope_mm/year` + `95_percent_mm/year`)
+  Upper = `slope_mm/year` + `95_percent_mm/year`)
 
 sea_level_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Lower, TrendUpper, Intercept, Scale,
+  Trend, Lower, Upper, Intercept, Scale,
   Significant)
 
 sea_level_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

@@ -43,11 +43,11 @@ precipitation$Scale <- 1
 
 precipitation %<>% mutate(Trend = Trend_percentcentury,
                           Lower = Trend_percentcentury - Uncertainty_percentcentury,
-                          TrendUpper = Trend_percentcentury + Uncertainty_percentcentury)
+                          Upper = Trend_percentcentury + Uncertainty_percentcentury)
 
 precipitation %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Lower, TrendUpper, Intercept, Scale,
+  Trend, Lower, Upper, Intercept, Scale,
   Significant)
 
 precipitation %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
