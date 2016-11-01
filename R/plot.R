@@ -94,6 +94,8 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
       breaks %<>% magrittr::divide_by(100)
   }
 
+  data$Significant %<>% factor(levels = c(FALSE, TRUE))
+
   gp <- ggplot(data, aes_string(x = x, y = "Trend", alpha = "Significant")) +
     geom_point(size = 4) +
     geom_errorbar(aes_string(ymax = "TrendUpper",
