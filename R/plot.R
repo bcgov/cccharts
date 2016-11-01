@@ -192,11 +192,14 @@ trend_estimates_pngs <- function(
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
   test_trend_data(data)
   check_flag(ask)
+
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
     dir <- file.path("cccharts", dir)
   } else
     check_string(dir)
+
+  data %<>% complete_data()
 
   if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
 

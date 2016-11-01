@@ -117,9 +117,33 @@ change_period <- function(data, period = 1L) {
   check_cols(data, c("Estimate", "Lower", "Upper", "Period"))
   check_scalar(period, c(1L, 10L, 100L))
 
-    data %<>% dplyr::mutate_(Estimate = ~Estimate / Period * period,
-                   Lower = ~Lower / Period * period,
-                   Upper = ~Upper / Period * period,
-                   Period = period)
-    data
+  data %<>% dplyr::mutate_(Estimate = ~Estimate / Period * period,
+                           Lower = ~Lower / Period * period,
+                           Upper = ~Upper / Period * period,
+                           Period = period)
+  data
+}
+
+complete_missing <- function (data, missing, na = NA_real_) {
+  missing <- missing[!missing %in% colnames(data)]
+
+  if (!length(missing)) return(data)
+
+  for (col in missing) {
+    data[col] <- na
+  }
+  data
+}
+
+complete_data <- function(data) {
+  data %<>% complete_missing(missing = c("Latitude", "Longitude", "Intercept"))
+
+  data %<>% dplyr::select_(
+    ~Indicator, ~Statistic, ~Units, ~Period, ~Term, ~StartYear, ~EndYear,
+  ~Ecoprovince, ~Season, ~Station, ~Latitude, ~Longitude,
+    ~Estimate, ~Lower, ~Upper, ~Intercept, ~Scale, ~Significant)
+
+  data %<>% dplyr::arrange_(~Indicator, ~Statistic, ~Ecoprovince, ~Station,
+                            ~Season, ~StartYear, ~EndYear)
+  data
 }

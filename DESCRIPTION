@@ -27,6 +27,7 @@ Imports:
     scales,
     sp,
     stringr,
+    tibble,
     tools,
     yesno
 Suggests:
