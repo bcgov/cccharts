@@ -85,7 +85,7 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
   }
 
   if (data$Units[1] == "percent") {
-    data %<>% dplyr::mutate_(Trend = ~Trend / 100,
+    data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
                              Lower = ~Lower / 100,
                              Upper = ~Upper / 100)
     if (is.numeric(limits))
@@ -96,7 +96,7 @@ plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NU
 
   data$Significant %<>% factor(levels = c(FALSE, TRUE))
 
-  gp <- ggplot(data, aes_string(x = x, y = "Trend", alpha = "Significant")) +
+  gp <- ggplot(data, aes_string(x = x, y = "Estimate", alpha = "Significant")) +
     geom_point(size = 4) +
     geom_errorbar(aes_string(ymax = "Upper",
                              ymin = "Lower"), width = 0.3, size = 0.5) +

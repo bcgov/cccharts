@@ -32,7 +32,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -61,7 +61,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -90,7 +90,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -119,7 +119,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -148,7 +148,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -177,7 +177,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -206,7 +206,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -235,7 +235,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -264,7 +264,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}
@@ -293,7 +293,7 @@
 #' \item{Station}{The station name if a station (fctr)}
 #' \item{Latitude}{The longitude if a station (dbl)}
 #' \item{Longitude}{The latitude if a station (dbl)}
-#' \item{Trend}{The estimated change (dbl)}
+#' \item{Estimate}{The estimated trend (dbl)}
 #' \item{Uncertainty}{The estimated 95\% uncertainty in the trend (dbl)}
 #' \item{Intercept}{The estimated intercept (dbl)}
 #' \item{Significant}{Whether the estimate is statistically significant at the 5\% level (lgl)}

@@ -46,13 +46,13 @@ snow_station %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96
 snow_station$Intercept <- NA_real_
 snow_station$Scale <- 1
 
-snow_station %<>% mutate(Trend = slope_percentperyear,
+snow_station %<>% mutate(Estimate = slope_percentperyear,
                          Lower = slope_percentperyear - Uncertainty,
                          Upper = slope_percentperyear + Uncertainty)
 
 snow_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Lower, Upper, Intercept, Scale,
+  Estimate, Lower, Upper, Intercept, Scale,
   Significant = sigstat)
 
 snow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

@@ -43,14 +43,14 @@ sea_surface_temperature_station$Intercept <- NA_real_
 sea_surface_temperature_station$Scale <- 1
 
 sea_surface_temperature_station %<>% mutate(
-  Trend = `Trend_Slope_degreesC_per_century`,
+  Estimate = `Trend_Slope_degreesC_per_century`,
   Lower = `Trend_Slope_degreesC_per_century` - `95_percent_uncert_degreesC_per_century`,
   Upper = `Trend_Slope_degreesC_per_century` + `95_percent_uncert_degreesC_per_century`)
 
 
 sea_surface_temperature_station %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, Lower, Upper,
+  Estimate, Lower, Upper,
   Intercept, Scale,
   Significant = stat_significance)
 

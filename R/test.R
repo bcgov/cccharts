@@ -35,7 +35,7 @@ test_trend_data <- function(data) {
     Station = factor(c("", NA)),
     Latitude = c(1, NA),
     Longitude = c(1, NA),
-    Trend = c(1),
+    Estimate = c(1),
     Lower = c(1, NA),
     Upper = c(1, NA),
     Intercept = c(1, NA),

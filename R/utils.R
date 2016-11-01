@@ -98,8 +98,8 @@ get_png_type <- function() {
 add_segment_xyend <- function(data, observed) {
   data$x <- data$StartYear
   data$xend <- data$EndYear
-  data$y <- data$Intercept + data$Trend * (data$x - data$StartYear - 1)
-  data$yend <- data$Intercept + data$Trend * (data$xend - data$StartYear - 1)
+  data$y <- data$Intercept + data$Estimate * (data$x - data$StartYear - 1)
+  data$yend <- data$Intercept + data$Estimate * (data$xend - data$StartYear - 1)
   data
 }
 
@@ -114,10 +114,10 @@ add_segment_xyend <- function(data, observed) {
 #' @export
 change_period <- function(data, period = 1L) {
   check_data1(data)
-  check_cols(data, c("Trend", "Lower", "Upper", "Period"))
+  check_cols(data, c("Estimate", "Lower", "Upper", "Period"))
   check_scalar(period, c(1L, 10L, 100L))
 
-    data %<>% dplyr::mutate_(Trend = ~Trend / Period * period,
+    data %<>% dplyr::mutate_(Estimate = ~Estimate / Period * period,
                    Lower = ~Lower / Period * period,
                    Upper = ~Upper / Period * period,
                    Period = period)
