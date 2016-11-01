@@ -23,7 +23,7 @@ plot_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nro
 ![](README-unnamed-chunk-2-1.png)
 
 ``` r
-plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed, 
+plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed, 
                     facet = "Station", nrow = 2, color = "Term")
 ```
 

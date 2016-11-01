@@ -22,9 +22,9 @@
 #' @export
 #'
 #' @examples
-#' plot_trend_observed(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
+#' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
-plot_trend_observed <- function(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
+plot_fit <- function(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
                                 breaks = waiver()) {
   test_trend_data(data)
   test_observed_data(observed)
