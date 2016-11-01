@@ -133,7 +133,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
 #' @export
 #' @examples
 #' map_estimates(cccharts::glacial)
-map_estimates <- function(data, map = cccharts::map, proj4string = "+init=epsg:3005", file = NULL) {
+map_estimates <- function(data, map = cccharts::bc, proj4string = "+init=epsg:3005", file = NULL) {
   test_trend_data(data)
   check_unique(data$Ecoprovince)
   check_string(proj4string)

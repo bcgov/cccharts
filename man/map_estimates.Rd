@@ -4,7 +4,7 @@
 \alias{map_estimates}
 \title{Map Trend Estimates}
 \usage{
-map_estimates(data, map = cccharts::map, proj4string = "+init=epsg:3005",
+map_estimates(data, map = cccharts::bc, proj4string = "+init=epsg:3005",
   file = NULL)
 }
 \arguments{
