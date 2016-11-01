@@ -30,18 +30,16 @@ glacial %<>% mutate(Estimate = Percentage_Area_Change / (EndYear - StartYear + 1
 
 glacial$Ecoprovince %<>% tolower() %>% tools::toTitleCase()
 glacial$Ecoprovince %<>%  factor(levels = ecoprovince)
-glacial$Season <- "Annual"
-glacial$Season %<>% factor(levels = season)
 
 glacial$Significant <- NA
 
 glacial %<>% select(
-  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Season, Station,
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Station,
   Estimate = Percentage_Area_Change,
   Significant)
 
 glacial %<>% filter(!is.na(Estimate))
 
-glacial %<>% arrange(Indicator, Ecoprovince, Station, Season, StartYear, EndYear)
+glacial %<>% arrange(Indicator, Ecoprovince, Station, StartYear, EndYear)
 
 use_data(glacial, overwrite = TRUE)

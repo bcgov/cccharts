@@ -140,8 +140,9 @@ complete_data <- function(data) {
 
   if (!tibble::has_name(data, "Scale")) data$Scale <- 1
   if (!tibble::has_name(data, "Station")) data$Station <- factor(NA)
-  if (!tibble::has_name(data, "Term")) data$Term <- factor(NA)
+  if (!tibble::has_name(data, "Term")) data$Term <- factor(NA, levels = .term)
   if (!tibble::has_name(data, "Statistic")) data$Statistic <- factor("Mean", levels = .statistic)
+  if (!tibble::has_name(data, "Season")) data$Season <- factor("Annual", levels = season)
 
   data %<>% dplyr::select_(
     ~Indicator, ~Statistic, ~Units, ~Period, ~Term, ~StartYear, ~EndYear,
