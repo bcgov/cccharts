@@ -164,13 +164,13 @@ map_estimates <- function(data, map = cccharts::bc, proj4string = "+init=epsg:30
   gp
 }
 
-trend_estimates_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height) {
+fun_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height, fun) {
 
   filename <- get_filename(data, by) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = width, height = height, type = get_png_type())
-  gp <- plot_estimates(data, x = x, facet = facet, nrow = nrow, limits = limits, breaks = breaks)
+  gp <- fun(data, x = x, facet = facet, nrow = nrow, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
 }
@@ -213,8 +213,9 @@ plot_estimates_pngs <- function(
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x, facet)
 
-  plyr::ddply(data, by, trend_estimates_png, x = x, facet = facet, nrow = nrow, dir = dir, width = width, height = height,
-              limits = limits, breaks = breaks)
+  plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, dir = dir,
+              width = width, height = height, limits = limits, breaks = breaks,
+              fun = plot_estimates)
 
   invisible(TRUE)
 }
