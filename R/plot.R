@@ -28,7 +28,7 @@ plot_fit <- function(data, observed, x = "Year", facet = NULL, nrow = NULL, colo
                                 breaks = waiver(), ylab = ylab_fit) {
 
   check_string(x)
-  test_trend_data(data)
+  test_estimate_data(data)
   test_observed_data(observed)
 
   observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units), by = c("Indicator", "Statistic", "Season", "Station"))
@@ -79,7 +79,7 @@ plot_fit <- function(data, observed, x = "Year", facet = NULL, nrow = NULL, colo
 #'   facet = "Ecoprovince", nrow = 2)
 plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
                                  breaks = waiver(), ylab = ylab_trend) {
-  test_trend_data(data)
+  test_estimate_data(data)
 
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
@@ -135,7 +135,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
 #' @examples
 #' map_estimates(cccharts::glacial)
 map_estimates <- function(data, map = cccharts::bc, proj4string = "+init=epsg:3005", file = NULL) {
-  test_trend_data(data)
+  test_estimate_data(data)
   check_unique(data$Ecoprovince)
   check_string(proj4string)
 
@@ -196,7 +196,7 @@ fun_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height, yl
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 350L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend) {
-  test_trend_data(data)
+  test_estimate_data(data)
   check_flag(ask)
   if(!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 

@@ -21,7 +21,7 @@ test_observed_data <- function(data) {
     Units = ""))
 }
 
-test_trend_data <- function(data) {
+test_estimate_data <- function(data) {
   data %<>% complete_data()
 
   check_data3(data, values = list(
