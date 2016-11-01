@@ -5,7 +5,7 @@
 \title{Trend PNGs}
 \usage{
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
-  facet = NULL, nrow = NULL, width = 350L, height = 500L, ask = TRUE,
+  facet = NULL, nrow = NULL, width = 350L, height = 350L, ask = TRUE,
   dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend)
 }
 \arguments{

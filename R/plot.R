@@ -192,7 +192,7 @@ fun_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height, yl
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @export
 plot_estimates_pngs <- function(
-  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 500L,
+  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 350L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend) {
   test_trend_data(data)
   check_flag(ask)
