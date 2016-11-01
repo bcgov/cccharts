@@ -80,6 +80,7 @@ plot_fit <- function(data, observed, x = "Year", facet = NULL, nrow = NULL, colo
 plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
                                  breaks = waiver(), ylab = ylab_trend) {
   test_estimate_data(data)
+  data %<>% complete_estimate_data()
 
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
