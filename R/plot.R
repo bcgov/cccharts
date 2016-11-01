@@ -73,9 +73,9 @@ plot_trend_observed <- function(data, observed, facet, nrow = NULL, color = NULL
 #' @return A ggplot2 object.
 #' @export
 #' @examples
-#' plot_trend_estimates(cccharts::precipitation, x = "Season",
+#' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
-plot_trend_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
+plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
                                  breaks = waiver()) {
   test_trend_data(data)
 
@@ -170,7 +170,7 @@ trend_estimates_png <- function(data, x, facet, nrow, dir, limits, breaks, width
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = width, height = height, type = get_png_type())
-  gp <- plot_trend_estimates(data, x = x, facet = facet, nrow = nrow, limits = limits, breaks = breaks)
+  gp <- plot_estimates(data, x = x, facet = facet, nrow = nrow, limits = limits, breaks = breaks)
   print(gp)
   dev.off()
 }

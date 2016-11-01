@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 ```{r, fig.width=8, fig.height=8}
 library(cccharts)
 
-plot_trend_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nrow = 2)
+plot_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nrow = 2)
 ```
 
 ```{r, fig.width=8, fig.height=8}

@@ -17,7 +17,7 @@ Utilisation
 library(cccharts)
 #> Loading required package: ggplot2
 
-plot_trend_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nrow = 2)
+plot_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nrow = 2)
 ```
 
 ![](README-unnamed-chunk-2-1.png)
