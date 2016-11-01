@@ -22,7 +22,7 @@ test_observed_data <- function(data) {
 }
 
 test_estimate_data <- function(data) {
-  data %<>% complete_data()
+  data %<>% complete_estimate_data()
 
   check_data3(data, values = list(
     Indicator = "",

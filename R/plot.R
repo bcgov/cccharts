@@ -207,7 +207,7 @@ plot_estimates_pngs <- function(
 
   dir <- file.path("cccharts", dir)
 
-  data %<>% complete_data()
+  data %<>% complete_estimate_data()
 
   if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
 
