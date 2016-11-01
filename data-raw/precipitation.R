@@ -16,16 +16,10 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 precipitation <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86f93096-8d3d-4b68-ab63-175cc68257e6/resource/31b4473e-819e-4c04-becd-655837f05fb5/download/precipitationchange19002013.csv")
 
-precipitation$Station <- factor(NA)
-
 precipitation$StartYear <- 1900L
 precipitation$EndYear <- 2013L
-precipitation$Term <- factor("Long", levels = term)
 
 precipitation$Indicator <- "Precipitation"
-
-precipitation$Statistic <- "Mean"
-precipitation$Statistic %<>% factor(levels = statistic)
 
 precipitation$Units <- "percent"
 precipitation$Period <- 100L
@@ -36,20 +30,14 @@ precipitation$Season %<>% factor(levels = season)
 precipitation %<>% mutate(Significant = 1 - Percent_Confidence/100,
                             Significant = Significant <= 0.05)
 
-precipitation$Latitude <- NA_real_
-precipitation$Longitude <- NA_real_
-precipitation$Intercept <- NA_real_
-precipitation$Scale <- 1
-
 precipitation %<>% mutate(Estimate = Trend_percentcentury,
                           Lower = Trend_percentcentury - Uncertainty_percentcentury,
                           Upper = Trend_percentcentury + Uncertainty_percentcentury)
 
 precipitation %<>% select(
-  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Estimate, Lower, Upper, Intercept, Scale,
-  Significant)
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Season,
+  Estimate, Lower, Upper, Significant)
 
-precipitation %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
+precipitation %<>% arrange(Indicator, Ecoprovince, StartYear, EndYear)
 
 use_data(precipitation, overwrite = TRUE)

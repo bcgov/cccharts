@@ -16,8 +16,6 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 glacial <- read_csv("https://catalogue.data.gov.bc.ca/dataset/89ff86d7-2d04-4c96-b945-ba56688906eb/resource/bf6ba520-dcfd-4a6b-a822-963b77ff7848/download/glacierchange1985-2005.csv")
 
-glacial$Station <- factor(NA)
-
 glacial$StartYear <- 1985L
 glacial$EndYear <- 2005L
 
@@ -32,11 +30,11 @@ glacial$Ecoprovince %<>% tolower() %>% tools::toTitleCase()
 glacial$Ecoprovince %<>%  factor(levels = ecoprovince)
 
 glacial %<>% select(
-  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Station,
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince,
   Estimate = Percentage_Area_Change)
 
 glacial %<>% filter(!is.na(Estimate))
 
-glacial %<>% arrange(Indicator, Ecoprovince, Station, StartYear, EndYear)
+glacial %<>% arrange(Indicator, Ecoprovince, StartYear, EndYear)
 
 use_data(glacial, overwrite = TRUE)
