@@ -25,7 +25,7 @@
 #' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
 plot_fit <- function(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
-                                breaks = waiver()) {
+                                breaks = waiver(), ylab = ylab_fit) {
   test_trend_data(data)
   test_observed_data(observed)
 
@@ -46,7 +46,7 @@ plot_fit <- function(data, observed, facet, nrow = NULL, color = NULL, limits = 
 
   gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
     geom_point(alpha = 1/3) +
-    scale_y_continuous(get_ylab_observed(data), labels = get_labels(observed),
+    scale_y_continuous(ylab(data), labels = get_labels(observed),
                        limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
     theme_cccharts()
@@ -76,7 +76,7 @@ plot_fit <- function(data, observed, facet, nrow = NULL, color = NULL, limits = 
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
 plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
-                                 breaks = waiver()) {
+                                 breaks = waiver(), ylab = ylab_trend) {
   test_trend_data(data)
 
   if (!is.null(facet)) {
@@ -101,7 +101,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
     geom_errorbar(aes_string(ymax = "Upper",
                              ymin = "Lower"), width = 0.3, size = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = 2) +
-    scale_y_continuous(get_ylab_trend(data), labels = get_labels(data),
+    scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
     theme_cccharts() +
@@ -163,13 +163,13 @@ map_estimates <- function(data, map = cccharts::bc, proj4string = "+init=epsg:30
   gp
 }
 
-fun_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height, fun) {
+fun_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height, ylab, fun) {
 
   filename <- get_filename(data, by) %>% paste0(".png")
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = width, height = height, type = get_png_type())
-  gp <- fun(data, x = x, facet = facet, nrow = nrow, limits = limits, breaks = breaks)
+  gp <- fun(data, x = x, facet = facet, nrow = nrow, limits = limits, breaks = breaks, ylab = ylab)
   print(gp)
   dev.off()
 }
@@ -189,12 +189,14 @@ fun_png <- function(data, x, facet, nrow, dir, limits, breaks, width, height, fu
 #' @param dir A string of the directory to store the results in.
 #' @param limits A numeric vector of length two providing limits of the scale.
 #' @param breaks A numeric vector of positions.
+#' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @export
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 500L,
-  ask = TRUE, dir = NULL, limits = NULL, breaks = waiver()) {
+  ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend) {
   test_trend_data(data)
   check_flag(ask)
+  if(!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
@@ -218,6 +220,7 @@ plot_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks,
+              ylab = ylab,
               fun = plot_estimates)
 
   invisible(TRUE)

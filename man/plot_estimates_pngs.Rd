@@ -6,7 +6,7 @@
 \usage{
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
   facet = NULL, nrow = NULL, width = 350L, height = 500L, ask = TRUE,
-  dir = NULL, limits = NULL, breaks = waiver())
+  dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -30,6 +30,8 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 
 \item{breaks}{A numeric vector of positions.}
+
+\item{ylab}{A function that takes the data and returns a string for the y-axis label.}
 }
 \description{
 Generates plots of climate indicator data as png files.

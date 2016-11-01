@@ -5,7 +5,7 @@
 \title{Plot Trend Estimates}
 \usage{
 plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
-  breaks = waiver())
+  breaks = waiver(), ylab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -19,6 +19,8 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 
 \item{breaks}{A numeric vector of positions.}
+
+\item{ylab}{A function that takes the data and returns a string for the y-axis label.}
 }
 \value{
 A ggplot2 object.

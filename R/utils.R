@@ -19,7 +19,12 @@ check_all_identical <- function(x) {
   x
 }
 
-get_ylab_trend <- function(data) {
+#' Y-Axis Label Trend
+#'
+#' @param data The data to generate the y-axis label for.
+#' @return A string
+#' @export
+ylab_trend <- function(data) {
   check_all_identical(data$Units)
   check_all_identical(data$Period)
 
@@ -31,7 +36,12 @@ get_ylab_trend <- function(data) {
     ylab
 }
 
-get_ylab_observed <- function(data) {
+#' Y-Axis Label Fit
+#'
+#' @param data The data to generate the y-axis label for.
+#' @return A string
+#' @export
+ylab_fit <- function(data) {
   check_all_identical(data$Units)
 
   ylab <- paste0("Observed (", data$Units[1], ")") %>%

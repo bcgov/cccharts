@@ -5,7 +5,7 @@
 \title{Plot Trend Observed}
 \usage{
 plot_fit(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
-  breaks = waiver())
+  breaks = waiver(), ylab = ylab_fit)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -21,6 +21,8 @@ plot_fit(data, observed, facet, nrow = NULL, color = NULL, limits = NULL,
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 
 \item{breaks}{A numeric vector of positions.}
+
+\item{ylab}{A function that takes the data and returns a string for the y-axis label.}
 }
 \value{
 A ggplot2 object.
