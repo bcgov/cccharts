@@ -53,7 +53,7 @@ get_title <- function(data) {
 }
 
 get_limits <- function(data) {
-  x <- c(data$TrendLower, data$TrendUpper)
+  x <- c(data$Lower, data$TrendUpper)
   range(x)
 }
 
@@ -114,11 +114,11 @@ add_segment_xyend <- function(data, observed) {
 #' @export
 change_period <- function(data, period = 1L) {
   check_data1(data)
-  check_cols(data, c("Trend", "TrendLower", "TrendUpper", "Period"))
+  check_cols(data, c("Trend", "Lower", "TrendUpper", "Period"))
   check_scalar(period, c(1L, 10L, 100L))
 
     data %<>% dplyr::mutate_(Trend = ~Trend / Period * period,
-                   TrendLower = ~TrendLower / Period * period,
+                   Lower = ~Lower / Period * period,
                    TrendUpper = ~TrendUpper / Period * period,
                    Period = period)
     data

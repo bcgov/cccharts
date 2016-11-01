@@ -27,7 +27,7 @@ flow_station_discharge_observed$Station %<>% droplevels()
 
 flow_station_discharge %<>% mutate(
   Trend = Trend / MAD * 10,
-  TrendLower = TrendLower / MAD * 10,
+  Lower = Lower / MAD * 10,
   TrendUpper = TrendUpper / MAD * 10,
   Units = "percent",
   Period = 10L)

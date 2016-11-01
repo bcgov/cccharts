@@ -24,7 +24,7 @@ flow_station_discharge %<>% rename(Station = station,
                          StartYear = start_year,
                          EndYear = end_year,
                          Trend = trend,
-                         TrendLower = lbound,
+                         Lower = lbound,
                          TrendUpper = ubound,
                          Intercept = intercept,
                          Significant = sig)
@@ -47,7 +47,7 @@ flow_station_discharge %<>% get_flow_statistic_season(col = "trend_type")
 
 flow_station_discharge %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, TrendLower, TrendUpper, Intercept, Scale,
+  Trend, Lower, TrendUpper, Intercept, Scale,
   Significant)
 
 flow_station_discharge %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)

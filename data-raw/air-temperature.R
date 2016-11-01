@@ -44,12 +44,12 @@ air_temperature$Intercept <- NA_real_
 air_temperature$Scale <- 1
 
 air_temperature %<>% mutate(Trend = Trend_Ccentury,
-  TrendLower = Trend - Uncertainty_Ccentury,
+  Lower = Trend - Uncertainty_Ccentury,
   TrendUpper = Trend + Uncertainty_Ccentury)
 
 air_temperature %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Trend, TrendLower, TrendUpper,
+  Trend, Lower, TrendUpper,
   Intercept, Scale,
   Significant)
 
