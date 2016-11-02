@@ -4,13 +4,11 @@
 \alias{map_estimates}
 \title{Map Trend Estimates}
 \usage{
-map_estimates(data, facet = NULL, nrow = NULL, station = FALSE,
-  map = cccharts::bc, proj4string = "+init=epsg:3005", llab = ylab_trend)
+map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
+  proj4string = "+init=epsg:3005", limits = limits, llab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
-
-\item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{nrow}{A count of the number of rows when facet wrapping.}
 
@@ -20,6 +18,8 @@ map_estimates(data, facet = NULL, nrow = NULL, station = FALSE,
 
 \item{proj4string}{A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.}
 
+\item{limits}{A numeric vector of length two providing limits of the scale.}
+
 \item{llab}{A function that takes the data and returns a string for the legend label.}
 }
 \value{
@@ -27,8 +27,5 @@ A ggplot2 object.
 }
 \description{
 Maps trend estimates
-}
-\examples{
-map_estimates(cccharts::glacial)
 }
 

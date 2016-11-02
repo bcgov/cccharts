@@ -18,10 +18,13 @@ plot_fit_pngs(data = cccharts::flow_station_timing, cccharts::flow_station_timin
 
 write_geojson(file = "cccharts/map")
 
-map_estimates_pngs(data = cccharts::air_temperature, by = c("Statistic", "Season"), ask = FALSE)
-map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::air_temperature, Season == "Annual", Statistic == "Mean"), dir = "air_temperature", ask = FALSE)
 map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Cooling Degree Days"), dir = "degree_days", ask = FALSE)
 map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Heating Degree Days"), dir = "degree_days", ask = FALSE)
 map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Growing Degree Days"), dir = "degree_days", ask = FALSE)
-
-
+map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean"), by = "Term", station = TRUE, dir = "flow_station_discharge", ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Season == "Annual", Statistic == "Mean"), by = "Term", station = TRUE, dir = "flow_station_timing", ask = FALSE)
+map_estimates_pngs(data = cccharts::glacial, ask = FALSE)
+map_estimates_pngs(data = cccharts::precipitation, ask = FALSE)
+map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), by = "Indicator", station = TRUE, dir = "sea_surface_temperature_station", ask = FALSE)

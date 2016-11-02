@@ -5,9 +5,9 @@
 \title{Maps PNGs}
 \usage{
 map_estimates_pngs(data = cccharts::precipitation, by = NULL,
-  station = FALSE, facet = NULL, nrow = NULL, map = cccharts::bc,
+  station = FALSE, nrow = NULL, map = cccharts::bc,
   proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL, llab = ylab_trend)
+  ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -15,8 +15,6 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{by}{A character vector of the factors to separate plots by.}
 
 \item{station}{A flag indicating whether the plot is for stations or ecoprovinces.}
-
-\item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{nrow}{A count of the number of rows when facet wrapping.}
 
@@ -31,6 +29,8 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{ask}{A flag indicating whether to ask before creating the directory}
 
 \item{dir}{A string of the directory to store the results in.}
+
+\item{limits}{A numeric vector of length two providing limits of the scale.}
 
 \item{llab}{A function that takes the data and returns a string for the legend label.}
 }

@@ -18,9 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-#' @examples
-#' map_estimates(cccharts::glacial)
-map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", llab = ylab_trend) {
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = limits, llab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 
@@ -34,9 +32,12 @@ map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map 
     stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
   check_string(proj4string)
 
-  if (!is.null(facet)) {
-    check_vector(facet, "", min_length = 1, max_length = 2)
-    check_cols(data, facet)
+  if (data$Units[1] == "percent") {
+    data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
+                             Lower = ~Lower / 100,
+                             Upper = ~Upper / 100)
+    if (is.numeric(limits))
+      limits %<>% magrittr::divide_by(100)
   }
 
   map %<>% sp::spTransform(sp::CRS(proj4string))
@@ -60,21 +61,19 @@ map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map 
                             fill = "grey80", color = "grey50") +
       geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 4) +
       ggrepel::geom_label_repel(data = data, aes_(x = ~Easting, y = ~Northing, label = ~Station)) +
-      scale_color_continuous(name = llab(data))
+      scale_color_continuous(name = llab(data), limits = limits, labels = get_labels(data),
+                             guide = guide_colourbar(title.position = "bottom"))
 
   } else {
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group", fill = "Estimate"),
                             color = "grey50") +
-      scale_fill_continuous(name = llab(data))
+      scale_fill_continuous(name = llab(data), limits = limits, labels = get_labels(data),
+                            na.value= "grey80",
+                            guide = guide_colourbar(title.position = "bottom"))
   }
 
-  if (length(facet) == 1) {
-    gp <- gp + facet_wrap(facet, nrow = nrow)
-  } else if (length(facet) == 2) {
-    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
-  }
-  gp <- gp + theme_cccharts(facet = !is.null(facet), map = TRUE) +
+  gp <- gp + theme_cccharts(facet = FALSE, map = TRUE) +
     theme(legend.justification = c(0,0),
           legend.position = c(0,0),
           legend.direction = "vertical")
@@ -91,9 +90,9 @@ map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map 
 #' @param llab A function that takes the data and returns a string for the legend label.
 #' @export
 map_estimates_pngs <- function(
-  data = cccharts::precipitation, by = NULL, station = FALSE, facet = NULL, nrow = NULL,
+  data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
   map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL, llab = ylab_trend) {
+  ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend) {
 
   test_estimate_data(data)
   check_flag(station)
@@ -112,10 +111,15 @@ map_estimates_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
+  if (is.null(limits)) limits <- get_limits(data)
   if (is.null(by)) by <- get_by(data, c("Ecoprovince", "Station"), facet)
 
-  plyr::ddply(data, by, fun_png, facet = facet, nrow = nrow, station = station, dir = dir,
+  if (all(limits > 0)) limits[1] <- 0
+  if (all(limits < 0)) limits[2] <- 0
+
+  plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, proj4string = proj4string, llab = llab,
+              limits = limits,
               fun = map_estimates)
   invisible(TRUE)
 }

@@ -86,10 +86,12 @@ get_limits <- function(data) {
 get_filename <- function(data) {
   filename <- NULL
   if (all_identical(data$Indicator)) filename %<>% paste(data$Indicator[1])
-  if (all_identical(data$Statistic) && data$Statistic != "Mean")
+  if (all_identical(data$Statistic) && data$Statistic[1] != "Mean")
     filename %<>% paste(data$Statistic[1])
   if (all_identical(data$Season) && data$Season != "Annual")
     filename %<>% paste(data$Season[1])
+  if (all_identical(data$Term) && !is.na(data$Term[1]))
+    filename %<>% paste(data$Term[1])
   if (all_identical(data$Station)) {
     if (all_identical(data$Ecoprovince)) {
       filename %<>% paste(data$Ecoprovince[1])
