@@ -67,7 +67,7 @@ get_limits <- function(data) {
   range(x, na.rm = TRUE)
 }
 
-get_filename <- function(data, by) {
+get_filename <- function(data) {
   filename <- NULL
   if (all_identical(data$Indicator)) filename %<>% paste(data$Indicator[1])
   if (all_identical(data$Statistic) && data$Statistic != "Mean")

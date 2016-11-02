@@ -4,15 +4,13 @@
 \alias{plot_fit}
 \title{Plot Trend Observed}
 \usage{
-plot_fit(data, observed, x = "Year", facet = NULL, nrow = NULL,
-  color = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit)
+plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
+  limits = NULL, breaks = waiver(), ylab = ylab_fit)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
 
 \item{observed}{The observed data to plot.}
-
-\item{x}{A string of the column to plot on the x-axis.}
 
 \item{facet}{A string indicating the factor to facet wrap by.}
 

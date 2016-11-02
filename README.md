@@ -17,7 +17,8 @@ Utilisation
 library(cccharts)
 #> Loading required package: ggplot2
 
-plot_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nrow = 2)
+plot_estimates(cccharts::precipitation, x = "Ecoprovince", 
+               facet = "Season", nrow = 2)
 ```
 
 ![](README-unnamed-chunk-2-1.png)
@@ -25,6 +26,7 @@ plot_estimates(cccharts::precipitation, x = "Ecoprovince", facet = "Season", nro
 ``` r
 plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed, 
                     facet = "Station", nrow = 2, color = "Term")
+#> Joining, by = c("Indicator", "Statistic", "Season", "Station")
 ```
 
 ![](README-unnamed-chunk-3-1.png)

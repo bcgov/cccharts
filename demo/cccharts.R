@@ -13,3 +13,6 @@ plot_estimates_pngs(data = cccharts::sea_surface_temperature_station, x = "Seaso
 plot_estimates_pngs(data = cccharts::snow, ask = FALSE)
 plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), x = "Station", by = c("Indicator"), width = 500L, dir = "snow_station", ask = FALSE)
 plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Water Equivalent"), x = "Station", by = c("Indicator"), width = 700L, dir = "snow_station", ask = FALSE)
+
+#plot_fit_pngs(data = cccharts::flow_station_timing, cccharts::flow_station_timing_observed)
+
