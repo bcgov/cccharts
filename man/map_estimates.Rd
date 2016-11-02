@@ -4,8 +4,8 @@
 \alias{map_estimates}
 \title{Map Trend Estimates}
 \usage{
-map_estimates(data, facet = NULL, nrow = NULL, map = cccharts::bc,
-  proj4string = "+init=epsg:3005")
+map_estimates(data, facet = NULL, nrow = NULL, station = FALSE,
+  map = cccharts::bc, proj4string = "+init=epsg:3005")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -13,6 +13,8 @@ map_estimates(data, facet = NULL, nrow = NULL, map = cccharts::bc,
 \item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{nrow}{A count of the number of rows when facet wrapping.}
+
+\item{station}{A flag indicating whether the plot is for stations or ecoprovinces.}
 
 \item{map}{A SpatialPolygonsDataFrame object.}
 

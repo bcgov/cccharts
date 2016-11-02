@@ -5,14 +5,16 @@
 \title{Maps PNGs}
 \usage{
 map_estimates_pngs(data = cccharts::precipitation, by = NULL,
-  facet = NULL, nrow = NULL, map = cccharts::bc,
-  proj4string = "+init=epsg:3005", width = 350L, height = 350L,
+  station = FALSE, facet = NULL, nrow = NULL, map = cccharts::bc,
+  proj4string = "+init=epsg:3005", width = 500L, height = 425L,
   ask = TRUE, dir = NULL)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
 
 \item{by}{A character vector of the factors to separate plots by.}
+
+\item{station}{A flag indicating whether the plot is for stations or ecoprovinces.}
 
 \item{facet}{A string indicating the factor to facet wrap by.}
 

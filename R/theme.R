@@ -31,7 +31,10 @@ theme_cccharts <- function(facet = FALSE, map = FALSE) {
       panel.grid = element_blank(),
       panel.border = element_blank(),
       panel.background = element_rect(color = "white", fill = NA),
-      axis.title = element_blank())
+      axis.title = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank()
+      )
   }
   theme
 }

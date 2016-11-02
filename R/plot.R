@@ -157,9 +157,10 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 #' @export
 #' @examples
 #' map_estimates(cccharts::glacial)
-map_estimates <- function(data, facet = NULL, nrow = NULL, map = cccharts::bc, proj4string = "+init=epsg:3005") {
+map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005") {
   test_estimate_data(data)
-  check_unique(data$Ecoprovince)
+
+  if (!station) check_unique(data$Ecoprovince)
   data %<>% complete_estimate_data()
 
   if (!inherits(map, "SpatialPolygonsDataFrame"))
@@ -185,8 +186,9 @@ map_estimates <- function(data, facet = NULL, nrow = NULL, map = cccharts::bc, p
   gp <- ggplot2::ggplot(data = polygon, ggplot2::aes_string(x = "long",
                                                             y = "lat",
                                                             group = "group")) +
-    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~!hole)) +
-    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~hole), fill = "white") +
+    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~!hole), fill = "white", color = "black") +
+    coord_equal()
+
     theme_cccharts(map = TRUE)
 
   if (length(facet) == 1) {
@@ -265,43 +267,6 @@ plot_estimates_pngs <- function(
   invisible(TRUE)
 }
 
-#' Maps PNGs
-#'
-#' Generates maps of climate indicator data as png files.
-#' @inheritParams plot_estimates_pngs
-#' @param map A SpatialPolygonsDataFrame object.
-#' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
-#' @export
-map_estimates_pngs <- function(
-  data = cccharts::precipitation, by = NULL, facet = NULL, nrow = NULL,
-  map = cccharts::bc, proj4string = "+init=epsg:3005", width = 350L, height = 350L,
-  ask = TRUE, dir = NULL) {
-
-  test_estimate_data(data)
-  check_flag(ask)
-
-  if (is.null(dir)) {
-    dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
-  } else
-    check_string(dir)
-
-  dir <- file.path("cccharts", "map", dir)
-
-  data %<>% complete_estimate_data()
-
-  if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
-
-  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-
-  if (is.null(by)) by <- get_by(data, NULL, facet)
-
-  plyr::ddply(data, by, fun_png, facet = facet, nrow = nrow, dir = dir,
-              width = width, height = height, map = map, proj4string = proj4string,
-              fun = map_estimates)
-  invisible(TRUE)
-}
-
-
 #' Fit PNGS
 #'
 #' @inheritParams plot_estimates_pngs
@@ -339,3 +304,42 @@ plot_fit_pngs <- function(
 
   invisible(TRUE)
 }
+
+#' Maps PNGs
+#'
+#' Generates maps of climate indicator data as png files.
+#' @inheritParams plot_estimates_pngs
+#' @param station A flag indicating whether the plot is for stations or ecoprovinces.
+#' @param map A SpatialPolygonsDataFrame object.
+#' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
+#' @export
+map_estimates_pngs <- function(
+  data = cccharts::precipitation, by = NULL, station = FALSE, facet = NULL, nrow = NULL,
+  map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
+  ask = TRUE, dir = NULL) {
+
+  test_estimate_data(data)
+  check_flag(station)
+  check_flag(ask)
+
+  if (is.null(dir)) {
+    dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
+  } else
+    check_string(dir)
+
+  dir <- file.path("cccharts", "map", dir)
+
+  data %<>% complete_estimate_data()
+
+  if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
+
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+
+  if (is.null(by)) by <- get_by(data, NULL, facet)
+
+  plyr::ddply(data, by, fun_png, facet = facet, nrow = nrow, station = station, dir = dir,
+              width = width, height = height, map = map, proj4string = proj4string,
+              fun = map_estimates)
+  invisible(TRUE)
+}
+
