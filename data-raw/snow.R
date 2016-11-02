@@ -16,6 +16,8 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 snow <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86526746-40dd-41d2-82c0-fbee3a2e93a2/resource/0e6afa41-5a2c-4e23-9d5a-e07ed35ef443/download/bcsnowdepthswetrendsbyecoprovince1950-2014.csv")
 
+snow_observed <- read_csv("data-raw/raw_snow_data/ecoprov_swe_depth_anomalies_1950_2014.csv")
+
 snow$StartYear <- 1950L
 snow$EndYear <- 2014L
 
@@ -46,4 +48,25 @@ snow %<>% select(
 
 snow %<>% arrange(Indicator, Ecoprovince, StartYear, EndYear)
 
+snow_observed %<>% rename(Year = year)
+
+snow_observed %<>% gather(Ecoprovince, Value, -Year)
+snow_se_observed <- filter(snow_observed, str_detect(Ecoprovince, "\\sSE$"))
+snow_observed %<>% filter(!str_detect(Ecoprovince, "\\sSE$"))
+
+snow_se_observed$Ecoprovince %<>% str_replace("\\sSE$", "")
+
+snow_observed$Ecoprovince %<>% str_to_title() %>% str_replace("And", "and") %>%
+  factor(levels = ecoprovince)
+snow_se_observed$Ecoprovince %<>% str_to_title() %>% str_replace("And", "and") %>%
+  factor(levels = ecoprovince)
+
+snow_observed$Indicator <- "Snow Depth"
+snow_se_observed$Indicator <- "Snow Water Equivalent"
+
+snow_observed %<>% bind_rows(snow_se_observed)
+
+snow_observed %<>% select(Indicator, Ecoprovince, Year, Value)
+
 use_data(snow, overwrite = TRUE)
+use_data(snow_observed, overwrite = TRUE)

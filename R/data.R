@@ -304,6 +304,17 @@
 #' }
 "flow_station_timing_observed"
 
+#' Snow Data Observed
+#'
+#' @format A tbl data frame:
+#' \describe{
+#' \item{Indicator}{The indicator name (chr)}
+#' \item{Ecoprovince}{The Ecoprovince (fctr)}
+#' \item{Year}{The flow year (int)}
+#' \item{Value}{The timing (dbl)}
+#' }
+"snow_observed"
+
 #' Map of Ecoprovinces
 #'
 #' SpatialPolygonsDataFrame of Ecoprovinces for British Columbia.
