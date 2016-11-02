@@ -19,6 +19,8 @@ library(cccharts)
 
 plot_estimates(cccharts::precipitation, x = "Ecoprovince", 
                facet = "Season", nrow = 2)
+#> Warning: 1 data points have inconsistent significance and limits
+#> Warning: Removed 1 rows containing missing values (geom_errorbar).
 ```
 
 ![](README-unnamed-chunk-2-1.png)
