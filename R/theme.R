@@ -23,7 +23,8 @@ theme_cccharts <- function(facet = FALSE, map = FALSE) {
     panel.border = element_rect(colour = "grey50", fill = NA),
     panel.background = element_rect(colour = "grey50", fill = NA),
     legend.position = ("bottom"),
-    legend.direction = ("horizontal"))
+    legend.direction = ("horizontal"),
+    legend.key = element_rect(color = "white", fill = NA))
 
   if (map) {
     theme <- theme_update(

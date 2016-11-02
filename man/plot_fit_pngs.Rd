@@ -5,8 +5,9 @@
 \title{Fit PNGS}
 \usage{
 plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
-  facet = NULL, nrow = NULL, width = 350L, height = 350L, ask = TRUE,
-  dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit)
+  facet = NULL, nrow = NULL, color = NULL, width = 250L,
+  height = 250L, ask = TRUE, dir = NULL, limits = NULL,
+  breaks = waiver(), ylab = ylab_fit)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -18,6 +19,8 @@ plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
 \item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{nrow}{A count of the number of rows when facet wrapping.}
+
+\item{color}{A string indicating the column to plot by color.}
 
 \item{width}{A count of the png width in pixels.}
 

@@ -57,7 +57,9 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
   if (is.null(color)) {
     gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"))
   } else {
-    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color))
+    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color)) +
+      scale_color_manual(values = c("black", "red"))
+
   }
 
   if (length(facet) == 1) {
@@ -110,7 +112,8 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
   if (all(is.na(c(data$Lower)))) {
-    gp <- gp + geom_bar(stat = "identity")
+    gp <- gp +  geom_hline(aes(yintercept = 0)) +
+      geom_bar(stat = "identity")
   } else {
     gp <- gp + geom_errorbar(aes_string(ymax = "Upper",
                                ymin = "Lower"), width = 0.3, size = 0.5) +
@@ -239,15 +242,16 @@ plot_estimates_pngs <- function(
 #'
 #' @inheritParams plot_estimates_pngs
 #' @param observed A data.frame of the observed data.
+#' @param color A string indicating the column to plot by color.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 350L,
+  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 250L, height = 250L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit) {
 
   test_estimate_data(data)
-  test_observed_data(data)
+  test_observed_data(observed)
   check_flag(ask)
-  if(!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
+  if (!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
@@ -262,11 +266,11 @@ plot_fit_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
-  if (is.null(limits)) limits <- range(observed$Values, na.rm = TRUE)
+  if (is.null(limits)) limits <- range(observed$Value, na.rm = TRUE)
   if (is.null(by)) by <- get_by(data, "Year", facet)
 
   plyr::ddply(data, by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
-              width = width, height = height, limits = limits, breaks = breaks,
+              width = width, height = height, limits = limits, breaks = breaks, color = color,
               ylab = ylab,
               fun = plot_fit)
 
