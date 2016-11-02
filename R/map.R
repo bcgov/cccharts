@@ -18,7 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = limits, labels = TRUE, llab = ylab_trend) {
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = station, llab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 

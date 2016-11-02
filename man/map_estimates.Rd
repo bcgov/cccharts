@@ -5,7 +5,7 @@
 \title{Map Trend Estimates}
 \usage{
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
-  proj4string = "+init=epsg:3005", limits = limits, labels = TRUE,
+  proj4string = "+init=epsg:3005", limits = NULL, labels = station,
   llab = ylab_trend)
 }
 \arguments{
