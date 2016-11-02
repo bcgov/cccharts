@@ -25,7 +25,7 @@
 #' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
 plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, limits = NULL,
-                                breaks = waiver(), ylab = ylab_fit) {
+                     breaks = waiver(), ylab = ylab_fit) {
 
   test_estimate_data(data)
   test_observed_data(observed)
@@ -79,7 +79,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
 plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
-                                 breaks = waiver(), ylab = ylab_trend) {
+                           breaks = waiver(), ylab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 
@@ -101,18 +101,23 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
   data$Significant %<>% factor(levels = c(FALSE, TRUE))
 
   gp <- ggplot(data, aes_string(x = x, y = "Estimate", alpha = "Significant")) +
-    geom_point(size = 4) +
-    geom_errorbar(aes_string(ymax = "Upper",
-                             ymin = "Lower"), width = 0.3, size = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = 2) +
+
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
     theme_cccharts() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
+  if (all(is.na(c(data$Lower)))) {
+    gp <- gp + geom_bar(stat = "identity")
+  } else {
+    gp <- gp + geom_errorbar(aes_string(ymax = "Upper",
+                               ymin = "Lower"), width = 0.3, size = 0.5) +
+      geom_point(size = 4)
+  }
   if (all(is.na(data$Significant))) {
-      gp <- gp + scale_alpha_discrete(range = c(1, 1), drop = TRUE)
+    gp <- gp + scale_alpha_discrete(range = c(1, 1), drop = TRUE)
   } else
     gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE)
 
