@@ -32,7 +32,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 
   data %<>% complete_estimate_data()
 
-  observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units))
+  suppressMessages(observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units)))
 
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
@@ -113,7 +113,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
 
   if (all(is.na(c(data$Lower)))) {
     gp <- gp +  geom_hline(aes(yintercept = 0)) +
-      geom_bar(stat = "identity")
+      geom_bar(stat = "identity", position = "identity")
   } else {
     gp <- gp + geom_errorbar(aes_string(ymax = "Upper",
                                ymin = "Lower"), width = 0.3, size = 0.5) +
