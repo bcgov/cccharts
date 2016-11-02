@@ -16,6 +16,8 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 flow_station_discharge <- read_csv("https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8-45b5-808e-210036f25044/resource/eecc311c-2e5b-4bec-8d0a-ae5f1956dffe/download/bcriverflowtimingvolumetrends.csv")
 
+flow_station_discharge_observed <- read_csv("data-raw/annual_river_flow_volumes.csv")
+
 flow_station_discharge %<>% rename(Station = station,
                          Latitude = latitude,
                          Longitude = longitude,
@@ -51,4 +53,39 @@ flow_station_discharge %<>% select(
 
 flow_station_discharge %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
+flow_station_discharge_observed %<>% rename(Station = station, Year = year,
+                                        Value = annual_flow_value)
+
+flow_station_discharge_observed %<>% get_flow_statistic_season(col = "annual_flow_summary")
+
+flow_station_discharge_observed %<>% filter(!is.na(Value))
+
+flow_station_discharge_observed$Units <- "cumecs"
+flow_station_discharge_observed$Indicator <- "Flow"
+
+flow_station_discharge_observed %<>% select(Indicator, Statistic, Season, Station, Year, Value, Units)
+
+flow_station_discharge_observed %<>% arrange(Indicator, Statistic, Season, Station, Year)
+
+flow_station_discharge_observed$Station %<>% factor(levels = levels(flow_station_discharge$Station))
+
+mad <- group_by(flow_station_discharge_observed, Statistic, Season, Station, Units) %>% summarise(MAD = mean(Value)) %>% ungroup()
+
+flow_station_discharge %<>% inner_join(mad, by = c("Statistic", "Season", "Station", "Units"))
+flow_station_discharge_observed %<>% semi_join(flow_station_discharge, by = c("Statistic", "Season", "Station", "Units"))
+
+flow_station_discharge$Station %<>% droplevels()
+flow_station_discharge_observed$Station %<>% droplevels()
+
+flow_station_discharge %<>% mutate(
+  Estimate = Estimate / MAD * 10,
+  Lower = Lower / MAD * 10,
+  Upper = Upper / MAD * 10,
+  Units = "percent",
+  Period = 10L)
+
+flow_station_discharge$Scale <- flow_station_discharge$MAD
+flow_station_discharge$MAD <- NULL
+
 use_data(flow_station_discharge, overwrite = TRUE)
+use_data(flow_station_discharge_observed, overwrite = TRUE)
