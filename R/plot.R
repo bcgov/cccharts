@@ -52,7 +52,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
     scale_y_continuous(ylab(data), labels = get_labels(observed),
                        limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
-    theme_cccharts()
+    theme_cccharts(facet = !is.null(facet), map = FALSE)
 
   if (is.null(color)) {
     gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"))
@@ -115,7 +115,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
-    theme_cccharts() +
+    theme_cccharts(facet = !is.null(facet), map = FALSE) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
   if (!ci || missing_limits) {
@@ -157,22 +157,28 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 #' @export
 #' @examples
 #' map_estimates(cccharts::glacial)
-map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005") {
+map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", llab = ylab_trend) {
   test_estimate_data(data)
-
-  if (!station) check_unique(data$Ecoprovince)
   data %<>% complete_estimate_data()
+
+  if (station) {
+    check_unique(data$Station)
+  } else {
+    check_unique(data$Ecoprovince)
+  }
 
   if (!inherits(map, "SpatialPolygonsDataFrame"))
     stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
   check_string(proj4string)
 
-    if (!is.null(facet)) {
+  if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
   }
 
-  map %<>% sp::merge(data, by = "Ecoprovince", all.x = TRUE)
+  if(!station) {
+    map %<>% sp::merge(data, by = "Ecoprovince", all.x = TRUE)
+  }
 
   map %<>% sp::spTransform(sp::CRS(proj4string))
   suppressMessages(polygon <- broom::tidy(map))
@@ -183,20 +189,25 @@ map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map 
 
   polygon %<>% dplyr::left_join(data, by = "Ecoprovince")
 
-  gp <- ggplot2::ggplot(data = polygon, ggplot2::aes_string(x = "long",
+  gp <- ggplot(data = data, ggplot2::aes_string(x = "long",
                                                             y = "lat",
                                                             group = "group")) +
-    ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~!hole), fill = "white", color = "black") +
     coord_equal()
 
-    theme_cccharts(map = TRUE)
-
-  if (length(facet) == 1) {
-    gp <- gp + facet_wrap(facet, nrow = nrow)
-  } else if (length(facet) == 2) {
-    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
+  if (station) {
+    gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole), fill = "white", color = "black") +
+      geom_point(aes_string(fill = "Estimate"))
+  } else {
+    gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole), aes_string(fill = "Estimate"), color = "black")
   }
+  gp <- gp + scale_fill_continuous(name = llab(data))
 
+    if (length(facet) == 1) {
+      gp <- gp + facet_wrap(facet, nrow = nrow)
+    } else if (length(facet) == 2) {
+      gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
+    }
+  gp <- gp + theme_cccharts(facet = !is.null(facet), map = TRUE)
   gp
 }
 
@@ -312,11 +323,12 @@ plot_fit_pngs <- function(
 #' @param station A flag indicating whether the plot is for stations or ecoprovinces.
 #' @param map A SpatialPolygonsDataFrame object.
 #' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
+#' @param llab A function that takes the data and returns a string for the legend label.
 #' @export
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, facet = NULL, nrow = NULL,
   map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL) {
+  ask = TRUE, dir = NULL, llab = ylab_trend) {
 
   test_estimate_data(data)
   check_flag(station)
@@ -335,10 +347,10 @@ map_estimates_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
-  if (is.null(by)) by <- get_by(data, NULL, facet)
+  if (is.null(by)) by <- get_by(data, c("Ecoprovince", "Station"), facet)
 
   plyr::ddply(data, by, fun_png, facet = facet, nrow = nrow, station = station, dir = dir,
-              width = width, height = height, map = map, proj4string = proj4string,
+              width = width, height = height, map = map, proj4string = proj4string, llab = llab,
               fun = map_estimates)
   invisible(TRUE)
 }

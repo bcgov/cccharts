@@ -13,7 +13,7 @@ theme_cccharts <- function(facet = FALSE, map = FALSE) {
   } else
     theme <- envreportutils::theme_soe(base_family = "")
 
-  theme <- ggplot2::theme_update(
+  theme <- theme_update(
     plot.title = element_text(size = rel(1.2)),
     axis.title.y = element_text(size = 13),
     axis.title.x = element_text(size = 13),

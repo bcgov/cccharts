@@ -7,7 +7,7 @@
 map_estimates_pngs(data = cccharts::precipitation, by = NULL,
   station = FALSE, facet = NULL, nrow = NULL, map = cccharts::bc,
   proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL)
+  ask = TRUE, dir = NULL, llab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -31,6 +31,8 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{ask}{A flag indicating whether to ask before creating the directory}
 
 \item{dir}{A string of the directory to store the results in.}
+
+\item{llab}{A function that takes the data and returns a string for the legend label.}
 }
 \description{
 Generates maps of climate indicator data as png files.

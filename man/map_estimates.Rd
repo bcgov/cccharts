@@ -5,7 +5,7 @@
 \title{Map Trend Estimates}
 \usage{
 map_estimates(data, facet = NULL, nrow = NULL, station = FALSE,
-  map = cccharts::bc, proj4string = "+init=epsg:3005")
+  map = cccharts::bc, proj4string = "+init=epsg:3005", llab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -19,6 +19,8 @@ map_estimates(data, facet = NULL, nrow = NULL, station = FALSE,
 \item{map}{A SpatialPolygonsDataFrame object.}
 
 \item{proj4string}{A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.}
+
+\item{llab}{A function that takes the data and returns a string for the legend label.}
 }
 \value{
 A ggplot2 object.
