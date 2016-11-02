@@ -5,8 +5,9 @@
 \title{Estimate PNGs}
 \usage{
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
-  facet = NULL, nrow = NULL, width = 350L, height = 350L, ask = TRUE,
-  dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend)
+  facet = NULL, nrow = NULL, geom = "point", width = 350L,
+  height = 350L, ask = TRUE, dir = NULL, limits = NULL,
+  breaks = waiver(), ylab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -18,6 +19,8 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 \item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{nrow}{A count of the number of rows when facet wrapping.}
+
+\item{geom}{A string of the geom ("point" or "bar")}
 
 \item{width}{A count of the png width in pixels.}
 

@@ -6,7 +6,7 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "He
 plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Growing Degree Days"), height = 500L, dir = "degree_days", ask = FALSE)
 plot_estimates_pngs(data = cccharts::flow_station_discharge, facet = c("Statistic", "Term"), height = 500L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::flow_station_timing, x = "Station", by = "Statistic", facet = "Term", width = 500L, ask = FALSE)
-plot_estimates_pngs(data = cccharts::glacial, ask = FALSE)
+plot_estimates_pngs(data = cccharts::glacial, geom = "bar", ask = FALSE)
 plot_estimates_pngs(data = cccharts::precipitation, x = "Ecoprovince", facet = "Season", height = 500L, width = 500L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", by = c("Indicator", "Statistic", "Season"), width = 200L, height = 300L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::sea_surface_temperature_station, x = "Season", by = "Indicator", facet = "Station", ask = FALSE, width = 500L, height = 500L)

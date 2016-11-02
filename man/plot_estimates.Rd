@@ -5,7 +5,7 @@
 \title{Plot Trend Estimates}
 \usage{
 plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
-  breaks = waiver(), ylab = ylab_trend)
+  geom = "point", breaks = waiver(), ylab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -17,6 +17,8 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
 \item{nrow}{A count of the number of rows when facet wrapping.}
 
 \item{limits}{A numeric vector of length two providing limits of the scale.}
+
+\item{geom}{A string of the geom ("point" or "bar")}
 
 \item{breaks}{A numeric vector of positions.}
 

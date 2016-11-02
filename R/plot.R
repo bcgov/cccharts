@@ -80,7 +80,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 #' @examples
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
-plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
+plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point",
                            breaks = waiver(), ylab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
@@ -110,8 +110,6 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
   data$Significant %<>% factor(levels = c(FALSE, TRUE))
 
   gp <- ggplot(data, aes_string(x = x, y = "Estimate", alpha = "Significant")) +
-    geom_hline(aes(yintercept = 0), linetype = 2) +
-
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
     ggtitle(get_title(data)) +
@@ -120,13 +118,17 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
 
   if (missing_limits) {
     gp <- gp +  geom_hline(aes(yintercept = 0)) +
-      geom_bar(stat = "identity", position = "identity") +
       scale_alpha_discrete(range = c(1, 1), drop = TRUE)
   } else {
-    gp <- gp + geom_errorbar(aes_string(ymax = "Upper",
-                                        ymin = "Lower"), width = 0.3, size = 0.5) +
-      geom_point(size = 4) +
+    gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
+      geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"), width = 0.3, size = 0.5) +
       scale_alpha_discrete(range = c(0.5, 1), drop = FALSE)
+  }
+
+  if (geom == "point") {
+    gp <- gp + geom_point(size = 4)
+  } else {
+    gp <- gp + geom_bar(stat = "identity", position = "identity")
   }
 
   if (length(facet) == 1) {
@@ -194,6 +196,7 @@ fun_png <- function(data, dir, width, height, fun, ...) {
 #' @param by A character vector of the factors to separate plots by.
 #' @param facet A string indicating the factor to facet wrap by.
 #' @param nrow A count of the number of rows when facet wrapping.
+#' @param geom A string of the geom ("point" or "bar")
 #' @param width A count of the png width in pixels.
 #' @param height A count of the png height in pixels.
 #' @param ask A flag indicating whether to ask before creating the directory
@@ -203,10 +206,11 @@ fun_png <- function(data, dir, width, height, fun, ...) {
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @export
 plot_estimates_pngs <- function(
-  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, width = 350L, height = 350L,
+  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, geom = "point", width = 350L, height = 350L,
   ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend) {
   test_estimate_data(data)
   check_flag(ask)
+  check_scalar(geom, c("^point$", "^bar$", "^point$"))
   if(!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 
   if (is.null(dir)) {
@@ -229,7 +233,7 @@ plot_estimates_pngs <- function(
   if (all(limits > 0)) limits[1] <- 0
   if (all(limits < 0)) limits[2] <- 0
 
-  plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, dir = dir,
+  plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks,
               ylab = ylab,
               fun = plot_estimates)
@@ -244,8 +248,7 @@ plot_estimates_pngs <- function(
 #' @param color A string indicating the column to plot by color.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 250L, height = 250L,
-  ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit) {
+  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 250L, height = 250L, ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit) {
 
   test_estimate_data(data)
   test_observed_data(observed)
