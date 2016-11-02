@@ -8,7 +8,7 @@ plot_estimates_pngs(data = cccharts::flow_station_discharge, facet = c("Statisti
 plot_estimates_pngs(data = cccharts::flow_station_timing, x = "Station", by = "Statistic", facet = "Term", width = 500L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::glacial, geom = "bar", ask = FALSE)
 plot_estimates_pngs(data = cccharts::precipitation, x = "Ecoprovince", facet = "Season", geom = "bar", ci = FALSE, height = 500L, width = 500L, ask = FALSE)
-plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", by = c("Indicator", "Statistic", "Season"), width = 200L, height = 300L, ask = FALSE)
+plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", by = c("Indicator", "Statistic", "Season"), width = 250L, height = 300L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::sea_surface_temperature_station, x = "Season", by = "Indicator", facet = "Station", ask = FALSE, width = 500L, height = 500L)
 plot_estimates_pngs(data = cccharts::snow, ask = FALSE)
 plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), x = "Station", by = c("Indicator"), width = 500L, dir = "snow_station", ask = FALSE)
