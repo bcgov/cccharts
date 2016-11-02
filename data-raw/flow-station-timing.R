@@ -16,6 +16,8 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 flow_station_timing <- read_csv("https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8-45b5-808e-210036f25044/resource/eecc311c-2e5b-4bec-8d0a-ae5f1956dffe/download/bcriverflowtimingvolumetrends.csv")
 
+flow_station_timing_observed <- read_csv("data-raw/annual_half_river_flow_dates.csv")
+
 flow_station_timing %<>% rename(Station = station,
                          Latitude = latitude,
                          Longitude = longitude,
@@ -52,4 +54,31 @@ flow_station_timing %<>% select(
 
 flow_station_timing %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
+flow_station_timing_observed %<>% rename(Station = station, Year = year,
+                                Value = ann_half_date)
+
+flow_station_timing_observed$Value %<>% as.numeric()
+
+flow_station_timing_observed %<>% filter(!is.na(Value))
+
+flow_station_timing_observed$Statistic <- factor("Mean", levels = statistic)
+flow_station_timing_observed$Season <- factor("Annual", levels = season)
+flow_station_timing_observed$Units <- "days"
+flow_station_timing_observed$Indicator <- "Flow"
+
+flow_station_timing_observed %<>% select(Indicator, Statistic, Season, Station, Year, Value, Units)
+
+flow_station_timing_observed %<>% arrange(Indicator, Statistic, Season, Station, Year)
+
+flow_station_timing_observed$Station %<>% factor(levels = levels(flow_station_timing$Station))
+
+flow_station_timing %<>% semi_join(flow_station_timing_observed, by = c("Statistic", "Season", "Station", "Units"))
+flow_station_timing_observed %<>% semi_join(flow_station_timing, by = c("Statistic", "Season", "Station", "Units"))
+
+flow_station_timing$Station %<>% droplevels()
+flow_station_timing_observed$Station %<>% droplevels()
+
+flow_station_timing %<>% cccharts::change_period(10L)
+
 use_data(flow_station_timing, overwrite = TRUE)
+use_data(flow_station_timing_observed, overwrite = TRUE)
