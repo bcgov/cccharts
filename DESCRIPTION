@@ -19,6 +19,7 @@ Imports:
     dplyr,
     envreportutils,
     geojsonio,
+    ggrepel,
     grDevices,
     magrittr,
     plyr,

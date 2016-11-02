@@ -181,6 +181,57 @@ complete_estimate_data <- function(data) {
   data
 }
 
+fun_png <- function(data, dir, width, height, fun, ...) {
+
+  filename <- get_filename(data) %>% paste0(".png")
+  filename <- file.path(dir, filename)
+
+  png(filename = filename, width = width, height = height, type = get_png_type())
+  gp <- fun(data, ...)
+  print(gp)
+  dev.off()
+}
+
+latlong2eastnorth <- function(
+  data, long = "Longitude", lat = "Latitude", east = "Easting", north = "Northing",
+  geodatum = "WGS84", projargs = "+init=epsg:3005") {
+
+  check_string(long)
+  check_string(lat)
+  check_string(east)
+  check_string(north)
+  check_string(geodatum)
+  check_string(projargs)
+
+  if (inherits(data, "Spatial")) {
+    if (sp::proj4string(data) != paste0("+proj=longlat +ellps=", geodatum))
+      stop("data must have projection '+proj=longlat +ellps=WGS84'", call. = FALSE)
+    data <- suppressWarnings(broom::tidy(data))
+  }
+  check_data2(data, values = stats::setNames(list(c(1,NA), c(1,NA)), c(long, lat)))
+
+  if (tibble::has_name(data, east)) warning("column '", east, "' has been replaced", call. = FALSE)
+  if (tibble::has_name(data, north)) warning("column '", north, "' has been replaced", call. = FALSE)
+
+  data$Easting <- NA_real_
+  data$Northing <- NA_real_
+
+  geodatum <- paste0("+proj=longlat +ellps=", geodatum)
+  points <- data[c(long, lat)]
+  missing <- is.na(points[[long]]) | is.na(points[[lat]])
+
+  if (any(!missing)) {
+    points <- points[!missing,,drop = FALSE]
+    points %<>% sp::SpatialPoints(sp::CRS(geodatum))
+    points %<>% sp::spTransform(sp::CRS(projargs))
+    points <- suppressWarnings(broom::tidy(points)) # SpatialPoints method undefined
+    data$Easting[!missing] <- points[[long]]
+    data$Northing[!missing] <- points[[lat]]
+  }
+
+  data
+}
+
 #' Write GeoJSON file
 #'
 #' @param map The SpatialPolygonsDataFrame to write.

@@ -51,8 +51,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
     geom_point(alpha = 1/3) +
     scale_y_continuous(ylab(data), labels = get_labels(observed),
                        limits = limits, breaks = breaks) +
-    ggtitle(get_title(data)) +
-    theme_cccharts(facet = !is.null(facet), map = FALSE)
+    ggtitle(get_title(data))
 
   if (is.null(color)) {
     gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"))
@@ -67,6 +66,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
   } else if (length(facet) == 2) {
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
+  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
   gp
 }
 
@@ -114,9 +114,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = limits, breaks = breaks) +
-    ggtitle(get_title(data)) +
-    theme_cccharts(facet = !is.null(facet), map = FALSE) +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+    ggtitle(get_title(data))
 
   if (!ci || missing_limits) {
     if (geom == "point") {
@@ -144,84 +142,10 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
   } else if (length(facet) == 2) {
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
+  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
   gp
 }
-
-#' Map Trend Estimates
-#'
-#' Maps trend estimates
-#'
-#' @inheritParams plot_estimates_pngs
-#' @inheritParams map_estimates_pngs
-#' @return A ggplot2 object.
-#' @export
-#' @examples
-#' map_estimates(cccharts::glacial)
-map_estimates <- function(data, facet = NULL, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", llab = ylab_trend) {
-  test_estimate_data(data)
-  data %<>% complete_estimate_data()
-
-  if (station) {
-    check_unique(data$Station)
-  } else {
-    check_unique(data$Ecoprovince)
-  }
-
-  if (!inherits(map, "SpatialPolygonsDataFrame"))
-    stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
-  check_string(proj4string)
-
-  if (!is.null(facet)) {
-    check_vector(facet, "", min_length = 1, max_length = 2)
-    check_cols(data, facet)
-  }
-
-  if(!station) {
-    map %<>% sp::merge(data, by = "Ecoprovince", all.x = TRUE)
-  }
-
-  map %<>% sp::spTransform(sp::CRS(proj4string))
-  suppressMessages(polygon <- broom::tidy(map))
-  polygon %<>% dplyr::rename_(.dots = list(Ecoprovince = "id"))
-  polygon$Ecoprovince %<>% as.integer()
-  polygon$Ecoprovince <- levels(data$Ecoprovince)[polygon$Ecoprovince]
-  polygon$Ecoprovince %<>% factor(levels = levels(data$Ecoprovince))
-
-  polygon %<>% dplyr::left_join(data, by = "Ecoprovince")
-
-  gp <- ggplot(data = data, ggplot2::aes_string(x = "long",
-                                                            y = "lat",
-                                                            group = "group")) +
-    coord_equal()
-
-  if (station) {
-    gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole), fill = "white", color = "black") +
-      geom_point(aes_string(fill = "Estimate"))
-  } else {
-    gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole), aes_string(fill = "Estimate"), color = "black")
-  }
-  gp <- gp + scale_fill_continuous(name = llab(data))
-
-    if (length(facet) == 1) {
-      gp <- gp + facet_wrap(facet, nrow = nrow)
-    } else if (length(facet) == 2) {
-      gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
-    }
-  gp <- gp + theme_cccharts(facet = !is.null(facet), map = TRUE)
-  gp
-}
-
-fun_png <- function(data, dir, width, height, fun, ...) {
-
-  filename <- get_filename(data) %>% paste0(".png")
-  filename <- file.path(dir, filename)
-
-  png(filename = filename, width = width, height = height, type = get_png_type())
-  gp <- fun(data, ...)
-  print(gp)
-  dev.off()
-}
-
 
 #' Estimate PNGs
 #'
@@ -315,43 +239,3 @@ plot_fit_pngs <- function(
 
   invisible(TRUE)
 }
-
-#' Maps PNGs
-#'
-#' Generates maps of climate indicator data as png files.
-#' @inheritParams plot_estimates_pngs
-#' @param station A flag indicating whether the plot is for stations or ecoprovinces.
-#' @param map A SpatialPolygonsDataFrame object.
-#' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
-#' @param llab A function that takes the data and returns a string for the legend label.
-#' @export
-map_estimates_pngs <- function(
-  data = cccharts::precipitation, by = NULL, station = FALSE, facet = NULL, nrow = NULL,
-  map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL, llab = ylab_trend) {
-
-  test_estimate_data(data)
-  check_flag(station)
-  check_flag(ask)
-
-  if (is.null(dir)) {
-    dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
-  } else
-    check_string(dir)
-
-  dir <- file.path("cccharts", "map", dir)
-
-  data %<>% complete_estimate_data()
-
-  if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
-
-  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-
-  if (is.null(by)) by <- get_by(data, c("Ecoprovince", "Station"), facet)
-
-  plyr::ddply(data, by, fun_png, facet = facet, nrow = nrow, station = station, dir = dir,
-              width = width, height = height, map = map, proj4string = proj4string, llab = llab,
-              fun = map_estimates)
-  invisible(TRUE)
-}
-

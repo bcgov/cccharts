@@ -18,6 +18,10 @@ plot_fit_pngs(data = cccharts::flow_station_timing, cccharts::flow_station_timin
 
 write_geojson(file = "cccharts/map")
 
+map_estimates_pngs(data = cccharts::air_temperature, by = c("Statistic", "Season"), ask = FALSE)
 map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Cooling Degree Days"), dir = "degree_days", ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Heating Degree Days"), dir = "degree_days", ask = FALSE)
 map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Growing Degree Days"), dir = "degree_days", ask = FALSE)
+
 
