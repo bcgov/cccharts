@@ -31,6 +31,10 @@ flow_station_timing %<>% rename(Station = station,
                          Intercept = intercept,
                          Significant = sig)
 
+# x <- filter(flow_station_timing, (!Significant & (Lower > 0 | Upper < 0)) |
+#               (Significant & Lower < 0 & Upper > 0))
+# write_csv(x, "flow_timing.csv")
+
 flow_station_timing$Term %<>% str_to_title() %>% factor(levels = term)
 
 flow_station_timing %<>% get_ecoprovince()
