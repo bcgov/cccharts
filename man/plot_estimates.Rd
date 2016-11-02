@@ -5,7 +5,7 @@
 \title{Plot Trend Estimates}
 \usage{
 plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
-  geom = "point", breaks = waiver(), ylab = ylab_trend)
+  geom = "point", ci = TRUE, breaks = waiver(), ylab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -19,6 +19,8 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 
 \item{geom}{A string of the geom ("point" or "bar")}
+
+\item{ci}{A flag indicating whether to plot confidence intervals.}
 
 \item{breaks}{A numeric vector of positions.}
 
