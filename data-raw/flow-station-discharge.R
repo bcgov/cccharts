@@ -16,7 +16,7 @@ source("data-raw/header.R")
 ## See metadata record in BC Data Catalogue for details on the data set.
 flow_station_discharge <- read_csv("https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8-45b5-808e-210036f25044/resource/eecc311c-2e5b-4bec-8d0a-ae5f1956dffe/download/bcriverflowtimingvolumetrends.csv")
 
-flow_station_discharge_observed <- read_csv("data-raw/annual_river_flow_volumes.csv")
+flow_station_discharge_observed <- read_csv("data-raw/raw_flow_data/annual_river_flow_volumes.csv")
 
 flow_station_discharge %<>% rename(Station = station,
                          Latitude = latitude,
