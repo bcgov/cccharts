@@ -16,3 +16,4 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "S
 
 plot_fit_pngs(data = cccharts::flow_station_timing, cccharts::flow_station_timing_observed, color = "Term", ask = FALSE)
 
+write_geojson(file = "cccharts/map")

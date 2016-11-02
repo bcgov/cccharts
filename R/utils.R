@@ -181,3 +181,12 @@ complete_estimate_data <- function(data) {
   data
 }
 
+#' Write GeoJSON file
+#'
+#' @param map The SpatialPolygonsDataFrame to write.
+#' @param file A string of the filename.
+#' @export
+write_geojson <- function(map = cccharts::bc, file = "map") {
+    check_string(file)
+    geojsonio::geojson_write(map, file = file, precision = 5)
+}

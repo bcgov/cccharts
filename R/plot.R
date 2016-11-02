@@ -156,12 +156,6 @@ map_estimates <- function(data, map = cccharts::bc, proj4string = "+init=epsg:30
 
   map %<>% sp::merge(data, by = "Ecoprovince", all.x = TRUE)
 
-  if (!is.null(file)) {
-    check_string(file)
-    # remove Lat and Long so not confuse geojson_write
-    map@data %<>% dplyr::select_(~-Latitude, ~-Longitude)
-    geojsonio::geojson_write(map, file = file, precision = 5)
-  }
   map %<>% sp::spTransform(sp::CRS(proj4string))
   suppressMessages(polygon <- broom::tidy(map))
   polygon %<>% dplyr::rename_(.dots = list(Ecoprovince = "id"))
