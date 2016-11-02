@@ -99,6 +99,13 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
     if (is.numeric(breaks))
       breaks %<>% magrittr::divide_by(100)
   }
+  missing_limits <- all(is.na(data$Lower))
+  if (!missing_limits) {
+    data %<>% inconsistent_significance()
+    if (any(data$Inconsistent)) {
+      warning(sum(data$Inconsistent), " data points have inconsistent significance and limits", call. = FALSE, immediate. = TRUE)
+    }
+  }
 
   data$Significant %<>% factor(levels = c(FALSE, TRUE))
 
@@ -111,18 +118,16 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL,
     theme_cccharts() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
-  if (all(is.na(c(data$Lower)))) {
+  if (missing_limits) {
     gp <- gp +  geom_hline(aes(yintercept = 0)) +
-      geom_bar(stat = "identity", position = "identity")
+      geom_bar(stat = "identity", position = "identity") +
+      scale_alpha_discrete(range = c(1, 1), drop = TRUE)
   } else {
     gp <- gp + geom_errorbar(aes_string(ymax = "Upper",
-                               ymin = "Lower"), width = 0.3, size = 0.5) +
-      geom_point(size = 4)
+                                        ymin = "Lower"), width = 0.3, size = 0.5) +
+      geom_point(size = 4) +
+      scale_alpha_discrete(range = c(0.5, 1), drop = FALSE)
   }
-  if (all(is.na(data$Significant))) {
-    gp <- gp + scale_alpha_discrete(range = c(1, 1), drop = TRUE)
-  } else
-    gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE)
 
   if (length(facet) == 1) {
     gp <- gp + facet_wrap(facet, nrow = nrow)

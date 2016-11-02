@@ -19,6 +19,22 @@ check_all_identical <- function(x) {
   x
 }
 
+#' Inconsistent Significance
+#'
+#' @param data The data to identify inconsistent significance
+#' @return The data with an additional column called Inconsistent.
+#' @export
+inconsistent_significance <- function(data) {
+  check_data2(data, values = list(
+    Estimate = 1,
+    Lower = 1,
+    Upper = 1,
+    Significant = TRUE))
+
+  data$Inconsistent <- (!data$Significant  & (data$Lower > 0 | data$Upper < 0)) | (data$Significant & data$Lower < 0 & data$Upper > 0)
+  data
+}
+
 #' Y-Axis Label Trend
 #'
 #' @param data The data to generate the y-axis label for.
@@ -157,10 +173,11 @@ complete_estimate_data <- function(data) {
 
   data %<>% dplyr::select_(
     ~Indicator, ~Statistic, ~Units, ~Period, ~Term, ~StartYear, ~EndYear,
-  ~Ecoprovince, ~Season, ~Station, ~Latitude, ~Longitude,
+    ~Ecoprovince, ~Season, ~Station, ~Latitude, ~Longitude,
     ~Estimate, ~Lower, ~Upper, ~Intercept, ~Scale, ~Significant)
 
   data %<>% dplyr::arrange_(~Indicator, ~Statistic, ~Ecoprovince, ~Station,
                             ~Season, ~StartYear, ~EndYear)
   data
 }
+
