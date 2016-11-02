@@ -152,17 +152,24 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 #' Maps trend estimates
 #'
 #' @inheritParams plot_estimates_pngs
-#' @param file A string specifying the filename for a geojson file.
-#' @param map A SpatialPolygonsDataFrame object.
-#' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
+#' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
 #' @examples
 #' map_estimates(cccharts::glacial)
-map_estimates <- function(data, map = cccharts::bc, proj4string = "+init=epsg:3005", file = NULL) {
+map_estimates <- function(data, facet = NULL, nrow = NULL, map = cccharts::bc, proj4string = "+init=epsg:3005") {
   test_estimate_data(data)
   check_unique(data$Ecoprovince)
+  data %<>% complete_estimate_data()
+
+  if (!inherits(map, "SpatialPolygonsDataFrame"))
+    stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
   check_string(proj4string)
+
+    if (!is.null(facet)) {
+    check_vector(facet, "", min_length = 1, max_length = 2)
+    check_cols(data, facet)
+  }
 
   map %<>% sp::merge(data, by = "Ecoprovince", all.x = TRUE)
 
@@ -181,6 +188,13 @@ map_estimates <- function(data, map = cccharts::bc, proj4string = "+init=epsg:30
     ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~!hole)) +
     ggplot2::geom_polygon(data = dplyr::filter_(polygon, ~hole), fill = "white") +
     theme_cccharts(map = TRUE)
+
+  if (length(facet) == 1) {
+    gp <- gp + facet_wrap(facet, nrow = nrow)
+  } else if (length(facet) == 2) {
+    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
+  }
+
   gp
 }
 
@@ -250,6 +264,43 @@ plot_estimates_pngs <- function(
 
   invisible(TRUE)
 }
+
+#' Maps PNGs
+#'
+#' Generates maps of climate indicator data as png files.
+#' @inheritParams plot_estimates_pngs
+#' @param map A SpatialPolygonsDataFrame object.
+#' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
+#' @export
+map_estimates_pngs <- function(
+  data = cccharts::precipitation, by = NULL, facet = NULL, nrow = NULL,
+  map = cccharts::bc, proj4string = "+init=epsg:3005", width = 350L, height = 350L,
+  ask = TRUE, dir = NULL) {
+
+  test_estimate_data(data)
+  check_flag(ask)
+
+  if (is.null(dir)) {
+    dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
+  } else
+    check_string(dir)
+
+  dir <- file.path("cccharts", "map", dir)
+
+  data %<>% complete_estimate_data()
+
+  if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
+
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+
+  if (is.null(by)) by <- get_by(data, NULL, facet)
+
+  plyr::ddply(data, by, fun_png, facet = facet, nrow = nrow, dir = dir,
+              width = width, height = height, map = map, proj4string = proj4string,
+              fun = map_estimates)
+  invisible(TRUE)
+}
+
 
 #' Fit PNGS
 #'

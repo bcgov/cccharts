@@ -4,17 +4,19 @@
 \alias{map_estimates}
 \title{Map Trend Estimates}
 \usage{
-map_estimates(data, map = cccharts::bc, proj4string = "+init=epsg:3005",
-  file = NULL)
+map_estimates(data, facet = NULL, nrow = NULL, map = cccharts::bc,
+  proj4string = "+init=epsg:3005")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
 
+\item{facet}{A string indicating the factor to facet wrap by.}
+
+\item{nrow}{A count of the number of rows when facet wrapping.}
+
 \item{map}{A SpatialPolygonsDataFrame object.}
 
 \item{proj4string}{A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.}
-
-\item{file}{A string specifying the filename for a geojson file.}
 }
 \value{
 A ggplot2 object.

@@ -3,6 +3,7 @@
 export(change_period)
 export(inconsistent_significance)
 export(map_estimates)
+export(map_estimates_pngs)
 export(plot_estimates)
 export(plot_estimates_pngs)
 export(plot_fit)
