@@ -18,7 +18,6 @@ snow_station <- read_csv("https://catalogue.data.gov.bc.ca/dataset/86526746-40dd
 
 snow_station$StartYear <- 1950L
 snow_station$EndYear <- 2014L
-snow_station$Term <- factor("Long", levels = term)
 
 snow_station %<>% rename(Station = station_id,
                          Latitude = latitude,
@@ -32,29 +31,21 @@ snow_station$Indicator <- NA
 snow_station$Indicator[snow_station$measure == "depth"] <- "Snow Depth"
 snow_station$Indicator[snow_station$measure == "swe"] <- "Snow Water Equivalent"
 
-snow_station$Statistic <- "Mean"
-snow_station$Statistic %<>% factor(levels = statistic)
-
 snow_station$Units <- "percent"
 snow_station$Period <- 1L
 
 snow_station$Ecoprovince %<>%  factor(levels = ecoprovince)
-snow_station$Season <- "Annual"
-snow_station$Season %<>% factor(levels = season)
 
 snow_station %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96))
-snow_station$Intercept <- NA_real_
-snow_station$Scale <- 1
 
 snow_station %<>% mutate(Estimate = slope_percentperyear,
                          Lower = slope_percentperyear - Uncertainty,
                          Upper = slope_percentperyear + Uncertainty)
 
 snow_station %<>% select(
-  Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
-  Estimate, Lower, Upper, Intercept, Scale,
-  Significant = sigstat)
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Station, Latitude, Longitude,
+  Estimate, Lower, Upper, Significant = sigstat)
 
-snow_station %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
+snow_station %<>% arrange(Indicator, Ecoprovince, Station, StartYear, EndYear)
 
 use_data(snow_station, overwrite = TRUE)

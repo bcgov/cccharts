@@ -5,7 +5,8 @@
 \title{Map Trend Estimates}
 \usage{
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
-  proj4string = "+init=epsg:3005", limits = limits, llab = ylab_trend)
+  proj4string = "+init=epsg:3005", limits = limits, labels = TRUE,
+  llab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -19,6 +20,8 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 \item{proj4string}{A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.}
 
 \item{limits}{A numeric vector of length two providing limits of the scale.}
+
+\item{labels}{A flag indicating wether to plot labels.}
 
 \item{llab}{A function that takes the data and returns a string for the legend label.}
 }
