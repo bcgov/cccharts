@@ -25,7 +25,7 @@ theme_cccharts <- function(facet = FALSE, map = FALSE) {
   } else
     theme <- envreportutils::theme_soe(base_family = "")
 
-  theme <- theme_update(
+  theme <- theme + theme(
     plot.title = element_text(size = rel(1.2)),
     axis.title.y = element_text(size = 13),
     axis.title.x = element_text(size = 13),
@@ -39,7 +39,7 @@ theme_cccharts <- function(facet = FALSE, map = FALSE) {
     legend.key = element_rect(color = "white", fill = NA))
 
   if (map) {
-    theme <- theme_update(
+    theme <- theme + theme(
       panel.grid = element_blank(),
       panel.border = element_blank(),
       panel.background = element_rect(color = "white", fill = NA),
