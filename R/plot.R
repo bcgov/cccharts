@@ -31,6 +31,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
   test_observed_data(observed)
 
   data %<>% complete_estimate_data()
+  check_all_identical(data$Indicator)
 
   suppressMessages(observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units)))
 
@@ -50,8 +51,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
   gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
     geom_point(alpha = 1/3) +
     scale_y_continuous(ylab(data), labels = get_labels(observed),
-                       limits = limits, breaks = breaks) +
-    ggtitle(get_title(data))
+                       limits = limits, breaks = breaks)
 
   if (is.null(color)) {
     gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"))
@@ -84,6 +84,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
                            breaks = waiver(), ylab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
+  check_all_identical(data$Indicator)
 
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
@@ -113,8 +114,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
     scale_y_continuous(ylab(data), labels = get_labels(data),
-                       limits = limits, breaks = breaks) +
-    ggtitle(get_title(data))
+                       limits = limits, breaks = breaks)
 
   if (!ci || missing_limits) {
     if (geom == "point") {

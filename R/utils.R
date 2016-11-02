@@ -72,12 +72,6 @@ get_labels <- function(data) {
   return(comma)
 }
 
-get_title <- function(data) {
-  check_all_identical(data$Indicator)
-
-  data$Indicator[1]
-}
-
 get_limits <- function(data) {
   x <- c(data$Estimate, data$Lower, data$Upper)
   range(x, na.rm = TRUE)
