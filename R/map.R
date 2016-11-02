@@ -18,7 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = station, llab = ylab_trend) {
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = station, llab = ylab_trend, low = "blue", mid = "yellow", high = "red") {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 
@@ -60,8 +60,9 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                             ggplot2::aes_string(x = "long", y = "lat", group = "group"),
                             fill = "grey80", color = "grey50") +
       geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 4) +
-      scale_color_continuous(limits = limits, labels = get_labels(data),
-                             guide = guide_colourbar(title = llab(data), title.position = "bottom"))
+      scale_color_gradient2(limits = limits, labels = get_labels(data),
+                             guide = guide_colourbar(title = llab(data), title.position = "bottom"),
+                            low = low, mid = mid, high = high)
 
     if (labels) {
       gp <- gp + ggrepel::geom_label_repel(data = data, aes_(x = ~Easting, y = ~Northing, label = ~Station))
@@ -70,8 +71,9 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group", fill = "Estimate"),
                             color = "grey50") +
-      scale_fill_continuous(limits = limits, labels = get_labels(data),
-                            na.value= "grey80",
+      scale_fill_gradient2(limits = limits, labels = get_labels(data), low = low,
+                           high = high, mid = mid,
+                            na.value = "grey80",
                             guide = guide_colourbar(title = llab(data), title.position = "bottom"))
         if (labels) {
       stop("yet to implement labels for polygons")
@@ -94,11 +96,15 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 #' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
 #' @param llab A function that takes the data and returns a string for the legend label.
 #' @param labels A flag indicating wether to plot labels.
+#' @param low A string specifying the color for negative values.
+#' @param mid A string specifying the color for no change.
+#' @param high A string specifying the color for positive values.
 #' @export
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
   map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = station) {
+  ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = station,
+  low = "blue", mid = "yellow", high = "red") {
 
   test_estimate_data(data)
   check_flag(station)
@@ -125,7 +131,7 @@ map_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, proj4string = proj4string, llab = llab,
-              limits = limits, labels = labels,
+              limits = limits, labels = labels, low = low, mid = mid, high = high,
               fun = map_estimates)
   invisible(TRUE)
 }

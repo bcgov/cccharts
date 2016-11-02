@@ -8,7 +8,7 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
   station = FALSE, nrow = NULL, map = cccharts::bc,
   proj4string = "+init=epsg:3005", width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend,
-  labels = station)
+  labels = station, low = "blue", mid = "yellow", high = "red")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -36,6 +36,12 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{llab}{A function that takes the data and returns a string for the legend label.}
 
 \item{labels}{A flag indicating wether to plot labels.}
+
+\item{low}{A string specifying the color for negative values.}
+
+\item{mid}{A string specifying the color for no change.}
+
+\item{high}{A string specifying the color for positive values.}
 }
 \description{
 Generates maps of climate indicator data as png files.

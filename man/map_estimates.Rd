@@ -6,7 +6,7 @@
 \usage{
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
   proj4string = "+init=epsg:3005", limits = NULL, labels = station,
-  llab = ylab_trend)
+  llab = ylab_trend, low = "blue", mid = "yellow", high = "red")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -24,6 +24,12 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 \item{labels}{A flag indicating wether to plot labels.}
 
 \item{llab}{A function that takes the data and returns a string for the legend label.}
+
+\item{low}{A string specifying the color for negative values.}
+
+\item{mid}{A string specifying the color for no change.}
+
+\item{high}{A string specifying the color for positive values.}
 }
 \value{
 A ggplot2 object.

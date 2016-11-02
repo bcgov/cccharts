@@ -31,10 +31,10 @@ plot_estimates(cccharts::precipitation, x = "Ecoprovince",
 ```
 
 ```{r, fig.width=8, fig.height=8}
-map_estimates(cccharts::sea_level_station, station = TRUE)
+map_estimates(cccharts::sea_level_station, station = TRUE, low = "red", high = "blue")
 ```
 
-```{r, fig.width=8, fig.height=8}
+```{r, fig.width=5, fig.height=5}
 plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed, 
                     facet = "Station", nrow = 2, color = "Term")
 ```

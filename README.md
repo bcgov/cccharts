@@ -26,7 +26,7 @@ plot_estimates(cccharts::precipitation, x = "Ecoprovince",
 ![](README-unnamed-chunk-2-1.png)
 
 ``` r
-map_estimates(cccharts::sea_level_station, station = TRUE)
+map_estimates(cccharts::sea_level_station, station = TRUE, low = "red", high = "blue")
 ```
 
 ![](README-unnamed-chunk-3-1.png)
