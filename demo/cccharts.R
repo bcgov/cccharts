@@ -27,8 +27,9 @@ map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_statio
 map_estimates_pngs(data = cccharts::snow, by = "Indicator", switch = TRUE, ask = FALSE)
 map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, switch = TRUE, labels = FALSE, dir = "snow_station", ask = FALSE)
 
-plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean"), cccharts::flow_station_discharge_observed, color = "Term", dir = "flow_station_discharge", ask = FALSE)
-plot_fit_pngs(data = cccharts::flow_station_timing, cccharts::flow_station_timing_observed, color = "Term", ask = FALSE)
-plot_fit_pngs(data = cccharts::snow, facet = "Ecoprovince", cccharts::snow_observed, width = 500L, height = 500L, ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean"), observed = cccharts::flow_station_discharge_observed, color = "Term", dir = "flow_station_discharge", ask = FALSE)
+plot_fit_pngs(data = cccharts::flow_station_timing, observed = cccharts::flow_station_timing_observed, color = "Term", ask = FALSE)
+plot_fit_pngs(data = cccharts::snow, observed = cccharts::snow_observed, facet = "Ecoprovince", width = 500L, height = 500L, ask = FALSE)
+plot_fit_pngs(data = cccharts::snow_station, observed = cccharts::snow_station_observed, by = "Station", ask = FALSE)
 
 write_geojson(file = "cccharts/map")

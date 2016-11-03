@@ -311,9 +311,23 @@
 #' \item{Indicator}{The indicator name (chr)}
 #' \item{Ecoprovince}{The Ecoprovince (fctr)}
 #' \item{Year}{The flow year (int)}
-#' \item{Value}{The timing (dbl)}
+#' \item{Value}{The depth (dbl)}
+#' \item{Units}{The units (chr)}
 #' }
 "snow_observed"
+
+#' Snow Station Data Observed
+#'
+#' @format A tbl data frame:
+#' \describe{
+#' \item{Indicator}{The indicator name (chr)}
+#' \item{Ecoprovince}{The Ecoprovince (fctr)}
+#' \item{Station}{The station (fctr)}
+#' \item{Year}{The flow year (int)}
+#' \item{Value}{The depth (dbl)}
+#' \item{Units}{The units (chr)}
+#' }
+"snow_station_observed"
 
 #' Map of Ecoprovinces
 #'
