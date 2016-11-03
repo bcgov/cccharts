@@ -18,7 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = station, llab = ylab_trend, low = "blue", mid = "yellow", high = "red") {
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = station, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 
@@ -27,6 +27,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   } else {
     check_unique(data$Ecoprovince)
   }
+  check_flag(switch)
 
   if (!inherits(map, "SpatialPolygonsDataFrame"))
     stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
@@ -51,6 +52,12 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
     polygon %<>% dplyr::left_join(data, by = "Ecoprovince")
   }
   data %<>% latlong2eastnorth(projargs = proj4string)
+
+  if (switch) {
+    x <- low
+    low <- high
+    high <- x
+  }
 
   gp <- ggplot() +
     coord_equal()
@@ -99,16 +106,18 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 #' @param low A string specifying the color for negative values.
 #' @param mid A string specifying the color for no change.
 #' @param high A string specifying the color for positive values.
+#' @param switch A flag indicating whether to switch the high and low color values.
 #' @export
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
   map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = station,
-  low = "blue", mid = "yellow", high = "red") {
+  low = "blue", mid = "yellow", high = "red", switch = FALSE) {
 
   test_estimate_data(data)
   check_flag(station)
   check_flag(ask)
+  check_flag(switch)
 
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
@@ -131,7 +140,7 @@ map_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, proj4string = proj4string, llab = llab,
-              limits = limits, labels = labels, low = low, mid = mid, high = high,
+              limits = limits, labels = labels, low = low, mid = mid, high = high, switch = switch,
               fun = map_estimates)
   invisible(TRUE)
 }

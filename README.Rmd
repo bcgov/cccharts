@@ -31,7 +31,7 @@ plot_estimates(cccharts::precipitation, x = "Ecoprovince",
 ```
 
 ```{r, fig.width=8, fig.height=8}
-map_estimates(cccharts::sea_level_station, station = TRUE, low = "red", high = "blue")
+map_estimates(cccharts::sea_level_station, station = TRUE, switch = TRUE)
 ```
 
 ```{r, fig.width=5, fig.height=5}

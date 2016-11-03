@@ -6,7 +6,8 @@
 \usage{
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
   proj4string = "+init=epsg:3005", limits = NULL, labels = station,
-  llab = ylab_trend, low = "blue", mid = "yellow", high = "red")
+  llab = ylab_trend, low = "blue", mid = "yellow", high = "red",
+  switch = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -30,6 +31,8 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 \item{mid}{A string specifying the color for no change.}
 
 \item{high}{A string specifying the color for positive values.}
+
+\item{switch}{A flag indicating whether to switch the high and low color values.}
 }
 \value{
 A ggplot2 object.
