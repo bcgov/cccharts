@@ -8,7 +8,7 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
   station = FALSE, nrow = NULL, map = cccharts::bc,
   proj4string = "+init=epsg:3005", width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend,
-  labels = station, low = "blue", mid = "yellow", high = "red",
+  labels = TRUE, low = "blue", mid = "yellow", high = "red",
   switch = FALSE)
 }
 \arguments{

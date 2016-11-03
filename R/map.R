@@ -18,7 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = station, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE) {
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 
@@ -42,6 +42,11 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   }
 
   map %<>% sp::spTransform(sp::CRS(proj4string))
+
+  map@data <- as.data.frame(dplyr::bind_cols(
+  map@data, dplyr::select_(as.data.frame(rgeos::gCentroid(map, byid = TRUE)),
+                       EastingEcoprovince = ~x, NorthingEcoprovince = ~y)))
+
   suppressMessages(polygon <- broom::tidy(map))
   polygon %<>% dplyr::rename_(.dots = list(Ecoprovince = "id"))
   polygon$Ecoprovince %<>% as.integer()
@@ -83,7 +88,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                             na.value = "grey80",
                             guide = guide_colourbar(title = llab(data), title.position = "bottom"))
         if (labels) {
-      stop("yet to implement labels for polygons")
+          gp <- gp + ggrepel::geom_label_repel(data = map@data, aes_(x = ~EastingEcoprovince, y = ~NorthingEcoprovince, label = ~Ecoprovince))
     }
   }
 
@@ -111,7 +116,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
   map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = station,
+  ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = TRUE,
   low = "blue", mid = "yellow", high = "red", switch = FALSE) {
 
   test_estimate_data(data)
