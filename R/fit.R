@@ -43,7 +43,8 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
   }
 
   if (data$Units[1] == "percent") {
-    stop()
+    data %<>% rescale_data()
+    data$Units <- observed$Units[1]
   }
 
   data %<>% change_period(1L)

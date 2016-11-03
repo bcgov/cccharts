@@ -146,6 +146,16 @@ change_period <- function(data, period = 1L) {
   data
 }
 
+rescale_data <- function(data) {
+  check_data1(data)
+  check_cols(data, c("Estimate", "Lower", "Upper", "Scale"))
+
+  data %<>% dplyr::mutate_(Estimate = ~Estimate * Scale,
+                           Lower = ~Lower * Scale,
+                           Upper = ~Upper * Scale)
+  data
+}
+
 complete_missing <- function (data, missing, na = NA_real_) {
   missing <- missing[!missing %in% colnames(data)]
 
