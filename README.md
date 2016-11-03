@@ -16,9 +16,7 @@ Utilisation
 ``` r
 library(cccharts)
 #> Loading required package: ggplot2
-
-plot_estimates(cccharts::precipitation, x = "Ecoprovince", 
-               facet = "Season", nrow = 2)
+plot_estimates(data = cccharts::sea_surface_temperature_station, x = "Season", facet = "Station")
 #> Warning: 1 data points have inconsistent significance and limits
 #> Warning: Removed 1 rows containing missing values (geom_errorbar).
 ```
