@@ -14,10 +14,6 @@ plot_estimates_pngs(data = cccharts::snow, ask = FALSE)
 plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), x = "Station", by = c("Indicator"), width = 500L, dir = "snow_station", ask = FALSE)
 plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Water Equivalent"), x = "Station", by = c("Indicator"), width = 700L, dir = "snow_station", ask = FALSE)
 
-plot_fit_pngs(data = cccharts::flow_station_timing, cccharts::flow_station_timing_observed, color = "Term", ask = FALSE)
-
-write_geojson(file = "cccharts/map")
-
 map_estimates_pngs(data = dplyr::filter(cccharts::air_temperature, Season == "Annual", Statistic == "Mean"), dir = "air_temperature", ask = FALSE)
 map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Cooling Degree Days"), dir = "degree_days", ask = FALSE)
 map_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Heating Degree Days"), dir = "degree_days", ask = FALSE)
@@ -30,3 +26,10 @@ map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, switch = 
 map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), by = "Indicator", station = TRUE, dir = "sea_surface_temperature_station", ask = FALSE)
 map_estimates_pngs(data = cccharts::snow, by = "Indicator", switch = TRUE, ask = FALSE)
 map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, switch = TRUE, labels = FALSE, dir = "snow_station", ask = FALSE)
+
+plot_fit_pngs(data = cccharts::flow_station_timing, cccharts::flow_station_timing_observed, color = "Term", ask = FALSE)
+plot_fit_pngs(data = cccharts::snow, cccharts::snow_observed, ask = FALSE)
+
+write_geojson(file = "cccharts/map")
+
+

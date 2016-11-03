@@ -177,6 +177,19 @@ complete_estimate_data <- function(data) {
   data
 }
 
+complete_observed_data <- function(data) {
+
+  if (!tibble::has_name(data, "Station")) data$Station <- factor(NA)
+  if (!tibble::has_name(data, "Statistic")) data$Statistic <- factor("Mean", levels = .statistic)
+  if (!tibble::has_name(data, "Season")) data$Season <- factor("Annual", levels = .season)
+
+  data %<>% dplyr::select_(
+    ~Indicator, ~Statistic, ~Season, ~Station, ~Year, ~Value, ~Units)
+
+  data %<>% dplyr::arrange_(~Indicator, ~Statistic, ~Season, ~Station, ~Year)
+  data
+}
+
 fun_png <- function(data, dir, width, height, fun, ...) {
 
   filename <- get_filename(data) %>% paste0(".png")
@@ -234,6 +247,6 @@ latlong2eastnorth <- function(
 #' @param file A string of the filename.
 #' @export
 write_geojson <- function(map = cccharts::bc, file = "map") {
-    check_string(file)
-    geojsonio::geojson_write(map, file = file, precision = 5)
+  check_string(file)
+  geojsonio::geojson_write(map, file = file, precision = 5)
 }

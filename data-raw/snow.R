@@ -21,7 +21,9 @@ snow_observed <- read_csv("data-raw/raw_snow_data/ecoprov_swe_depth_anomalies_19
 snow$StartYear <- 1950L
 snow$EndYear <- 2014L
 
-snow %<>% rename(Ecoprovince = ecoprov)
+snow %<>% rename(Ecoprovince = ecoprov,
+                 Intercept = intercept,
+                 Significant = validstat)
 snow$Ecoprovince %<>% tolower() %>% toTitleCase()
 
 snow$Indicator <- NA
@@ -33,7 +35,7 @@ snow$Period <- 10L
 
 snow$Ecoprovince %<>%  factor(levels = ecoprovince)
 
-snow %<>% mutate(Uncertainty = multiply_by(slope_SE_percentperyear, 1.96))
+snow %<>% mutate(Uncertainty = multiply_by(slope_SE, 1.96))
 snow %<>% mutate(Estimate = slope_percentperyear,
                  Lower = slope_percentperyear - Uncertainty,
                  Upper = slope_percentperyear + Uncertainty,
@@ -41,10 +43,9 @@ snow %<>% mutate(Estimate = slope_percentperyear,
                  Lower = Lower * 10,
                  Upper = Upper * 10)
 
-
 snow %<>% select(
   Indicator, Units, Period, StartYear, EndYear, Ecoprovince,
-  Estimate, Lower, Upper, Significant = validstat)
+  Estimate, Lower, Upper, Intercept, Significant)
 
 snow %<>% arrange(Indicator, Ecoprovince, StartYear, EndYear)
 
@@ -66,7 +67,21 @@ snow_se_observed$Indicator <- "Snow Water Equivalent"
 
 snow_observed %<>% bind_rows(snow_se_observed)
 
-snow_observed %<>% select(Indicator, Ecoprovince, Year, Value)
+snow_observed %<>% inner_join(snow, by = c("Indicator", "Ecoprovince"))
+snow_observed %<>% filter(Year >= StartYear & Year <= EndYear)
+
+scale <- group_by(snow_observed, Indicator, Ecoprovince) %>% summarise(Scale = mean(Value)) %>%
+  ungroup()
+
+snow %<>% inner_join(scale, by = c("Indicator", "Ecoprovince"))
+
+snow %<>% select(
+  Indicator, Units, Period, StartYear, EndYear, Ecoprovince,
+  Estimate, Lower, Upper, Intercept, Scale, Significant)
+
+snow_observed$Units <- "anomaly"
+
+snow_observed %<>% select(Indicator, Ecoprovince, Year, Value, Units)
 
 use_data(snow, overwrite = TRUE)
 use_data(snow_observed, overwrite = TRUE)

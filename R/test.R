@@ -11,6 +11,8 @@
 # See the License for the specific language governing permissions and limitations under the License.
 
 test_observed_data <- function(data) {
+  data %<>% complete_observed_data()
+
   check_data3(data, values = list(
     Indicator = "",
     Statistic = factor(.statistic, levels = .statistic),
