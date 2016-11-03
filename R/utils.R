@@ -114,7 +114,7 @@ get_x <- function(data) {
 }
 
 get_png_type <- function() {
-  ifelse(.Platform$OS.type == "unix", "cairo", "png-cairo")
+  ifelse(.Platform$OS.type == "unix", "cairo", "windows")
 }
 
 add_segment_xyend <- function(data, observed) {
