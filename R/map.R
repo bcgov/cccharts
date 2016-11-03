@@ -47,10 +47,9 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   map@data, dplyr::select_(as.data.frame(rgeos::gCentroid(map, byid = TRUE)),
                        EastingEcoprovince = ~x, NorthingEcoprovince = ~y)))
 
+
   suppressMessages(polygon <- broom::tidy(map))
-  polygon %<>% dplyr::rename_(.dots = list(Ecoprovince = "id"))
-  polygon$Ecoprovince %<>% as.integer()
-  polygon$Ecoprovince <- levels(data$Ecoprovince)[polygon$Ecoprovince]
+  polygon$Ecoprovince <- map@data$Ecoprovince[as.integer(polygon$id)]
   polygon$Ecoprovince %<>% factor(levels = levels(data$Ecoprovince))
 
   if (!station) {
