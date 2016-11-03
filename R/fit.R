@@ -35,16 +35,18 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 
   check_all_identical(data$Indicator)
 
-  suppressMessages(observed %<>% dplyr::inner_join(dplyr::select_(data,~-Units)))
+  if (data$Units[1] == "percent") {
+    data %<>% rescale_data()
+    data$Units <- observed$Units[1]
+  }
+  if (data$Units[1] != observed$Units[1])
+    stop("inconsistent units", call. = FALSE)
+
+  suppressMessages(observed %<>% dplyr::inner_join(data))
 
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
-  }
-
-  if (data$Units[1] == "percent") {
-    data %<>% rescale_data()
-    data$Units <- observed$Units[1]
   }
 
   data %<>% change_period(1L)
@@ -101,7 +103,6 @@ plot_fit_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
-  if (is.null(limits)) limits <- range(observed$Value, na.rm = TRUE)
   if (is.null(by)) by <- get_by(data, "Year", facet)
 
   plyr::ddply(data, by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
