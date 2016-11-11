@@ -7,7 +7,11 @@
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
   proj4string = "+init=epsg:3005", limits = NULL, labels = TRUE,
   llab = ylab_trend, low = "blue", mid = "yellow", high = "red",
-  switch = FALSE, bounds = c(0, 1, 0, 1))
+  switch = FALSE, ecoprovinces = c("Coast and Mountains",
+  "Georgia Depression", "Central Interior", "Southern Interior",
+  "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains",
+  "Taiga Plains", "Northern Boreal Mountains", "British Columbia"),
+  bounds = c(0, 1, 0, 1))
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -33,6 +37,8 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 \item{high}{A string specifying the color for positive values.}
 
 \item{switch}{A flag indicating whether to switch the high and low color values.}
+
+\item{ecoprovinces}{A character vector specifying the ecoprovince areas to include in the map.}
 
 \item{bounds}{A numeric vector of four values between 0 and 1 specifying the start and end of the x-axis bounding box and the start and end of the y-axis bounding box.}
 }
