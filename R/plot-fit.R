@@ -82,7 +82,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 #' @param color A string indicating the column to plot by color.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 250L, height = 250L, ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit) {
+  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 250L, height = 250L, ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit, prefix = "") {
 
   test_estimate_data(data)
   test_observed_data(observed)
@@ -108,7 +108,7 @@ plot_fit_pngs <- function(
   plyr::ddply(data, by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks, color = color,
               ylab = ylab,
-              fun = plot_fit)
+              fun = plot_fit, prefix = prefix)
 
   invisible(TRUE)
 }

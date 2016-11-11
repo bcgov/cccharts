@@ -219,9 +219,10 @@ complete_observed_data <- function(data) {
   data
 }
 
-fun_png <- function(data, dir, width, height, fun, ...) {
+fun_png <- function(data, dir, width, height, fun, prefix, ...) {
+  check_string(prefix)
 
-  filename <- get_filename(data) %>% paste0(".png")
+  filename <- get_filename(data) %>% paste0(".png") %>% paste0(prefix, .)
   filename <- file.path(dir, filename)
 
   png(filename = filename, width = width, height = height, type = get_png_type())

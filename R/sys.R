@@ -18,3 +18,5 @@
 
 .term <- c("Medium", "Long")
 
+. <- NULL
+

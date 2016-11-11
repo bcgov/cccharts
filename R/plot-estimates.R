@@ -111,10 +111,11 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 #' @param breaks A numeric vector of positions.
 #' @param horizontal A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
+#' @param prefix A string specifying the prefix for file names.
 #' @export
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L, height = 350L,
-  ask = TRUE, dir = NULL, limits = NULL, low = "blue", mid = "yellow", high = "red", breaks = waiver(), horizontal = FALSE, ylab = ylab_trend) {
+  ask = TRUE, dir = NULL, limits = NULL, low = "blue", mid = "yellow", high = "red", breaks = waiver(), horizontal = FALSE, ylab = ylab_trend, prefix = "") {
   test_estimate_data(data)
   check_flag(ask)
   check_scalar(geom, c("^point$", "^bar$", "^point$"))
@@ -146,7 +147,7 @@ plot_estimates_pngs <- function(
               width = width, height = height, limits = limits, breaks = breaks,
               low = low, mid = mid, high = high, horizontal = horizontal,
               ylab = ylab,
-              fun = plot_estimates)
+              fun = plot_estimates, prefix = prefix)
 
   invisible(TRUE)
 }

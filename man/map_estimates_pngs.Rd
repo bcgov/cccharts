@@ -13,7 +13,7 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
   "Georgia Depression", "Central Interior", "Southern Interior",
   "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains",
   "Taiga Plains", "Northern Boreal Mountains", "British Columbia"),
-  switch = FALSE)
+  switch = FALSE, prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -53,6 +53,8 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{ecoprovinces}{A character vector specifying the ecoprovince areas to include in the map.}
 
 \item{switch}{A flag indicating whether to switch the high and low color values.}
+
+\item{prefix}{A string specifying the prefix for file names.}
 }
 \description{
 Generates maps of climate indicator data as png files.

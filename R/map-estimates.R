@@ -129,7 +129,7 @@ map_estimates_pngs <- function(
                    "Southern Interior", "Southern Interior Mountains",
                    "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
                    "Northern Boreal Mountains", "British Columbia"),
-  switch = FALSE) {
+  switch = FALSE, prefix = "") {
 
   test_estimate_data(data)
   check_flag(station)
@@ -161,7 +161,7 @@ map_estimates_pngs <- function(
               width = width, height = height, map = map, proj4string = proj4string, llab = llab,
               limits = limits, labels = labels, low = low, mid = mid, high = high,
               bounds = bounds, switch = switch, ecoprovinces = ecoprovinces,
-              fun = map_estimates)
+              fun = map_estimates, prefix = prefix)
   invisible(TRUE)
 }
 
