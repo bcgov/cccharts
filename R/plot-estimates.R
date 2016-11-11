@@ -74,7 +74,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
         geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", alpha = "Significant", color = "Estimate"), width = 0.3, size = 0.5) +
         geom_bar(stat = "identity", position = "identity", aes_string(alpha = "Significant", fill = "Estimate"))
     }
-    gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE)
+    gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE, guide = FALSE)
   }
   gp <- gp + scale_color_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
 
