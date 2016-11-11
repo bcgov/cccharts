@@ -94,6 +94,9 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group", fill = "Estimate"),
                             color = "white") +
+      geom_polygon(data = dplyr::filter_(polygon, ~!hole & !Significant),
+                   ggplot2::aes_string(x = "long", y = "lat", group = "group"),
+                   fill = "white", color = "white") +
       scale_fill_gradient2(limits = limits, labels = get_labels(data), low = low,
                            high = high, mid = mid,
                            na.value = "grey90",
