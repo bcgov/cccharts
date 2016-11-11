@@ -14,7 +14,7 @@
 \item{StartYear}{The first year (int)}
 \item{EndYear}{The last year (int)}
 \item{Ecoprovince}{The Ecoprovince (fctr)}
-\item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
+\item{Season}{The season with levels 'Annual', 'Spring', 'Summer', 'Fall' or 'Winter' (fctr)}
 \item{Station}{The station name if a station (fctr)}
 \item{Latitude}{The longitude if a station (dbl)}
 \item{Longitude}{The latitude if a station (dbl)}

@@ -7,7 +7,7 @@
 \format{A tbl data frame:
 \describe{
 \item{Statistic}{The statistic with levels 'Mean', 'Minimum' or 'Maximum' (fctr)}
-\item{Season}{The season with levels 'Spring', 'Summer', 'Fall', 'Winter' or 'Annual' (fctr)}
+\item{Season}{The season with levels 'Annual', 'Spring', 'Summer', 'Fall' or 'Winter' (fctr)}
 \item{Station}{The station name (fctr)}
 \item{Year}{The flow year (int)}
 \item{Value}{The discharge (dbl)}

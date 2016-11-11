@@ -27,7 +27,7 @@ library(dplyr)
 
 rm(list = ls())
 
-season <- c("Spring", "Summer", "Fall", "Winter", "Annual")
+season <- c("Annual", "Spring", "Summer", "Fall", "Winter")
 
 ecoprovince <- c("Coast and Mountains", "Georgia Depression", "Central Interior", "Southern Interior", "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains", "Northern Boreal Mountains", "British Columbia")
 
