@@ -19,7 +19,7 @@
 #' @return A ggplot2 object.
 #' @export
 map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE,
-    ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
+                          ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                                            "Southern Interior", "Southern Interior Mountains",
                                            "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
                                            "Northern Boreal Mountains", "British Columbia"),
@@ -53,20 +53,19 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   map %<>% bound(bounds)
   map <- map[map@data$Ecoprovince %in% ecoprovinces,,drop = FALSE]
 
-  map@data <- as.data.frame(dplyr::bind_cols(
-    map@data, dplyr::select_(as.data.frame(rgeos::gCentroid(map, byid = TRUE)),
-                             EastingEcoprovince = ~x, NorthingEcoprovince = ~y)))
-
-
-  suppressMessages(polygon <- broom::tidy(map))
-  polygon$Ecoprovince <- map@data$Ecoprovince[as.integer(polygon$id)]
-  polygon$Ecoprovince %<>% factor(levels = levels(data$Ecoprovince))
-
   if (!station) {
+    map@data <- as.data.frame(dplyr::bind_cols(
+      map@data, dplyr::select_(as.data.frame(rgeos::gCentroid(map, byid = TRUE)),
+                               EastingEcoprovince = ~x, NorthingEcoprovince = ~y)))
+    suppressMessages(polygon <- broom::tidy(map))
+    polygon$Ecoprovince <- map@data$Ecoprovince[as.integer(polygon$id)]
+    polygon$Ecoprovince %<>% factor(levels = levels(data$Ecoprovince))
     polygon %<>% dplyr::left_join(data, by = "Ecoprovince")
+  } else {
+    map %<>% rmapshaper::ms_dissolve()
+    suppressMessages(polygon <- broom::tidy(map))
+    data %<>% latlong2eastnorth(projargs = proj4string)
   }
-  data %<>% latlong2eastnorth(projargs = proj4string)
-
   if (switch) {
     x <- low
     low <- high
