@@ -25,14 +25,6 @@ plot_estimates(data = cccharts::sea_surface_temperature_station, x = "Season", f
 
 ``` r
 map_estimates(cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.6), switch = TRUE)
-#>                   Ecoprovince
-#> 1               Boreal Plains
-#> 2            Central Interior
-#> 3         Coast and Mountains
-#> 4          Georgia Depression
-#> 7           Southern Interior
-#> 8 Southern Interior Mountains
-#> 9         Sub-Boreal Interior
 ```
 
 ![](README-unnamed-chunk-3-1.png)
