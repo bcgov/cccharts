@@ -9,7 +9,7 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
   proj4string = "+init=epsg:3005", width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend,
   labels = TRUE, low = "blue", mid = "yellow", high = "red",
-  switch = FALSE)
+  bounds = c(0, 1, 0, 1), switch = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -43,6 +43,8 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{mid}{A string specifying the color for no change.}
 
 \item{high}{A string specifying the color for positive values.}
+
+\item{bounds}{A numeric vector of four values between 0 and 1 specifying the start and end of the x-axis bounding box and the start and end of the y-axis bounding box.}
 
 \item{switch}{A flag indicating whether to switch the high and low color values.}
 }

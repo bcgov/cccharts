@@ -18,7 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE) {
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE, bounds = c(0,1,0,1)) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 
@@ -27,6 +27,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   } else {
     check_unique(data$Ecoprovince)
   }
+  check_vector(bounds, c(0,1), min_length = 4, max_length = 4)
   check_flag(switch)
 
   if (!inherits(map, "SpatialPolygonsDataFrame"))
@@ -43,6 +44,9 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 
   map %<>% sp::spTransform(sp::CRS(proj4string))
 
+  map %<>% bound(bounds)
+  print(map@data)
+
   map@data <- as.data.frame(dplyr::bind_cols(
   map@data, dplyr::select_(as.data.frame(rgeos::gCentroid(map, byid = TRUE)),
                        EastingEcoprovince = ~x, NorthingEcoprovince = ~y)))
@@ -56,6 +60,8 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
     polygon %<>% dplyr::left_join(data, by = "Ecoprovince")
   }
   data %<>% latlong2eastnorth(projargs = proj4string)
+
+
 
   if (switch) {
     x <- low
@@ -107,17 +113,19 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 #' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
 #' @param llab A function that takes the data and returns a string for the legend label.
 #' @param labels A flag indicating wether to plot labels.
+#' @param bounds A numeric vector of four values between 0 and 1 specifying the start and end of the x-axis bounding box and the start and end of the y-axis bounding box.
 #' @param switch A flag indicating whether to switch the high and low color values.
 #' @export
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
   map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = TRUE,
-  low = "blue", mid = "yellow", high = "red", switch = FALSE) {
+  low = "blue", mid = "yellow", high = "red", bounds = c(0,1,0,1), switch = FALSE) {
 
   test_estimate_data(data)
   check_flag(station)
   check_flag(ask)
+  check_vector(bounds, c(0,1), min_length = 4, max_length = 4)
   check_flag(switch)
 
   if (is.null(dir)) {
@@ -134,14 +142,15 @@ map_estimates_pngs <- function(
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   if (is.null(limits)) limits <- get_limits(data)
-  if (is.null(by)) by <- get_by(data, c("Ecoprovince", "Station"), facet)
+  if (is.null(by)) by <- get_by(data, c("Ecoprovince", "Station"))
 
   if (all(limits > 0)) limits[1] <- 0
   if (all(limits < 0)) limits[2] <- 0
 
   plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, proj4string = proj4string, llab = llab,
-              limits = limits, labels = labels, low = low, mid = mid, high = high, switch = switch,
+              limits = limits, labels = labels, low = low, mid = mid, high = high,
+              bounds = bounds, switch = switch,
               fun = map_estimates)
   invisible(TRUE)
 }

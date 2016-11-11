@@ -24,6 +24,7 @@ Imports:
     magrittr,
     plyr,
     RColorBrewer,
+    raster,
     rgeos,
     scales,
     sp,
@@ -34,9 +35,8 @@ Imports:
 Suggests:
     devtools,
     maps,
-    readr,
-    raster,
     rmapshaper,
+    readr,
     testthat
 Remotes:
     bcgov/bcmaps,

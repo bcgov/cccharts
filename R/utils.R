@@ -14,6 +14,25 @@ all_identical <- function(x) {
   length(unique(x)) == 1
 }
 
+bounds <- function(bounds, map) {
+  if (bounds[1] >= bounds[2]) stop("bounds[1] must be less than bounds[2]", call. = FALSE)
+  if (bounds[3] >= bounds[4]) stop("bounds[3] must be less than bounds[4]", call. = FALSE)
+  bbox <- sp::bbox(map)
+  diff <- as.vector(diff(t(bbox)))
+  origin <- as.vector(bbox[,1,drop = FALSE])
+  start <- origin + diff * bounds[c(1,3)]
+  end <- origin + diff * bounds[c(2,4)]
+  bbox <- c(start[1], end[1], start[2], end[2])
+  bbox
+}
+
+bound <- function(map, bounds) {
+  bounds %<>% bounds(map)
+  bounds %<>% raster::extent()
+  map %<>% raster::crop(bounds)
+  map
+}
+
 check_all_identical <- function(x) {
   stopifnot(all_identical(x))
   x
@@ -99,7 +118,7 @@ get_filename <- function(data) {
   filename
 }
 
-get_by <- function(data, x, facet) {
+get_by <- function(data, x, facet = NULL) {
   by <- c("Indicator", "Ecoprovince", "Station", "Statistic", "Season")
   by <- by[!by %in% c(x, facet)]
   by
