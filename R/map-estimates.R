@@ -36,6 +36,8 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   check_vector(ecoprovinces, value = .ecoprovince, min_length = 1)
   check_flag(switch)
 
+  ecoprovinces %<>% c("Southern Alaska Mountains", "British Columbia") %>% unique()
+
   if (!inherits(map, "SpatialPolygonsDataFrame"))
     stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
   check_string(proj4string)
@@ -51,17 +53,18 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   map %<>% sp::spTransform(sp::CRS(proj4string))
 
   map %<>% bound(bounds)
-  map <- map[map@data$Ecoprovince %in% ecoprovinces,,drop = FALSE]
 
   if (!station) {
     map@data <- as.data.frame(dplyr::bind_cols(
       map@data, dplyr::select_(as.data.frame(rgeos::gCentroid(map, byid = TRUE)),
                                EastingEcoprovince = ~x, NorthingEcoprovince = ~y)))
+    map <- map[map@data$Ecoprovince %in% ecoprovinces,,drop = FALSE]
     suppressMessages(polygon <- broom::tidy(map))
     polygon$Ecoprovince <- map@data$Ecoprovince[as.integer(polygon$id)]
     polygon$Ecoprovince %<>% factor(levels = levels(data$Ecoprovince))
     polygon %<>% dplyr::left_join(data, by = "Ecoprovince")
   } else {
+    map <- map[map@data$Ecoprovince %in% ecoprovinces,,drop = FALSE]
     map %<>% rmapshaper::ms_dissolve()
     suppressMessages(polygon <- broom::tidy(map))
     data %<>% latlong2eastnorth(projargs = proj4string)
