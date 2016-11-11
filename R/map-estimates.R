@@ -79,7 +79,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   if (station) {
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group"),
-                            fill = "grey80", color = "grey50") +
+                            fill = "grey95", color = "grey50") +
       geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 4) +
       scale_color_gradient2(limits = limits, labels = get_labels(data),
                             guide = guide_colourbar(title = llab(data), title.position = "bottom"),
@@ -94,7 +94,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                             color = "grey50") +
       scale_fill_gradient2(limits = limits, labels = get_labels(data), low = low,
                            high = high, mid = mid,
-                           na.value = "grey80",
+                           na.value = "grey95",
                            guide = guide_colourbar(title = llab(data), title.position = "bottom"))
     if (labels) {
       gp <- gp + ggrepel::geom_label_repel(data = map@data, aes_(x = ~EastingEcoprovince, y = ~NorthingEcoprovince, label = ~Ecoprovince))
