@@ -85,7 +85,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
   }
   gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
   if (!horizontal) {
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+    gp <- gp + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
   }
   gp
 }
