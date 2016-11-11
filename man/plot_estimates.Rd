@@ -6,7 +6,8 @@
 \usage{
 plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
   geom = "point", ci = TRUE, low = "blue", mid = "yellow",
-  high = "red", breaks = waiver(), ylab = ylab_trend)
+  high = "red", breaks = waiver(), horizontal = FALSE,
+  ylab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -30,6 +31,8 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
 \item{high}{A string specifying the color for positive values.}
 
 \item{breaks}{A numeric vector of positions.}
+
+\item{horizontal}{A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).}
 
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
 }

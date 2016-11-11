@@ -20,7 +20,7 @@
 #' @examples
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
-plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point", ci = TRUE, low = "blue", mid = "yellow", high = "red", breaks = waiver(), ylab = ylab_trend) {
+plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point", ci = TRUE, low = "blue", mid = "yellow", high = "red", breaks = waiver(), horizontal = FALSE, ylab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
@@ -29,6 +29,7 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
   }
+  check_flag(horizontal)
 
   if (data$Units[1] == "percent") {
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
@@ -82,8 +83,10 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
   } else if (length(facet) == 2) {
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
-  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE) +
+  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
+  if (!horizontal) {
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+  }
   gp
 }
 
@@ -106,16 +109,18 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 #' @param mid A string specifying the color for no change.
 #' @param high A string specifying the color for positive values.
 #' @param breaks A numeric vector of positions.
+#' @param horizontal A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @export
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L, height = 350L,
-  ask = TRUE, dir = NULL, limits = NULL, low = "blue", mid = "yellow", high = "red", breaks = waiver(), ylab = ylab_trend) {
+  ask = TRUE, dir = NULL, limits = NULL, low = "blue", mid = "yellow", high = "red", breaks = waiver(), horizontal = FALSE, ylab = ylab_trend) {
   test_estimate_data(data)
   check_flag(ask)
   check_scalar(geom, c("^point$", "^bar$", "^point$"))
   check_flag(ci)
-  if(!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
+  check_flag(horizontal)
+  if (!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
@@ -139,7 +144,7 @@ plot_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, ci = ci, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks,
-              low = low, mid = mid, high = high,
+              low = low, mid = mid, high = high, horizontal = horizontal,
               ylab = ylab,
               fun = plot_estimates)
 
