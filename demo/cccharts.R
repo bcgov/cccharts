@@ -4,7 +4,7 @@ plot_estimates_pngs(data = cccharts::air_temperature, facet = "Statistic", ask =
 plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Cooling Degree Days"), height = 500L, dir = "degree_days", ask = FALSE)
 plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Heating Degree Days"), height = 500L, dir = "degree_days", ask = FALSE)
 plot_estimates_pngs(data = dplyr::filter(cccharts::degree_days, Indicator == "Growing Degree Days"), height = 500L, dir = "degree_days", ask = FALSE)
-plot_estimates_pngs(data = cccharts::flow_station_discharge, facet = c("Statistic", "Term"), height = 500L, ask = FALSE)
+plot_estimates_pngs(data = cccharts::flow_station_discharge, x = "Station", by = c("Statistic", "Term"), height = 500L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::flow_station_timing, x = "Station", by = "Statistic", facet = "Term", width = 500L, ask = FALSE)
 plot_estimates_pngs(data = cccharts::glacial, geom = "bar", ask = FALSE)
 plot_estimates_pngs(data = cccharts::precipitation, x = "Ecoprovince", facet = "Season", geom = "bar", ci = FALSE, height = 500L, width = 500L, ask = FALSE)
