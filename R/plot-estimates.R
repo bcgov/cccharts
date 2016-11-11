@@ -78,6 +78,10 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
   }
   gp <- gp + scale_color_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
 
+  if (geom == "bar") {
+    gp <- gp + scale_fill_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
+  }
+
   if (length(facet) == 1) {
     gp <- gp + facet_wrap(facet, nrow = nrow)
   } else if (length(facet) == 2) {
