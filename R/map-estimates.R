@@ -45,7 +45,6 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   map %<>% sp::spTransform(sp::CRS(proj4string))
 
   map %<>% bound(bounds)
-  print(map@data)
 
   map@data <- as.data.frame(dplyr::bind_cols(
   map@data, dplyr::select_(as.data.frame(rgeos::gCentroid(map, byid = TRUE)),

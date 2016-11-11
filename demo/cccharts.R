@@ -22,8 +22,8 @@ map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Season == "Annual", Statistic == "Mean"), by = "Term", station = TRUE, dir = "flow_station_timing", ask = FALSE)
 map_estimates_pngs(data = cccharts::glacial, switch = TRUE, ask = FALSE)
 map_estimates_pngs(data = cccharts::precipitation, switch = TRUE, ask = FALSE)
-map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, switch = TRUE, bounds = c(0,0.25,0,0.25), ask = FALSE)
-map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), by = "Indicator", station = TRUE, dir = "sea_surface_temperature_station", ask = FALSE)
+map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, switch = TRUE, bounds = c(0.1,0.7,0,0.55), ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), by = "Indicator", station = TRUE, bounds = c(0.1,0.65,0,0.5), dir = "sea_surface_temperature_station", ask = FALSE)
 map_estimates_pngs(data = cccharts::snow, by = "Indicator", switch = TRUE, ask = FALSE)
 map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, switch = TRUE, labels = FALSE, dir = "snow_station", ask = FALSE)
 
