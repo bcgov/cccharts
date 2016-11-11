@@ -20,8 +20,7 @@
 #' @examples
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
-plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point", ci = TRUE,
-                           breaks = waiver(), ylab = ylab_trend) {
+plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point", ci = TRUE, low = "blue", mid = "yellow", high = "red", breaks = waiver(), ylab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
@@ -59,23 +58,24 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
   if (!ci || missing_limits) {
     if (geom == "point") {
       gp <- gp +  geom_hline(aes(yintercept = 0)) +
-        geom_point(size = 4)
+        geom_point(size = 4, aes_string(color = "Estimate"))
     } else {
       gp <- gp +  geom_hline(aes(yintercept = 0)) +
-        geom_bar(stat = "identity", position = "identity")
+        geom_bar(stat = "identity", position = "identity", aes_string(fill = "Estimate"))
     }
   } else { # with limits
     if (geom == "point") {
       gp <- gp +  geom_hline(aes(yintercept = 0), linetype = 2) +
-        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", alpha = "Significant"), width = 0.3, size = 0.5) +
-        geom_point(size = 4, aes_string(alpha = "Significant"))
+        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", alpha = "Significant", color = "Estimate"), width = 0.3, size = 0.5) +
+        geom_point(size = 4, aes_string(alpha = "Significant", color = "Estimate"))
     } else { # bar with limits
       gp <- gp +  geom_hline(aes(yintercept = 0)) +
-        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", alpha = "Significant"), width = 0.3, size = 0.5) +
-        geom_bar(stat = "identity", position = "identity", aes_string(alpha = "Significant"))
+        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", alpha = "Significant", color = "Estimate"), width = 0.3, size = 0.5) +
+        geom_bar(stat = "identity", position = "identity", aes_string(alpha = "Significant", fill = "Estimate"))
     }
     gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE)
   }
+  gp <- gp + scale_color_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
 
   if (length(facet) == 1) {
     gp <- gp + facet_wrap(facet, nrow = nrow)
@@ -102,12 +102,15 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 #' @param ask A flag indicating whether to ask before creating the directory
 #' @param dir A string of the directory to store the results in.
 #' @param limits A numeric vector of length two providing limits of the scale.
+#' @param low A string specifying the color for negative values.
+#' @param mid A string specifying the color for no change.
+#' @param high A string specifying the color for positive values.
 #' @param breaks A numeric vector of positions.
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @export
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L, height = 350L,
-  ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_trend) {
+  ask = TRUE, dir = NULL, limits = NULL, low = "blue", mid = "yellow", high = "red", breaks = waiver(), ylab = ylab_trend) {
   test_estimate_data(data)
   check_flag(ask)
   check_scalar(geom, c("^point$", "^bar$", "^point$"))
@@ -136,6 +139,7 @@ plot_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, ci = ci, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks,
+              low = low, mid = mid, high = high,
               ylab = ylab,
               fun = plot_estimates)
 

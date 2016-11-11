@@ -107,9 +107,6 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 #' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
 #' @param llab A function that takes the data and returns a string for the legend label.
 #' @param labels A flag indicating wether to plot labels.
-#' @param low A string specifying the color for negative values.
-#' @param mid A string specifying the color for no change.
-#' @param high A string specifying the color for positive values.
 #' @param switch A flag indicating whether to switch the high and low color values.
 #' @export
 map_estimates_pngs <- function(
