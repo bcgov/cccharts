@@ -103,6 +103,9 @@ plot_fit_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
+  suppressMessages(data %<>% dplyr::semi_join(observed))
+  suppressMessages(observed %<>% dplyr::semi_join(data))
+
   if (is.null(by)) by <- get_by(data, "Year", facet)
 
   plyr::ddply(data, by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,

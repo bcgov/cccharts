@@ -18,7 +18,7 @@ flow_station_timing <- read_csv("https://catalogue.data.gov.bc.ca/dataset/d6f306
 
 flow_station_timing_observed <- read_csv("data-raw/raw_flow_data/annual_half_river_flow_dates.csv")
 
-flow_station_timing %<>% rename(Station = station,
+flow_station_timing %<>% rename(Station = station_name,
                          Latitude = latitude,
                          Longitude = longitude,
                          Units = trend_units,
@@ -31,11 +31,8 @@ flow_station_timing %<>% rename(Station = station,
                          Intercept = intercept,
                          Significant = sig)
 
-# x <- filter(flow_station_timing, (!Significant & (Lower > 0 | Upper < 0)) |
-#               (Significant & Lower < 0 & Upper > 0))
-# write_csv(x, "flow_timing.csv")
-
 flow_station_timing$Term %<>% str_to_title() %>% factor(levels = term)
+flow_station_timing$Station %<>% str_to_title() %>% str_replace("(.*)(\\sRiver\\s)(At|Near)(.*)", "\\1")
 
 flow_station_timing %<>% get_ecoprovince()
 
@@ -54,11 +51,11 @@ flow_station_timing %<>% get_flow_statistic_season(col = "trend_type")
 flow_station_timing %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Estimate, Lower, Upper, Intercept,
-  Significant)
+  Significant, station)
 
 flow_station_timing %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
-flow_station_timing_observed %<>% rename(Station = station, Year = year,
+flow_station_timing_observed %<>% rename(Year = year,
                                 Value = ann_half_date)
 
 flow_station_timing_observed$Value %<>% as.numeric()
@@ -70,17 +67,13 @@ flow_station_timing_observed$Season <- factor("Annual", levels = season)
 flow_station_timing_observed$Units <- "days"
 flow_station_timing_observed$Indicator <- "Flow"
 
+flow_station_timing_observed %<>% inner_join(unique(select(flow_station_timing, Station, station)), by = "station")
+
 flow_station_timing_observed %<>% select(Indicator, Statistic, Season, Station, Year, Value, Units)
 
 flow_station_timing_observed %<>% arrange(Indicator, Statistic, Season, Station, Year)
 
 flow_station_timing_observed$Station %<>% factor(levels = levels(flow_station_timing$Station))
-
-flow_station_timing %<>% semi_join(flow_station_timing_observed, by = c("Statistic", "Season", "Station", "Units"))
-flow_station_timing_observed %<>% semi_join(flow_station_timing, by = c("Statistic", "Season", "Station", "Units"))
-
-flow_station_timing$Station %<>% droplevels()
-flow_station_timing_observed$Station %<>% droplevels()
 
 flow_station_timing %<>% cccharts::change_period(10L)
 
