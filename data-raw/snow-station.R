@@ -34,7 +34,7 @@ snow_station$Indicator <- NA
 snow_station$Indicator[snow_station$measure == "depth"] <- "Snow Depth"
 snow_station$Indicator[snow_station$measure == "swe"] <- "Snow Water Equivalent"
 
-snow_station$Units <- "percent"
+snow_station$Units <- "anomaly"
 snow_station$Period <- 1L
 
 snow_station$Ecoprovince %<>%  factor(levels = ecoprovince)
@@ -59,16 +59,11 @@ snow_station_observed %<>% inner_join(snow_station, by = c("Indicator", "Station
 snow_station_observed %<>% filter(!is.na(Value))
 snow_station_observed %<>% filter(Year >= StartYear & Year <= EndYear)
 
-scale <- group_by(snow_station_observed, Indicator, Station) %>% summarise(Scale = mean(Value)) %>%
-  ungroup()
-
-snow_station %<>% inner_join(scale, by = c("Indicator", "Station"))
-
 snow_station %<>% select(
   Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Station, Latitude, Longitude,
-  Estimate, Lower, Upper, Intercept, Scale, Significant)
+  Estimate, Lower, Upper, Intercept, Significant)
 
-snow_station_observed$Units <- "centimeter"
+snow_station_observed$Units <- "anomaly"
 
 snow_station_observed %<>% select(Indicator, Ecoprovince, Station, Year, Value, Units)
 
