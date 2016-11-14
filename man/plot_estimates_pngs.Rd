@@ -7,7 +7,7 @@
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
   facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L,
   height = 350L, ask = TRUE, dir = NULL, limits = NULL, low = "blue",
-  mid = "yellow", high = "red", breaks = waiver(), horizontal = FALSE,
+  mid = "yellow", high = "red", breaks = waiver(), horizontal = TRUE,
   ylab = ylab_trend, prefix = "")
 }
 \arguments{

@@ -6,8 +6,7 @@
 \usage{
 plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
   geom = "point", ci = TRUE, low = "blue", mid = "yellow",
-  high = "red", breaks = waiver(), horizontal = FALSE,
-  ylab = ylab_trend)
+  high = "red", breaks = waiver(), horizontal = TRUE, ylab = ylab_trend)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
