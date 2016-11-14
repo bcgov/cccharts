@@ -45,8 +45,6 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
     data %<>% inconsistent_significance()
     if (any(data$Inconsistent)) {
       warning(sum(data$Inconsistent), " data points have inconsistent significance and limits", call. = FALSE, immediate. = TRUE)
-      data$Lower[data$Inconsistent] <- NA_real_
-      data$Upper[data$Inconsistent] <- NA_real_
     }
   }
 

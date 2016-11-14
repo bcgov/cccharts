@@ -50,11 +50,11 @@ flow_station_discharge %<>% get_flow_statistic_season(col = "trend_type")
 flow_station_discharge %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince, Season, Station, Latitude, Longitude,
   Estimate, Lower, Upper, Intercept,
-  Significant)
+  Significant, station)
 
 flow_station_discharge %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
 
-flow_station_discharge_observed %<>% rename(Station = station, Year = year,
+flow_station_discharge_observed %<>% rename(Year = year,
                                         Value = annual_flow_value)
 
 flow_station_discharge_observed %<>% get_flow_statistic_season(col = "annual_flow_summary")
@@ -72,5 +72,19 @@ flow_station_discharge_observed %<>% arrange(Indicator, Statistic, Season, Stati
 
 flow_station_discharge_observed$Station %<>% factor(levels = levels(flow_station_discharge$Station))
 
+mad <- group_by(flow_station_discharge_observed, Statistic, Season, Station, Units) %>% summarise(MAD = mean(Value)) %>% ungroup()
+
+flow_station_discharge %<>% inner_join(mad, by = c("Statistic", "Season", "Station", "Units"))
+
+flow_station_discharge_observed %<>% semi_join(flow_station_discharge, by = c("Statistic", "Season", "Station", "Units"))
+
+flow_station_discharge$Station %<>% droplevels()
+
+flow_station_discharge_observed$Station %<>% droplevels()
+
+flow_station_discharge %<>% mutate(Estimate = Estimate / MAD * 10, Lower = Lower / MAD * 10, Upper = Upper / MAD * 10, Units = "percent", Period = 10L)
+flow_station_discharge$Scale <- flow_station_discharge$MAD
+
+flow_station_discharge$MAD <- NULL
 use_data(flow_station_discharge, overwrite = TRUE)
 use_data(flow_station_discharge_observed, overwrite = TRUE)
