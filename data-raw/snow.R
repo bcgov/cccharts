@@ -70,6 +70,8 @@ snow_observed %<>% bind_rows(snow_se_observed)
 snow_observed %<>% inner_join(snow, by = c("Indicator", "Ecoprovince"))
 snow_observed %<>% filter(Year >= StartYear & Year <= EndYear)
 
+snow_observed %<>% mutate(Value = as.numeric(Value))
+
 scale <- group_by(snow_observed, Indicator, Ecoprovince) %>% summarise(Scale = mean(Value)) %>%
   ungroup()
 
