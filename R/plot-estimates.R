@@ -34,7 +34,7 @@ plot_estimates <- function(
   }
   check_flag(horizontal)
 
-  if (data$Units[1] == "percent") {
+  if (data$Units[1] %in% c("percent", "Percent")) {
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
                              Lower = ~Lower / 100,
                              Upper = ~Upper / 100)
@@ -45,8 +45,10 @@ plot_estimates <- function(
     if (is.numeric(breaks))
       breaks %<>% magrittr::divide_by(100)
   }
-  missing_limits <- all(is.na(data$Lower))
-  if (!missing_limits) {
+
+  ci <- ci && !all(is.na(data$Lower))
+
+  if (ci) {
     data %<>% inconsistent_significance()
     if (any(data$Inconsistent)) {
       warning(sum(data$Inconsistent), " data points have inconsistent significance and limits", call. = FALSE, immediate. = TRUE)
@@ -62,13 +64,13 @@ plot_estimates <- function(
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = ylimits, breaks = breaks)
 
-  if (!ci || missing_limits) {
+  if (!ci) {
     if (geom == "point") {
-      gp <- gp +  geom_hline(aes(yintercept = 0)) +
+      gp <- gp +  geom_hline(yintercept = 0) +
         geom_point(size = 4, aes_string(color = "Estimate"))
     } else {
-      gp <- gp +  geom_hline(aes(yintercept = 0)) +
-        geom_bar(stat = "identity", position = "identity", aes_string(fill = "Estimate"))
+      gp <- gp +  geom_hline(yintercept = 0) +
+        geom_col(aes_string(fill = "Estimate"))
     }
   } else { # with limits
     if (geom == "point") {
@@ -77,7 +79,7 @@ plot_estimates <- function(
         geom_hline(aes(yintercept = 0), linetype = 2)
     } else { # bar with limits
       gp <- gp + geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
-        geom_bar(stat = "identity", position = "identity", aes_string(fill = "Estimate")) +
+        geom_col(aes_string(fill = "Estimate")) +
         geom_hline(aes(yintercept = 0))
     }
   }
