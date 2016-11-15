@@ -123,10 +123,10 @@ plot_fit_pngs <- function(
 
   if (is.null(by)) by <- get_by(data, "Year", facet)
 
-  plyr::ddply(data, by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
+  data %<>% plyr::dlply(by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks, color = color,
               ylab = ylab, free_y = free_y,
               fun = plot_fit, prefix = prefix)
 
-  invisible(TRUE)
+  invisible(data)
 }

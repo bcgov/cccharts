@@ -41,7 +41,7 @@ flow_station_discharge$Ecoprovince %<>%  factor(levels = ecoprovince)
 flow_station_discharge$Station %<>% factor(unique(flow_station_discharge$Station))
 
 flow_station_discharge %<>% filter(Units == "m3/sec per year")
-flow_station_discharge$Units <- "cumecs"
+flow_station_discharge$Units <- "Cumecs"
 flow_station_discharge$Period <- 1L
 flow_station_discharge$Indicator <- "Flow"
 
@@ -61,7 +61,7 @@ flow_station_discharge_observed %<>% get_flow_statistic_season(col = "annual_flo
 
 flow_station_discharge_observed %<>% filter(!is.na(Value))
 
-flow_station_discharge_observed$Units <- "cumecs"
+flow_station_discharge_observed$Units <- "Cumecs"
 flow_station_discharge_observed$Indicator <- "Flow"
 
 flow_station_discharge_observed %<>% inner_join(unique(select(flow_station_discharge, Station, station)), by = "station")

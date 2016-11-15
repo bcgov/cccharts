@@ -22,7 +22,7 @@ map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_statio
 
 ### flow timing ####
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Term == "Medium"), x = "Station", by = "Statistic", width = 600L, low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "flow_station_timing", ask = FALSE)
+plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Term == "Medium"), x = "Station", by = "Statistic", width = 700L, low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "flow_station_timing", ask = FALSE)
 
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Season == "Annual", Statistic == "Mean", Term == "Medium"), station = TRUE, dir = "flow_station_timing", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
@@ -30,12 +30,12 @@ plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_timing, Term == "Mediu
 
 ### flow discharge ####
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), x = "Station", by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE, dir = "flow_station_discharge")
+plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), x = "Station", by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE, width = 500L, dir = "flow_station_discharge")
 
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), station = TRUE, dir = "flow_station_discharge", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 # fit for flow discharge
-plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), observed = cccharts::flow_station_discharge_observed, facet = "Station", by = "Indicator", dir = "flow_station_discharge", free_y = TRUE, ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), observed = cccharts::flow_station_discharge_observed, facet = "Station", by = "Indicator", dir = "flow_station_discharge", free_y = TRUE, width = 600L, ask = FALSE)
 
 ### snow ###
 
