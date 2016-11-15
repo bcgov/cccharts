@@ -95,17 +95,15 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                             color = "white") +
       geom_polygon(data = dplyr::filter_(polygon, ~!hole & !Significant),
                    ggplot2::aes_string(x = "long", y = "lat", group = "group"),
-                   fill = "white", color = "white") +
+                   fill = "white", color = "grey75") +
       scale_fill_gradient2(limits = limits, labels = get_labels(data), low = low,
                            high = high, mid = mid,
                            na.value = "grey90",
                            guide = guide_colourbar(title = llab(data), title.position = "bottom"))
     if (labels) {
       data2 <- map@data
-      print(data2)
       data2$EastingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
       data2$NorthingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
-      print(data2)
       data2 %<>% dplyr::filter_(~Ecoprovince != "Southern Alaska Mountains")
       data2$Ecoprovince %<>% stringr::str_c(" \n(", acronym(.),")")
       data2$Ecoprovince %<>% stringr::str_replace("Southern", "S.") %>%
