@@ -106,7 +106,7 @@ get_labels <- function(data) {
 }
 
 get_limits <- function(data) {
-  x <- c(data$Estimate, data$Lower, data$Upper)
+  x <- c(data$Estimate)
   range(x, na.rm = TRUE)
 }
 
