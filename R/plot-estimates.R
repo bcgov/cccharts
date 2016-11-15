@@ -53,7 +53,7 @@ plot_estimates <- function(
     }
   }
 
-  data$Significant %<>% factor(levels = c(FALSE, TRUE))
+  data$Significant %<>% not_significant()
 
   if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
   if (x == "Station") levels(data[[x]]) <- stringr::str_replace_all(levels(data[[x]]), " ", "\n")
@@ -73,15 +73,16 @@ plot_estimates <- function(
   } else { # with limits
     if (geom == "point") {
       gp <- gp +  geom_hline(aes(yintercept = 0), linetype = 2) +
-        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", alpha = "Significant", color = "Estimate"), width = 0.3, size = 0.5) +
-        geom_point(size = 4, aes_string(alpha = "Significant", color = "Estimate"))
+        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
+        geom_point(size = 4, aes_string(color = "Estimate"))
     } else { # bar with limits
       gp <- gp +  geom_hline(aes(yintercept = 0)) +
-        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", alpha = "Significant", color = "Estimate"), width = 0.3, size = 0.5) +
-        geom_bar(stat = "identity", position = "identity", aes_string(alpha = "Significant", fill = "Estimate"))
+        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
+        geom_bar(stat = "identity", position = "identity", aes_string(fill = "Estimate"))
     }
-    gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE, guide = FALSE)
   }
+  gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
+
   if(is.null(mid)) {
     gp <- gp + scale_color_gradient(limits = limits, low = low, high = high, guide = FALSE)
   } else {

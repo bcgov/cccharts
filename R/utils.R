@@ -184,6 +184,12 @@ change_period <- function(data, period = 1L) {
   data
 }
 
+not_significant <- function(x) {
+  ns <- rep("NS", length(x))
+  ns[is.na(x) | x] <- ""
+  ns
+}
+
 rescale_data <- function(data) {
   check_data1(data)
   check_cols(data, c("Estimate", "Lower", "Upper", "Scale"))
