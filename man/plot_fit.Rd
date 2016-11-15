@@ -5,12 +5,12 @@
 \title{Plot Trend Observed}
 \usage{
 plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
-  limits = NULL, breaks = waiver(), ylab = ylab_fit)
+  limits = NULL, breaks = waiver(), ylab = ylab_fit, free_y = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
 
-\item{observed}{The observed data to plot.}
+\item{observed}{A data.frame of the observed data.}
 
 \item{facet}{A string indicating the factor to facet wrap by.}
 
@@ -23,6 +23,8 @@ plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
 \item{breaks}{A numeric vector of positions.}
 
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
+
+\item{free_y}{A flag indicating whether the facet axis should have free_y scales.}
 }
 \value{
 A ggplot2 object.

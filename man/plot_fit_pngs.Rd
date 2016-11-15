@@ -7,7 +7,7 @@
 plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
   facet = NULL, nrow = NULL, color = NULL, width = 450L,
   height = 450L, ask = TRUE, dir = NULL, limits = NULL,
-  breaks = waiver(), ylab = ylab_fit, prefix = "")
+  breaks = waiver(), ylab = ylab_fit, free_y = FALSE, prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -35,6 +35,8 @@ plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
 \item{breaks}{A numeric vector of positions.}
 
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
+
+\item{free_y}{A flag indicating whether the facet axis should have free_y scales.}
 
 \item{prefix}{A string specifying the prefix for file names.}
 }

@@ -15,8 +15,7 @@
 #' Plots trends with observed data.
 #'
 #' @inheritParams plot_estimates_pngs
-#' @param observed The observed data to plot.
-#' @param color A string indicating the column to plot by color.
+#' @inheritParams plot_fit_pngs
 #'
 #' @return A ggplot2 object.
 #' @export
@@ -25,7 +24,8 @@
 #' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
 plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, limits = NULL,
-                     breaks = waiver(), ylab = ylab_fit) {
+                     breaks = waiver(), ylab = ylab_fit, free_y = FALSE) {
+  check_flag(free_y)
 
   test_estimate_data(data)
   test_observed_data(observed)
@@ -68,10 +68,15 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 
   }
 
+  if (free_y) {
+    scales = "free_y"
+  } else {
+    scales = "fixed"
+  }
   if (length(facet) == 1) {
-    gp <- gp + facet_wrap(facet, nrow = nrow)
+    gp <- gp + facet_wrap(facet, nrow = nrow, scales = scales)
   } else if (length(facet) == 2) {
-    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
+    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]), scales = scales)
   }
   gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
   gp
@@ -82,13 +87,16 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 #' @inheritParams plot_estimates_pngs
 #' @param observed A data.frame of the observed data.
 #' @param color A string indicating the column to plot by color.
+#' @param free_y A flag indicating whether the facet axis should have free_y scales.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit, prefix = "") {
+  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit,
+  free_y = FALSE, prefix = "") {
 
   test_estimate_data(data)
   test_observed_data(observed)
   check_flag(ask)
+  check_flag(free_y)
   if (!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 
   if (is.null(dir)) {
@@ -105,6 +113,11 @@ plot_fit_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
+  if (data$Units[1] %in% c("percent", "Percent")) {
+    data %<>% rescale_data()
+    data$Units <- observed$Units[1]
+  }
+
   suppressMessages(data %<>% dplyr::semi_join(observed))
   suppressMessages(observed %<>% dplyr::semi_join(data))
 
@@ -112,7 +125,7 @@ plot_fit_pngs <- function(
 
   plyr::ddply(data, by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks, color = color,
-              ylab = ylab,
+              ylab = ylab, free_y = free_y,
               fun = plot_fit, prefix = prefix)
 
   invisible(TRUE)

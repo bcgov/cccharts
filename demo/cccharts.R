@@ -27,7 +27,7 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Seaso
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), station = TRUE, dir = "flow_station_discharge", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 # fit for flow discharge
-#plot_fit_pngs(data = cccharts::flow_station_discharge, observed = cccharts::flow_station_discharge_observed, color = "Term", facet = "Station", by = "Indicator", ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), observed = cccharts::flow_station_discharge_observed, facet = "Station", by = "Indicator", dir = "flow_station_discharge", free_y = TRUE, ask = FALSE)
 
 ### snow ###
 
