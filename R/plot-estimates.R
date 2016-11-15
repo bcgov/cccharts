@@ -171,11 +171,10 @@ plot_estimates_pngs <- function(
   if (all(limits > 0)) limits[1] <- 0
   if (all(limits < 0)) limits[2] <- 0
 
-  plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, ci = ci, dir = dir,
+  data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, ci = ci, dir = dir,
               width = width, height = height, ylimits = ylimits, limits = limits, breaks = breaks,
               low = low, mid = mid, high = high, horizontal = horizontal,
               ylab = ylab, hjust = hjust, vjust = vjust,
               fun = plot_estimates, prefix = prefix)
-
-  invisible(TRUE)
+  data
 }

@@ -151,6 +151,10 @@ get_x <- function(data) {
   "Indicator"
 }
 
+#' Get PNG Type
+#'
+#' @return A string of the platform specific png type.
+#' @export
 get_png_type <- function() {
   ifelse(.Platform$OS.type == "unix", "cairo", "windows")
 }
@@ -244,16 +248,32 @@ complete_observed_data <- function(data) {
   data
 }
 
+#' Plot GGPlot
+#'
+#' @param gp The ggplot object to plot.
+#' @param filename A string of the filename.
+#' @param width A count of the width in pixels.
+#' @param height A count of the height in pixels.
+plot_ggplot <- function(gp, filename, width, height) {
+  stopifnot(is.ggplot(gp))
+  check_string(filename)
+  check_count(width)
+  check_count(height)
+
+  png(filename = filename, width = width, height = height, type = get_png_type())
+  print(gp)
+  dev.off()
+}
+
 fun_png <- function(data, dir, width, height, fun, prefix, ...) {
   check_string(prefix)
 
   filename <- get_filename(data) %>% paste0(".png") %>% paste0(prefix, .)
   filename <- file.path(dir, filename)
 
-  png(filename = filename, width = width, height = height, type = get_png_type())
   gp <- fun(data, ...)
-  print(gp)
-  dev.off()
+  plot_ggplot(gp, filename = filename, width = width, height = height)
+  gp
 }
 
 latlong2eastnorth <- function(

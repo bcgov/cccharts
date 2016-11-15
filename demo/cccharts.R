@@ -1,9 +1,13 @@
 library(cccharts)
 
 ### sea level ####
-plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", by = c("Indicator", "Statistic", "Season"), width = 250L, height = 300L, ask = FALSE)
+estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", by = c("Indicator", "Statistic", "Season"), width = 250L, height = 300L, ask = FALSE)
 
-map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55), ask = FALSE)
+map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55), ask = FALSE)
+
+# png(filename = "cccharts/sea_level_station.png", width = 800L, height = 800L, type = get_png_type())
+# envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2)
+# dev.off()
 
 ### SST ####
 plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), x = "Station", by = "Indicator", geom = "bar", ask = FALSE, dir = "sea_surface_temperature_station", width = 450L)

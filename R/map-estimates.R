@@ -182,11 +182,11 @@ map_estimates_pngs <- function(
   if (all(limits > 0)) limits[1] <- 0
   if (all(limits < 0)) limits[2] <- 0
 
-  plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
+  data %<>% plyr::dlply(by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, llab = llab,
               limits = limits, labels = labels, low = low, mid = mid, high = high,
               bounds = bounds, ecoprovinces = ecoprovinces,
               fun = map_estimates, prefix = prefix)
-  invisible(TRUE)
+  data
 }
 

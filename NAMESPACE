@@ -2,6 +2,7 @@
 
 export(acronym)
 export(change_period)
+export(get_png_type)
 export(inconsistent_significance)
 export(map_estimates)
 export(map_estimates_pngs)
