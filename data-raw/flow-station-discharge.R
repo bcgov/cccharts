@@ -82,8 +82,10 @@ flow_station_discharge$Station %<>% droplevels()
 
 flow_station_discharge_observed$Station %<>% droplevels()
 
-flow_station_discharge %<>% mutate(Estimate = Estimate / MAD * 10, Lower = Lower / MAD * 10, Upper = Upper / MAD * 10, Units = "percent", Period = 10L)
+flow_station_discharge %<>% mutate(Estimate = Estimate / MAD, Lower = Lower / MAD, Upper = Upper / MAD, Units = "percent")
 flow_station_discharge$Scale <- flow_station_discharge$MAD
+
+flow_station_discharge %<>% cccharts::change_period(100L)
 
 flow_station_discharge$MAD <- NULL
 use_data(flow_station_discharge, overwrite = TRUE)

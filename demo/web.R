@@ -12,12 +12,19 @@ map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_statio
 
 plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"), x = "Season", by = "Indicator", facet = "Station", ask = FALSE, width = 500L, height = 500L, dir = "sea_surface_temperature_station", prefix = "Seasonal")
 
-
-### flow ####
+### flow timing ####
 
 plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Term == "Medium"), x = "Station", by = "Statistic", width = 600L, low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "flow_station_timing", ask = FALSE)
 
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Season == "Annual", Statistic == "Mean", Term == "Medium"), station = TRUE, dir = "flow_station_timing", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 plot_fit_pngs(data = cccharts::flow_station_timing, observed = cccharts::flow_station_timing_observed, color = "Term", facet = "Station", by = "Indicator", ask = FALSE)
+
+### flow discharge ####
+
+plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), x = "Station", by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE, dir = "flow_station_discharge")
+
+map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), station = TRUE, dir = "flow_station_discharge", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+
+plot_fit_pngs(data = cccharts::flow_station_discharge, observed = cccharts::flow_station_discharge_observed, color = "Term", facet = "Station", by = "Indicator", ask = FALSE)
 

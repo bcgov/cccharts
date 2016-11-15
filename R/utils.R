@@ -81,7 +81,7 @@ ylab_trend <- function(data) {
   ylab %<>% stringr::str_replace("100 years", "century") %>%
     stringr::str_replace("10 years", "decade") %>%
     stringr::str_replace("1 years", "year") %>%
-    stringr::str_replace("Percent", "percent") %>%
+    stringr::str_replace("percent", "Percent")
     ylab
 }
 
@@ -94,7 +94,7 @@ ylab_fit <- function(data) {
   check_all_identical(data$Units)
 
   ylab <- paste0(data$Units[1]) %>%
-    stringr::str_replace("Percent", "percent")
+    stringr::str_replace("percent", "Percent")
   ylab
 }
 
