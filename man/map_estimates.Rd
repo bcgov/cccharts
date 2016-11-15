@@ -5,13 +5,12 @@
 \title{Map Trend Estimates}
 \usage{
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
-  proj4string = "+init=epsg:3005", limits = NULL, labels = TRUE,
-  llab = ylab_trend, low = "blue", mid = "yellow", high = "red",
-  switch = FALSE, ecoprovinces = c("Coast and Mountains",
-  "Georgia Depression", "Central Interior", "Southern Interior",
-  "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains",
-  "Taiga Plains", "Northern Boreal Mountains", "British Columbia"),
-  bounds = c(0, 1, 0, 1))
+  limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue",
+  mid = "yellow", high = "red", switch = FALSE,
+  ecoprovinces = c("Coast and Mountains", "Georgia Depression",
+  "Central Interior", "Southern Interior", "Southern Interior Mountains",
+  "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
+  "Northern Boreal Mountains", "British Columbia"), bounds = c(0, 1, 0, 1))
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -21,8 +20,6 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 \item{station}{A flag indicating whether the plot is for stations or ecoprovinces.}
 
 \item{map}{A SpatialPolygonsDataFrame object.}
-
-\item{proj4string}{A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.}
 
 \item{limits}{A numeric vector of length two providing limits of the scale.}
 

@@ -18,7 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, proj4string = "+init=epsg:3005", limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE,
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE,
                           ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                                            "Southern Interior", "Southern Interior Mountains",
                                            "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
@@ -40,7 +40,6 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 
   if (!inherits(map, "SpatialPolygonsDataFrame"))
     stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
-  check_string(proj4string)
 
   if (data$Units[1] == "percent") {
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
@@ -50,7 +49,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
       limits %<>% magrittr::divide_by(100)
   }
 
-  map %<>% sp::spTransform(sp::CRS(proj4string))
+  map %<>% sp::spTransform(sp::CRS("+init=epsg:3005"))
 
   map %<>% bound(bounds)
 
@@ -67,7 +66,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
     map <- map[map@data$Ecoprovince %in% ecoprovinces,,drop = FALSE]
     map %<>% rmapshaper::ms_dissolve()
     suppressMessages(polygon <- broom::tidy(map))
-    data %<>% latlong2eastnorth(projargs = proj4string)
+    data %<>% latlong2eastnorth(projargs = "+init=epsg:3005")
   }
   if (switch) {
     x <- low
@@ -102,14 +101,28 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                            na.value = "grey90",
                            guide = guide_colourbar(title = llab(data), title.position = "bottom"))
     if (labels) {
-      gp <- gp + ggrepel::geom_label_repel(data = map@data, aes_(x = ~EastingEcoprovince, y = ~NorthingEcoprovince, label = ~Ecoprovince))
+      data2 <- map@data
+      print(data2)
+      data2$EastingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
+      data2$NorthingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
+      print(data2)
+      data2 %<>% dplyr::filter_(~Ecoprovince != "Southern Alaska Mountains")
+      data2$Ecoprovince %<>% stringr::str_c(" \n(", acronym(.),")")
+      data2$Ecoprovince %<>% stringr::str_replace("Southern", "S.") %>%
+        stringr::str_replace("Sub[-]", "S. ") %>%
+        stringr::str_replace("Northern", "N.") %>%
+        stringr::str_replace("and", "&")
+        data2$Ecoprovince %<>% stringr::str_replace("( )(Mountains|Depression|Plains)", "\n\\2")
+
+      gp <- gp + ggplot2::geom_text(data = data2, aes_(x = ~EastingEcoprovince, y = ~NorthingEcoprovince, label = ~Ecoprovince))
     }
   }
 
   gp <- gp + theme_cccharts(facet = FALSE, map = TRUE) +
     theme(legend.justification = c(0,0),
           legend.position = c(0,0),
-          legend.direction = "vertical")
+          legend.direction = "vertical",
+          legend.background = element_rect(fill = "transparent", colour = NA))
   gp
 }
 
@@ -119,7 +132,6 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 #' @inheritParams plot_estimates_pngs
 #' @param station A flag indicating whether the plot is for stations or ecoprovinces.
 #' @param map A SpatialPolygonsDataFrame object.
-#' @param proj4string A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.
 #' @param llab A function that takes the data and returns a string for the legend label.
 #' @param labels A flag indicating wether to plot labels.
 #' @param bounds A numeric vector of four values between 0 and 1 specifying the start and end of the x-axis bounding box and the start and end of the y-axis bounding box.
@@ -128,7 +140,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 #' @export
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
-  map = cccharts::bc, proj4string = "+init=epsg:3005", width = 500L, height = 425L,
+  map = cccharts::bc, width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = TRUE,
   low = "blue", mid = "yellow", high = "red", bounds = c(0,1,0,1),
   ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
@@ -164,7 +176,7 @@ map_estimates_pngs <- function(
   if (all(limits < 0)) limits[2] <- 0
 
   plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
-              width = width, height = height, map = map, proj4string = proj4string, llab = llab,
+              width = width, height = height, map = map, llab = llab,
               limits = limits, labels = labels, low = low, mid = mid, high = high,
               bounds = bounds, switch = switch, ecoprovinces = ecoprovinces,
               fun = map_estimates, prefix = prefix)

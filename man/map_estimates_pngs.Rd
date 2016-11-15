@@ -5,15 +5,15 @@
 \title{Maps PNGs}
 \usage{
 map_estimates_pngs(data = cccharts::precipitation, by = NULL,
-  station = FALSE, nrow = NULL, map = cccharts::bc,
-  proj4string = "+init=epsg:3005", width = 500L, height = 425L,
-  ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend,
-  labels = TRUE, low = "blue", mid = "yellow", high = "red",
-  bounds = c(0, 1, 0, 1), ecoprovinces = c("Coast and Mountains",
-  "Georgia Depression", "Central Interior", "Southern Interior",
-  "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains",
-  "Taiga Plains", "Northern Boreal Mountains", "British Columbia"),
-  switch = FALSE, prefix = "")
+  station = FALSE, nrow = NULL, map = cccharts::bc, width = 500L,
+  height = 425L, ask = TRUE, dir = NULL, limits = NULL,
+  llab = ylab_trend, labels = TRUE, low = "blue", mid = "yellow",
+  high = "red", bounds = c(0, 1, 0, 1),
+  ecoprovinces = c("Coast and Mountains", "Georgia Depression",
+  "Central Interior", "Southern Interior", "Southern Interior Mountains",
+  "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
+  "Northern Boreal Mountains", "British Columbia"), switch = FALSE,
+  prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -25,8 +25,6 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{nrow}{A count of the number of rows when facet wrapping.}
 
 \item{map}{A SpatialPolygonsDataFrame object.}
-
-\item{proj4string}{A character string of projection arguments; the arguments must be entered exactly as in the PROJ.4 documentation.}
 
 \item{width}{A count of the png width in pixels.}
 
