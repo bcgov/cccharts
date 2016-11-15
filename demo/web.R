@@ -26,5 +26,23 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Seaso
 
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Long"), station = TRUE, dir = "flow_station_discharge", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_fit_pngs(data = cccharts::flow_station_discharge, observed = cccharts::flow_station_discharge_observed, color = "Term", facet = "Station", by = "Indicator", ask = FALSE)
+# fit for flow discharge
+#plot_fit_pngs(data = cccharts::flow_station_discharge, observed = cccharts::flow_station_discharge_observed, color = "Term", facet = "Station", by = "Indicator", ask = FALSE)
 
+### snow ###
+
+plot_estimates_pngs(data = cccharts::snow, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+
+map_estimates_pngs(data = cccharts::snow, by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+
+# fit for snow...
+
+### snow station ###
+
+plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), x = "Station", by = c("Indicator"), width = 500L, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"),horizontal = FALSE, ask = FALSE)
+
+plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Water Equivalent"), x = "Station", by = c("Indicator"), width = 700L, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"),horizontal = FALSE, ask = FALSE)
+
+map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, labels = FALSE, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+
+# fit for snow station...

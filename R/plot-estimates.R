@@ -72,13 +72,13 @@ plot_estimates <- function(
     }
   } else { # with limits
     if (geom == "point") {
-      gp <- gp +  geom_hline(aes(yintercept = 0), linetype = 2) +
-        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
-        geom_point(size = 4, aes_string(color = "Estimate"))
+      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
+        geom_point(size = 4, aes_string(color = "Estimate")) +
+        geom_hline(aes(yintercept = 0), linetype = 2)
     } else { # bar with limits
-      gp <- gp +  geom_hline(aes(yintercept = 0)) +
-        geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
-        geom_bar(stat = "identity", position = "identity", aes_string(fill = "Estimate"))
+      gp <- gp + geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
+        geom_bar(stat = "identity", position = "identity", aes_string(fill = "Estimate")) +
+        geom_hline(aes(yintercept = 0))
     }
   }
   gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
