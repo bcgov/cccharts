@@ -18,7 +18,7 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", mid = "yellow", high = "red", switch = FALSE,
+map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", high = "red",
                           ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                                            "Southern Interior", "Southern Interior Mountains",
                                            "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
@@ -34,7 +34,6 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
   }
   check_vector(bounds, c(0,1), min_length = 4, max_length = 4)
   check_vector(ecoprovinces, value = .ecoprovince, min_length = 1)
-  check_flag(switch)
 
   ecoprovinces %<>% c("Southern Alaska Mountains", "British Columbia") %>% unique()
 
@@ -68,11 +67,6 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
     suppressMessages(polygon <- broom::tidy(map))
     data %<>% latlong2eastnorth(projargs = "+init=epsg:3005")
   }
-  if (switch) {
-    x <- low
-    low <- high
-    high <- x
-  }
 
   gp <- ggplot() +
     coord_equal()
@@ -82,9 +76,9 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                             ggplot2::aes_string(x = "long", y = "lat", group = "group"),
                             fill = "grey90", color = "white") +
       geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 4) +
-      scale_color_gradient2(limits = limits, labels = get_labels(data),
+      scale_color_gradient(limits = limits, labels = get_labels(data),
                             guide = guide_colourbar(title = llab(data), title.position = "bottom"),
-                            low = low, mid = mid, high = high)
+                            low = low, high = high)
 
     if (labels) {
       gp <- gp + ggrepel::geom_label_repel(data = data, aes_(x = ~Easting, y = ~Northing, label = ~Station))
@@ -97,7 +91,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                    ggplot2::aes_string(x = "long", y = "lat", group = "group"),
                    fill = "white", color = "grey75") +
       scale_fill_gradient2(limits = limits, labels = get_labels(data), low = low,
-                           high = high, mid = mid,
+                           high = high,
                            na.value = "grey90",
                            guide = guide_colourbar(title = llab(data), title.position = "bottom"))
     if (labels) {
@@ -134,24 +128,22 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
 #' @param labels A flag indicating wether to plot labels.
 #' @param bounds A numeric vector of four values between 0 and 1 specifying the start and end of the x-axis bounding box and the start and end of the y-axis bounding box.
 #' @param ecoprovinces A character vector specifying the ecoprovince areas to include in the map.
-#' @param switch A flag indicating whether to switch the high and low color values.
 #' @export
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
   map = cccharts::bc, width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = TRUE,
-  low = "blue", mid = "yellow", high = "red", bounds = c(0,1,0,1),
+  low = "blue", high = "red", bounds = c(0,1,0,1),
   ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                    "Southern Interior", "Southern Interior Mountains",
                    "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
                    "Northern Boreal Mountains", "British Columbia"),
-  switch = FALSE, prefix = "") {
+  prefix = "") {
 
   test_estimate_data(data)
   check_flag(station)
   check_flag(ask)
   check_vector(bounds, c(0,1), min_length = 4, max_length = 4)
-  check_flag(switch)
   check_vector(ecoprovinces, value = .ecoprovince, min_length = 1)
 
   if (is.null(dir)) {
@@ -175,8 +167,8 @@ map_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, llab = llab,
-              limits = limits, labels = labels, low = low, mid = mid, high = high,
-              bounds = bounds, switch = switch, ecoprovinces = ecoprovinces,
+              limits = limits, labels = labels, low = low, high = high,
+              bounds = bounds, ecoprovinces = ecoprovinces,
               fun = map_estimates, prefix = prefix)
   invisible(TRUE)
 }

@@ -20,7 +20,7 @@
 #' @examples
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
-plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point", ci = TRUE, low = "blue", mid = "yellow", high = "red", breaks = waiver(), horizontal = TRUE, ylab = ylab_trend) {
+plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point", ci = TRUE, low = "blue", high = "red", breaks = waiver(), horizontal = TRUE, ylab = ylab_trend) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
@@ -76,10 +76,10 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
     }
     gp <- gp + scale_alpha_discrete(range = c(0.5, 1), drop = FALSE, guide = FALSE)
   }
-  gp <- gp + scale_color_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
+  gp <- gp + scale_color_gradient(limits = limits, low = low, high = high, guide = FALSE)
 
   if (geom == "bar") {
-    gp <- gp + scale_fill_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
+    gp <- gp + scale_fill_gradient(limits = limits, low = low, high = high, guide = FALSE)
   }
 
   if (length(facet) == 1) {
@@ -121,7 +121,7 @@ plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
   geom = "point", ci = TRUE, width = 350L, height = 350L,
   ask = TRUE, dir = NULL, limits = NULL,
-  low = "blue", mid = "yellow", high = "red",
+  low = "blue", high = "red",
   breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, prefix = "") {
 
   test_estimate_data(data)
@@ -153,7 +153,7 @@ plot_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, ci = ci, dir = dir,
               width = width, height = height, limits = limits, breaks = breaks,
-              low = low, mid = mid, high = high, horizontal = horizontal,
+              low = low, high = high, horizontal = horizontal,
               ylab = ylab,
               fun = plot_estimates, prefix = prefix)
 
