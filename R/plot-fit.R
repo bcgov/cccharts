@@ -44,6 +44,8 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 
   suppressMessages(observed %<>% dplyr::inner_join(data))
 
+  observed %<>% dplyr::filter_(~Year >= StartYear, ~Year <= EndYear)
+
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)

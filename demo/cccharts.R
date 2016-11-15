@@ -18,7 +18,7 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Term == 
 
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_timing, Season == "Annual", Statistic == "Mean", Term == "Medium"), station = TRUE, dir = "flow_station_timing", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_fit_pngs(data = cccharts::flow_station_timing, observed = cccharts::flow_station_timing_observed, color = "Term", facet = "Station", by = "Indicator", ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_timing, Term == "Medium"), observed = cccharts::flow_station_timing_observed, facet = "Station", by = "Indicator", dir = "flow_station_timing", ask = FALSE)
 
 ### flow discharge ####
 
