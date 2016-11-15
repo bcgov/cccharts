@@ -76,7 +76,7 @@ map_estimates <- function(
   if (station) {
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group"),
-                            fill = "grey90", color = "white") +
+                            fill = "grey75", color = "white") +
       geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 6)
     if(is.null(mid)) {
       gp <- gp + scale_color_gradient(limits = limits, labels = get_labels(data),
