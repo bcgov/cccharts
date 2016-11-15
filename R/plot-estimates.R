@@ -176,5 +176,5 @@ plot_estimates_pngs <- function(
               low = low, mid = mid, high = high, horizontal = horizontal,
               ylab = ylab, hjust = hjust, vjust = vjust,
               fun = plot_estimates, prefix = prefix)
-  data
+  invisible(data)
 }

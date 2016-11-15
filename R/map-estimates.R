@@ -77,7 +77,7 @@ map_estimates <- function(
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group"),
                             fill = "grey90", color = "white") +
-      geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 4)
+      geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 6)
     if(is.null(mid)) {
       gp <- gp + scale_color_gradient(limits = limits, labels = get_labels(data),
                                       guide = guide_colourbar(title = llab(data), title.position = "bottom"),
@@ -187,6 +187,5 @@ map_estimates_pngs <- function(
               limits = limits, labels = labels, low = low, mid = mid, high = high,
               bounds = bounds, ecoprovinces = ecoprovinces,
               fun = map_estimates, prefix = prefix)
-  data
+  invisible(data)
 }
-
