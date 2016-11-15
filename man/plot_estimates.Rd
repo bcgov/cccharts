@@ -8,7 +8,7 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
   limits = NULL, geom = "point", ci = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"),
   high = getOption("cccharts.high"), breaks = waiver(), horizontal = TRUE,
-  ylab = ylab_trend)
+  ylab = ylab_trend, hjust = 1.2, vjust = 1.8)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -38,6 +38,10 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
 \item{horizontal}{A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).}
 
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
+
+\item{hjust}{A number specifying the horizontal offset for NS labels.}
+
+\item{vjust}{A number specifying the vertical offset for NS labels.}
 }
 \value{
 A ggplot2 object.
