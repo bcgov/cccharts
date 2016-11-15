@@ -35,11 +35,7 @@ plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 
 ![](README-unnamed-chunk-4-1.png)
 
-To generate the plots for the website (creates a folder in the working directory called `cccharts`).
-
-    demo("web", ask = FALSE)
-
-To generate all plot files (creates a folder in the working directory called `cccharts`).
+To generate the plot files (creates a folder in the working directory called `cccharts`).
 
     demo("cccharts", ask = FALSE)
 
