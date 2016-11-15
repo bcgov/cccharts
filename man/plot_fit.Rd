@@ -18,7 +18,7 @@ plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
 
 \item{color}{A string indicating the column to plot by color.}
 
-\item{limits}{A numeric vector of length two providing limits of the scale.}
+\item{limits}{A numeric vector of length two providing limits of the color scale.}
 
 \item{breaks}{A numeric vector of positions.}
 

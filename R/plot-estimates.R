@@ -21,7 +21,7 @@
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
 plot_estimates <- function(
-  data, x, facet = NULL, nrow = NULL, limits = NULL, geom = "point", ci = TRUE,
+  data, x, facet = NULL, nrow = NULL, ylimits = NULL, limits = NULL, geom = "point", ci = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   breaks = waiver(), horizontal = TRUE, ylab = ylab_trend) {
   test_estimate_data(data)
@@ -38,6 +38,8 @@ plot_estimates <- function(
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
                              Lower = ~Lower / 100,
                              Upper = ~Upper / 100)
+    if (is.numeric(ylimits))
+      ylimits %<>% magrittr::divide_by(100)
     if (is.numeric(limits))
       limits %<>% magrittr::divide_by(100)
     if (is.numeric(breaks))
@@ -54,10 +56,11 @@ plot_estimates <- function(
   data$Significant %<>% factor(levels = c(FALSE, TRUE))
 
   if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
+  if (x == "Station") levels(data[[x]]) <- stringr::str_replace_all(levels(data[[x]]), " ", "\n")
 
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
     scale_y_continuous(ylab(data), labels = get_labels(data),
-                       limits = limits, breaks = breaks)
+                       limits = ylimits, breaks = breaks)
 
   if (!ci || missing_limits) {
     if (geom == "point") {
@@ -118,7 +121,8 @@ plot_estimates <- function(
 #' @param height A count of the png height in pixels.
 #' @param ask A flag indicating whether to ask before creating the directory
 #' @param dir A string of the directory to store the results in.
-#' @param limits A numeric vector of length two providing limits of the scale.
+#' @param ylimits A numeric vector of length two providing limits of the y-axis scale.
+#' @param limits A numeric vector of length two providing limits of the color scale.
 #' @param low A string specifying the color for negative values.
 #' @param mid A string specifying the color for no change.
 #' @param high A string specifying the color for positive values.
@@ -130,7 +134,7 @@ plot_estimates <- function(
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
   geom = "point", ci = TRUE, width = 350L, height = 350L,
-  ask = TRUE, dir = NULL, limits = NULL,
+  ask = TRUE, dir = NULL, ylimits = NULL, limits = NULL, color_limits = NULL,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, prefix = "") {
 
   test_estimate_data(data)
@@ -153,6 +157,7 @@ plot_estimates_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
+  if (is.null(ylimits)) ylimits <- get_ylimits(data)
   if (is.null(limits)) limits <- get_limits(data)
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x, facet)
@@ -161,7 +166,7 @@ plot_estimates_pngs <- function(
   if (all(limits < 0)) limits[2] <- 0
 
   plyr::ddply(data, by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, ci = ci, dir = dir,
-              width = width, height = height, limits = limits, breaks = breaks,
+              width = width, height = height, ylimits = ylimits, limits = limits, breaks = breaks,
               low = low, mid = mid, high = high, horizontal = horizontal,
               ylab = ylab,
               fun = plot_estimates, prefix = prefix)

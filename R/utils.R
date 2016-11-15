@@ -110,6 +110,11 @@ get_limits <- function(data) {
   range(x, na.rm = TRUE)
 }
 
+get_ylimits <- function(data) {
+  x <- c(data$Estimate, data$Lower, data$Upper)
+  range(x, na.rm = TRUE)
+}
+
 get_filename <- function(data) {
   filename <- NULL
   if (all_identical(data$Indicator)) filename %<>% paste(data$Indicator[1])

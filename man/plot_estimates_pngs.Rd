@@ -6,10 +6,10 @@
 \usage{
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
   facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L,
-  height = 350L, ask = TRUE, dir = NULL, limits = NULL,
-  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"),
-  high = getOption("cccharts.high"), breaks = waiver(), horizontal = TRUE,
-  ylab = ylab_trend, prefix = "")
+  height = 350L, ask = TRUE, dir = NULL, ylimits = NULL,
+  limits = NULL, color_limits = NULL, low = getOption("cccharts.low"),
+  mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -34,7 +34,9 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 
 \item{dir}{A string of the directory to store the results in.}
 
-\item{limits}{A numeric vector of length two providing limits of the scale.}
+\item{ylimits}{A numeric vector of length two providing limits of the y-axis scale.}
+
+\item{limits}{A numeric vector of length two providing limits of the color scale.}
 
 \item{low}{A string specifying the color for negative values.}
 

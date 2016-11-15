@@ -88,6 +88,7 @@ map_estimates <- function(
                                        low = low, mid = mid, high = high)
     }
     if (labels) {
+      levels(data$Station) <- stringr::str_replace_all(levels(data$Station), " ", "\n")
       gp <- gp + ggrepel::geom_label_repel(data = data, aes_(x = ~Easting, y = ~Northing, label = ~Station))
     }
   } else {

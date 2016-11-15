@@ -22,7 +22,7 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 
 \item{map}{A SpatialPolygonsDataFrame object.}
 
-\item{limits}{A numeric vector of length two providing limits of the scale.}
+\item{limits}{A numeric vector of length two providing limits of the color scale.}
 
 \item{labels}{A flag indicating wether to plot labels.}
 

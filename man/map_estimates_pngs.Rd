@@ -34,7 +34,7 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 
 \item{dir}{A string of the directory to store the results in.}
 
-\item{limits}{A numeric vector of length two providing limits of the scale.}
+\item{limits}{A numeric vector of length two providing limits of the color scale.}
 
 \item{llab}{A function that takes the data and returns a string for the legend label.}
 
