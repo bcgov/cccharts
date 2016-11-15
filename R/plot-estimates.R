@@ -50,6 +50,8 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 
   data$Significant %<>% factor(levels = c(FALSE, TRUE))
 
+  if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
+
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = limits, breaks = breaks)
@@ -116,8 +118,12 @@ plot_estimates <- function(data, x, facet = NULL, nrow = NULL, limits = NULL, ge
 #' @param prefix A string specifying the prefix for file names.
 #' @export
 plot_estimates_pngs <- function(
-  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L, height = 350L,
-  ask = TRUE, dir = NULL, limits = NULL, low = "blue", mid = "yellow", high = "red", breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, prefix = "") {
+  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
+  geom = "point", ci = TRUE, width = 350L, height = 350L,
+  ask = TRUE, dir = NULL, limits = NULL,
+  low = "blue", mid = "yellow", high = "red",
+  breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, prefix = "") {
+
   test_estimate_data(data)
   check_flag(ask)
   check_scalar(geom, c("^point$", "^bar$", "^point$"))

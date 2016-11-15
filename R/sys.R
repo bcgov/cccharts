@@ -12,7 +12,10 @@
 
 .season <- c("Annual", "Spring", "Summer", "Fall", "Winter")
 
-.ecoprovince <- c("Coast and Mountains", "Georgia Depression", "Central Interior", "Southern Interior", "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains", "Northern Boreal Mountains", "British Columbia")
+.ecoprovince <- c("Coast and Mountains", "Georgia Depression", "Sub-Boreal Interior",
+                  "Northern Boreal Mountains", "Boreal Plains", "Central Interior",
+                  "Taiga Plains", "Southern Interior", "Southern Interior Mountains",
+                  "British Columbia")
 
 .statistic <- c("Minimum", "Mean", "Maximum")
 

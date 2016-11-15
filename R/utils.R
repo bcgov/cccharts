@@ -14,6 +14,20 @@ all_identical <- function(x) {
   length(unique(x)) == 1
 }
 
+#' Acronym
+#'
+#' Creates an Acronym by just extracting the capital letters.
+#' @param x The character vector to convert to acronyms.
+#' @return A character vector.
+#' @export
+#' @examples
+#' acronym(levels(snow$Ecoprovince))
+acronym <- function(x) {
+  x %<>% stringr::str_extract_all("[A-Z]")
+  x %<>% lapply(stringr::str_c, collapse = "") %>% unlist()
+  x
+}
+
 bounds <- function(bounds, map) {
   if (bounds[1] >= bounds[2]) stop("bounds[1] must be less than bounds[2]", call. = FALSE)
   if (bounds[3] >= bounds[4]) stop("bounds[3] must be less than bounds[4]", call. = FALSE)
