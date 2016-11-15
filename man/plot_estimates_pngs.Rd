@@ -9,8 +9,8 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
   height = 350L, ask = TRUE, dir = NULL, ylimits = NULL,
   limits = NULL, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, prefix = "",
-  hjust = 1.2, vjust = 1.8)
+  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates,
+  prefix = "", hjust = 1.2, vjust = 1.8)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}

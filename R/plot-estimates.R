@@ -23,7 +23,7 @@
 plot_estimates <- function(
   data, x, facet = NULL, nrow = NULL, ylimits = NULL, limits = NULL, geom = "point", ci = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, hjust = 1.2, vjust = 1.8) {
+  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
@@ -140,7 +140,7 @@ plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
   geom = "point", ci = TRUE, width = 350L, height = 350L,
   ask = TRUE, dir = NULL, ylimits = NULL, limits = NULL,
-  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  breaks = waiver(), horizontal = TRUE, ylab = ylab_trend, prefix = "",
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, prefix = "",
   hjust = 1.2, vjust = 1.8) {
 
   test_estimate_data(data)

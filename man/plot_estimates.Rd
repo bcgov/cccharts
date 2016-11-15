@@ -8,7 +8,7 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
   limits = NULL, geom = "point", ci = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"),
   high = getOption("cccharts.high"), breaks = waiver(), horizontal = TRUE,
-  ylab = ylab_trend, hjust = 1.2, vjust = 1.8)
+  ylab = ylab_estimates, hjust = 1.2, vjust = 1.8)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}

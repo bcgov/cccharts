@@ -28,10 +28,10 @@ theme_cccharts <- function(facet = FALSE, map = FALSE) {
   theme <- theme + theme(
     plot.title = element_text(size = rel(1.2)),
     axis.title.y = element_text(size = 13),
-    axis.title.x = element_text(size = 13),
+    axis.title.x = element_blank(),
     axis.line = element_blank(),
     panel.grid.major.x = element_blank(),
-    panel.grid.minor.y = element_line(),
+    panel.grid.minor.x = element_blank(),
     panel.border = element_rect(colour = "grey50", fill = NA),
     panel.background = element_rect(colour = "grey50", fill = NA),
     legend.position = ("bottom"),

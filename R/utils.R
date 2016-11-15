@@ -68,6 +68,23 @@ inconsistent_significance <- function(data) {
   data
 }
 
+#' Y-Axis Estimates Trend
+#'
+#' @param data The data to generate the y-axis label for.
+#' @return A string
+#' @export
+ylab_estimates <- function(data) {
+  check_all_identical(data$Units)
+  check_all_identical(data$Period)
+
+  ylab <- paste0(data$Units[1], " per ", data$Period[1], " years")
+  ylab %<>% stringr::str_replace("100 years", "century") %>%
+    stringr::str_replace("10 years", "decade") %>%
+    stringr::str_replace("1 years", "year") %>%
+    stringr::str_replace("percent", "Percent")
+    ylab
+}
+
 #' Y-Axis Label Trend
 #'
 #' @param data The data to generate the y-axis label for.
