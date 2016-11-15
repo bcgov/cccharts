@@ -18,13 +18,12 @@ library(cccharts)
 #> Loading required package: ggplot2
 plot_estimates(data = cccharts::sea_surface_temperature_station, x = "Season", facet = "Station")
 #> Warning: 1 data points have inconsistent significance and limits
-#> Warning: Removed 1 rows containing missing values (geom_errorbar).
 ```
 
 ![](README-unnamed-chunk-2-1.png)
 
 ``` r
-map_estimates(cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.6), switch = TRUE)
+map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.55))
 ```
 
 ![](README-unnamed-chunk-3-1.png)
@@ -35,6 +34,10 @@ plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 ```
 
 ![](README-unnamed-chunk-4-1.png)
+
+To generate the plots for the website (creates a folder in the working directory called `cccharts`).
+
+    demo("web", ask = FALSE)
 
 To generate all plot files (creates a folder in the working directory called `cccharts`).
 
