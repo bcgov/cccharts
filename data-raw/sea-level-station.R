@@ -53,4 +53,6 @@ sea_level_station %<>% select(
 
 sea_level_station %<>% arrange(Indicator, Ecoprovince, Station, StartYear, EndYear)
 
+sea_level_station %<>% cccharts::change_period(100L)
+
 use_data(sea_level_station, overwrite = TRUE)
