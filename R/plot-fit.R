@@ -59,9 +59,9 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
                        limits = limits, breaks = breaks)
 
   if (is.null(color)) {
-    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"))
+    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"), size = 1.5)
   } else {
-    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color)) +
+    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color), size = 1.5) +
       scale_color_manual(values = c("black", "red"))
 
   }
@@ -82,7 +82,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 #' @param color A string indicating the column to plot by color.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 250L, height = 250L, ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit, prefix = "") {
+  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, limits = NULL, breaks = waiver(), ylab = ylab_fit, prefix = "") {
 
   test_estimate_data(data)
   test_observed_data(observed)

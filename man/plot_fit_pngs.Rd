@@ -5,8 +5,8 @@
 \title{Fit PNGS}
 \usage{
 plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
-  facet = NULL, nrow = NULL, color = NULL, width = 250L,
-  height = 250L, ask = TRUE, dir = NULL, limits = NULL,
+  facet = NULL, nrow = NULL, color = NULL, width = 450L,
+  height = 450L, ask = TRUE, dir = NULL, limits = NULL,
   breaks = waiver(), ylab = ylab_fit, prefix = "")
 }
 \arguments{

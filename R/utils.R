@@ -93,7 +93,7 @@ ylab_trend <- function(data) {
 ylab_fit <- function(data) {
   check_all_identical(data$Units)
 
-  ylab <- paste0("Observed (", data$Units[1], ")") %>%
+  ylab <- paste0(data$Units[1]) %>%
     stringr::str_replace("Percent", "percent")
   ylab
 }

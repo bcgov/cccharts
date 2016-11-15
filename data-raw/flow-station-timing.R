@@ -42,7 +42,7 @@ flow_station_timing$Station %<>% factor(unique(flow_station_timing$Station))
 
 flow_station_timing %<>% filter(Units == "days per year") %>%
   filter(trend_type == "trend.ann.1halfdate")
-flow_station_timing$Units <- "days"
+flow_station_timing$Units <- "Days"
 flow_station_timing$Period <- 1L
 flow_station_timing$Indicator <- "Flow"
 
@@ -64,7 +64,7 @@ flow_station_timing_observed %<>% filter(!is.na(Value))
 
 flow_station_timing_observed$Statistic <- factor("Mean", levels = statistic)
 flow_station_timing_observed$Season <- factor("Annual", levels = season)
-flow_station_timing_observed$Units <- "days"
+flow_station_timing_observed$Units <- "Days"
 flow_station_timing_observed$Indicator <- "Flow"
 
 flow_station_timing_observed %<>% inner_join(unique(select(flow_station_timing, Station, station)), by = "station")
