@@ -18,12 +18,14 @@
 #' @inheritParams map_estimates_pngs
 #' @return A ggplot2 object.
 #' @export
-map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc, limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue", high = "red",
-                          ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
-                                           "Southern Interior", "Southern Interior Mountains",
-                                           "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
-                                           "Northern Boreal Mountains", "British Columbia"),
-                          bounds = c(0,1,0,1)) {
+map_estimates <- function(
+  data, nrow = NULL, station = FALSE, map = cccharts::bc, limits = NULL, labels = TRUE, llab = ylab_trend,
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
+                   "Southern Interior", "Southern Interior Mountains",
+                   "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
+                   "Northern Boreal Mountains", "British Columbia"),
+  bounds = c(0,1,0,1)) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
 
@@ -75,11 +77,16 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group"),
                             fill = "grey90", color = "white") +
-      geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 4) +
-      scale_color_gradient(limits = limits, labels = get_labels(data),
-                            guide = guide_colourbar(title = llab(data), title.position = "bottom"),
-                            low = low, high = high)
-
+      geom_point(data = data, aes_string(x = "Easting", y = "Northing", color = "Estimate"), size = 4)
+    if(is.null(mid)) {
+      gp <- gp + scale_color_gradient(limits = limits, labels = get_labels(data),
+                                      guide = guide_colourbar(title = llab(data), title.position = "bottom"),
+                                      low = low, high = high)
+    } else {
+      gp <- gp + scale_color_gradient2(limits = limits, labels = get_labels(data),
+                                       guide = guide_colourbar(title = llab(data), title.position = "bottom"),
+                                       low = low, mid = mid, high = high)
+    }
     if (labels) {
       gp <- gp + ggrepel::geom_label_repel(data = data, aes_(x = ~Easting, y = ~Northing, label = ~Station))
     }
@@ -89,11 +96,19 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
                             color = "white") +
       geom_polygon(data = dplyr::filter_(polygon, ~!hole & !Significant),
                    ggplot2::aes_string(x = "long", y = "lat", group = "group"),
-                   fill = "white", color = "grey75") +
-      scale_fill_gradient2(limits = limits, labels = get_labels(data), low = low,
-                           high = high,
-                           na.value = "grey90",
-                           guide = guide_colourbar(title = llab(data), title.position = "bottom"))
+                   fill = "white", color = "grey75")
+    if(is.null(mid)) {
+      gp <- gp + scale_fill_gradient(limits = limits, labels = get_labels(data), low = low,
+                                     high = high,
+                                     na.value = "grey90",
+                                     guide = guide_colourbar(title = llab(data), title.position = "bottom"))
+    } else {
+      gp <- gp + scale_fill_gradient2(limits = limits, labels = get_labels(data),
+                                      low = low, mid = mid, high = high,
+                                      na.value = "grey90",
+                                      guide = guide_colourbar(title = llab(data), title.position = "bottom"))
+
+    }
     if (labels) {
       data2 <- map@data
       data2$EastingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
@@ -104,7 +119,7 @@ map_estimates <- function(data, nrow = NULL, station = FALSE, map = cccharts::bc
         stringr::str_replace("Sub[-]", "S. ") %>%
         stringr::str_replace("Northern", "N.") %>%
         stringr::str_replace("and", "&")
-        data2$Ecoprovince %<>% stringr::str_replace("( )(Mountains|Depression|Plains)", "\n\\2")
+      data2$Ecoprovince %<>% stringr::str_replace("( )(Mountains|Depression|Plains)", "\n\\2")
 
       gp <- gp + ggplot2::geom_text(data = data2, aes_(x = ~EastingEcoprovince, y = ~NorthingEcoprovince, label = ~Ecoprovince))
     }
@@ -133,7 +148,8 @@ map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
   map = cccharts::bc, width = 500L, height = 425L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = TRUE,
-  low = "blue", high = "red", bounds = c(0,1,0,1),
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  bounds = c(0,1,0,1),
   ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                    "Southern Interior", "Southern Interior Mountains",
                    "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
@@ -167,7 +183,7 @@ map_estimates_pngs <- function(
 
   plyr::ddply(data, by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, llab = llab,
-              limits = limits, labels = labels, low = low, high = high,
+              limits = limits, labels = labels, low = low, mid = mid, high = high,
               bounds = bounds, ecoprovinces = ecoprovinces,
               fun = map_estimates, prefix = prefix)
   invisible(TRUE)

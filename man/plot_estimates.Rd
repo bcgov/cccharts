@@ -5,7 +5,8 @@
 \title{Plot Trend Estimates}
 \usage{
 plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
-  geom = "point", ci = TRUE, low = "blue", high = "red",
+  geom = "point", ci = TRUE, low = getOption("cccharts.low"),
+  mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   breaks = waiver(), horizontal = TRUE, ylab = ylab_trend)
 }
 \arguments{
@@ -24,6 +25,8 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, limits = NULL,
 \item{ci}{A flag indicating whether to plot confidence intervals.}
 
 \item{low}{A string specifying the color for negative values.}
+
+\item{mid}{A string specifying the color for no change.}
 
 \item{high}{A string specifying the color for positive values.}
 

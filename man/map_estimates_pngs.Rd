@@ -7,7 +7,8 @@
 map_estimates_pngs(data = cccharts::precipitation, by = NULL,
   station = FALSE, nrow = NULL, map = cccharts::bc, width = 500L,
   height = 425L, ask = TRUE, dir = NULL, limits = NULL,
-  llab = ylab_trend, labels = TRUE, low = "blue", high = "red",
+  llab = ylab_trend, labels = TRUE, low = getOption("cccharts.low"),
+  mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   bounds = c(0, 1, 0, 1), ecoprovinces = c("Coast and Mountains",
   "Georgia Depression", "Central Interior", "Southern Interior",
   "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains",
@@ -40,6 +41,8 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 \item{labels}{A flag indicating wether to plot labels.}
 
 \item{low}{A string specifying the color for negative values.}
+
+\item{mid}{A string specifying the color for no change.}
 
 \item{high}{A string specifying the color for positive values.}
 

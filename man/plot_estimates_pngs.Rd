@@ -6,9 +6,10 @@
 \usage{
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
   facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L,
-  height = 350L, ask = TRUE, dir = NULL, limits = NULL, low = "blue",
-  high = "red", breaks = waiver(), horizontal = TRUE, ylab = ylab_trend,
-  prefix = "")
+  height = 350L, ask = TRUE, dir = NULL, limits = NULL,
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"),
+  high = getOption("cccharts.high"), breaks = waiver(), horizontal = TRUE,
+  ylab = ylab_trend, prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -37,6 +38,8 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 
 \item{low}{A string specifying the color for negative values.}
 
+\item{mid}{A string specifying the color for no change.}
+
 \item{high}{A string specifying the color for positive values.}
 
 \item{breaks}{A numeric vector of positions.}
@@ -46,8 +49,6 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
 
 \item{prefix}{A string specifying the prefix for file names.}
-
-\item{mid}{A string specifying the color for no change.}
 }
 \description{
 Generates plots of climate indicator data as png files.

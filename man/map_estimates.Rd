@@ -5,8 +5,9 @@
 \title{Map Trend Estimates}
 \usage{
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
-  limits = NULL, labels = TRUE, llab = ylab_trend, low = "blue",
-  high = "red", ecoprovinces = c("Coast and Mountains",
+  limits = NULL, labels = TRUE, llab = ylab_trend,
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"),
+  high = getOption("cccharts.high"), ecoprovinces = c("Coast and Mountains",
   "Georgia Depression", "Central Interior", "Southern Interior",
   "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains",
   "Taiga Plains", "Northern Boreal Mountains", "British Columbia"),
@@ -28,6 +29,8 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 \item{llab}{A function that takes the data and returns a string for the legend label.}
 
 \item{low}{A string specifying the color for negative values.}
+
+\item{mid}{A string specifying the color for no change.}
 
 \item{high}{A string specifying the color for positive values.}
 
