@@ -5,11 +5,12 @@ estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Statio
                                  low = "#543005", mid = "#f5f5f5", high = "#053061",ask = FALSE)
 
 map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
-                          low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE)
+                          low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE,
+                          ecoprovinces = c("Coast and Mountains", "Georgia Depression"))
 
-#png(filename = "cccharts/sea_level_station.png", width = 800L, height = 800L, type = get_png_type())
-envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2, widths = c(3,1))
-#dev.off()
+png(filename = "cccharts/sea_level_station.png", width = 800L, height = 800L, type = get_png_type())
+envreportutils::multiplot(map[[1]], NULL, estimates[[1]], layout = matrix(c(1,1,3,2), nrow = 2), widths = c(3,1), heights = c(1,3))
+dev.off()
 
 ### SST ####
 plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), x = "Station", by = "Indicator", geom = "bar", ask = FALSE, dir = "sea_surface_temperature_station", width = 450L)
