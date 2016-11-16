@@ -67,18 +67,21 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
       limits %<>% magrittr::divide_by(100)
   }
 
+  data$Significant %<>% factor(levels = c("TRUE", "FALSE"))
+  levels(data) <- c("Significant", "Insignificant")
+
   gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
     geom_point(alpha = 1/3) +
     scale_y_continuous(ylab(data), labels = get_labels(observed),
                        limits = limits, breaks = breaks)
 
   if (is.null(color)) {
-    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend"), size = 1.5)
+    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", alpha = "Significant"), size = 1.5)
   } else {
-    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color), size = 1.5) +
+    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color, alpha = "Significant"), size = 1.5) +
       scale_color_manual(values = c("black", "red"))
-
   }
+  gp <- gp + scale_alpha_manual(values = c(1,1/2), drop = FALSE, guide = FALSE)
 
   if (free_y) {
     scales = "free_y"
