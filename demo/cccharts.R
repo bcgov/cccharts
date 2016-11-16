@@ -8,7 +8,7 @@ map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bo
                           low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE)
 
 #png(filename = "cccharts/sea_level_station.png", width = 800L, height = 800L, type = get_png_type())
-envreportutils::multiplot(map[[1]], estimates[[1]], layout = matrix(c(1,2,1,2)), widths = c(1,1))
+envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2, widths = c(3,1))
 #dev.off()
 
 ### SST ####
