@@ -42,7 +42,7 @@ map_estimates <- function(
   if (!inherits(map, "SpatialPolygonsDataFrame"))
     stop("map must be a SpatialPolygonsDataFrame", call. = FALSE)
 
-  if (data$Units[1] == "percent") {
+  if (data$Units[1] %in% c("percent", "Percent")) {
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
                              Lower = ~Lower / 100,
                              Upper = ~Upper / 100)

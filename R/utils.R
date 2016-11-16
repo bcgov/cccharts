@@ -117,7 +117,7 @@ ylab_fit <- function(data) {
 
 get_labels <- function(data) {
   check_all_identical(data$Units)
-  if (data$Units[1] == "percent")
+  if (data$Units[1] %in% c("Percent", "percent"))
     return(percent)
   return(comma)
 }

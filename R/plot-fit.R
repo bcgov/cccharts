@@ -36,7 +36,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 
   check_all_identical(data$Indicator)
 
-  if (data$Units[1] == "percent") {
+  if (data$Units[1] %in% c("percent", "Percent")) {
     data %<>% rescale_data()
     data$Units <- observed$Units[1]
   }

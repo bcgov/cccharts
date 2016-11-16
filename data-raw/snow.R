@@ -75,5 +75,7 @@ snow_observed %<>% select(Indicator, Ecoprovince, Year, Value, Units)
 
 snow %<>% mutate(Intercept = Intercept + Estimate * StartYear)
 
+snow %<>% change_period(10L)
+
 use_data(snow, overwrite = TRUE)
 use_data(snow_observed, overwrite = TRUE)
