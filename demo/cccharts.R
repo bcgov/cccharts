@@ -16,7 +16,13 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_stati
 
 plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"), x = "Season", by = "Indicator", facet = "Station", ask = FALSE, width = 600L, height = 500L, dir = "sea_surface_temperature_station", prefix = "Seasonal")
 
-map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), by = "Indicator", station = TRUE, bounds = c(0.1,0.65,0,0.5), dir = "sea_surface_temperature_station", ask = FALSE)
+sst <- cccharts::sea_surface_temperature_station
+
+# hack to separate Departure Bay and Entrance Island map points
+sst$Latitude[sst$Station == "Departure Bay"] <- 49
+sst$Latitude[sst$Station == "Entrance Island"] <- 49.2
+
+map_estimates_pngs(data = dplyr::filter(sst, Season == "Annual"), by = "Indicator", station = TRUE, bounds = c(0.1,0.65,0,0.5), dir = "sea_surface_temperature_station", ask = FALSE)
 
 
 ### flow timing ####
