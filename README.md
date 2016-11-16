@@ -8,7 +8,31 @@ cccharts
 Introduction
 ------------
 
-`cccharts` is an R package to plot climate change indicator data for British Columbia.
+`cccharts` is an R package to plot climate change indicator data for British Columbia. It is essentially a wrapper on top of `ggplot2` code.
+
+### Three Plot Types
+
+It produces three types of plots:
+
+-   Color-coded point (or bar chart) estimates with upper and lower confidence intervals (if available) (`plot_estimates`).
+-   Color-coded maps of BC with the estimates for Ecoprovinces or Stations (`map_estimates`).
+-   Raw data with estimated trend lines (`plot_fit`).
+
+Examples of the three types of plots are presented below.
+
+To get more information on the arguments that a function takes type for example `?plot_estimates`.
+
+### PNG Files and `ggplot` Objects
+
+The three base functions return `ggplot` objects which can be modified prior to plotting. The higher level wrappers `plot_estimates_pngs`, `map_estimates_pngs` etc automatically save the plots to png files in a subdirectory of the folder `cccharts` in the working directory. They also return a list of the `ggplot` objects in case the users wishes to manipulate them further.
+
+### Color Scheme
+
+The default color scheme is a *diverging* BrBG Brewer [palette](http://colorbrewer2.org/#type=diverging&scheme=BrBG&n=11). The user can override the color scheme for the `plot_estimates` or `map_estimates` functions by setting the `low`, `mid`, and `high` arguments. To switch to a *sequential* color scheme simply set `mid = NULL`.
+
+### Data
+
+`cccharts` also provides actual datasets. Type `data()` to see the available datasets or for example type `?snow` for more information on the snow data.
 
 Utilisation
 -----------
@@ -23,7 +47,7 @@ plot_estimates(data = cccharts::sea_surface_temperature_station, x = "Season", f
 ![](README-unnamed-chunk-2-1.png)
 
 ``` r
-map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.55))
+map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.55), mid = NULL)
 ```
 
 ![](README-unnamed-chunk-3-1.png)
