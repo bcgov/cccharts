@@ -44,15 +44,9 @@ map_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth
 
 ### snow station ###
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), x = "Station", by = c("Indicator"), width = 500L, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), hjust = 0.5, vjust = 0.5, horizontal = FALSE, ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), by = "Indicator", station = TRUE, labels = FALSE, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Water Equivalent"), x = "Station", by = c("Indicator"), width = 800L, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), hjust = 0.5, vjust = 0.5, horizontal = FALSE, ask = FALSE)
-
-map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, labels = FALSE, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
-
-plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), observed = cccharts::snow_station_observed, dir = "snow_station", facet = "Station",  free_y = TRUE, ask = FALSE)
-
-plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Water Equivalent"), observed = cccharts::snow_station_observed, dir = "snow_station",  facet = "Station",  free_y = TRUE, ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), observed = cccharts::snow_station_observed, by = "Station", dir = "snow_station", width = 200L, height = 200L, ask = FALSE)
 
 ### glacial ###
 

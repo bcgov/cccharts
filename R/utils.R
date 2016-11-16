@@ -142,10 +142,11 @@ get_filename <- function(data) {
   if (all_identical(data$Term) && !is.na(data$Term[1]))
     filename %<>% paste(data$Term[1])
   if (all_identical(data$Station)) {
-    if (all_identical(data$Ecoprovince)) {
-      filename %<>% paste(data$Ecoprovince[1])
-    } else if (!is.na(data$Station[1]))
+    if (!is.na(data$Station[1])) {
       filename %<>% paste(data$Station[1])
+    } else if (all_identical(data$Ecoprovince)) {
+      filename %<>% paste(data$Ecoprovince[1])
+    }
   } else {
     if (all_identical(data$Ecoprovince))
       filename %<>% paste(data$Ecoprovince[1])
