@@ -47,7 +47,3 @@ map_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth
 map_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), by = "Indicator", station = TRUE, labels = FALSE, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), observed = cccharts::snow_station_observed, by = "Station", dir = "snow_station", width = 200L, height = 200L, ask = FALSE)
-
-### glacial ###
-
-map_estimates_pngs(data = cccharts::glacial, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)

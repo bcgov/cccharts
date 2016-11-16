@@ -57,6 +57,16 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
 
   data %<>% add_segment_xyend(observed)
 
+  if (data$Units[1] %in% c("percent", "Percent")) {
+    data %<>% dplyr::mutate_(y = ~y / 100,
+                             yend = ~yend / 100)
+    observed %<>% dplyr::mutate_(Value = ~Value/100)
+    if (is.numeric(breaks))
+      breaks %<>% magrittr::divide_by(100)
+    if (is.numeric(limits))
+      limits %<>% magrittr::divide_by(100)
+  }
+
   gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
     geom_point(alpha = 1/3) +
     scale_y_continuous(ylab(data), labels = get_labels(observed),
