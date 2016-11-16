@@ -12,12 +12,11 @@ envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2, widths = c(3,1))
 #dev.off()
 
 ### SST ####
-plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), x = "Station", by = "Indicator", geom = "bar", ask = FALSE, dir = "sea_surface_temperature_station", mid = NULL, width = 450L)
+plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), x = "Station", by = "Indicator", geom = "bar", ask = FALSE, dir = "sea_surface_temperature_station", width = 450L)
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"), x = "Season", by = "Indicator", facet = "Station", ask = FALSE, width = 600L, height = 500L, mid = NULL, dir = "sea_surface_temperature_station", prefix = "Seasonal")
+plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"), x = "Season", by = "Indicator", facet = "Station", ask = FALSE, width = 600L, height = 500L, dir = "sea_surface_temperature_station", prefix = "Seasonal")
 
-map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), by = "Indicator", station = TRUE, mid = NULL, bounds = c(0.1,0.65,0,0.5), dir = "sea_surface_temperature_station", ask = FALSE)
-
+map_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season == "Annual"), by = "Indicator", station = TRUE, bounds = c(0.1,0.65,0,0.5), dir = "sea_surface_temperature_station", ask = FALSE)
 
 
 ### flow timing ####
@@ -39,7 +38,7 @@ plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "
 
 ### snow ###
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "snow", ask = FALSE)
+plot_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), dir = "snow", breaks = seq(-20,10,by = 5), ask = FALSE)
 
 map_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "snow", ask = FALSE)
 
