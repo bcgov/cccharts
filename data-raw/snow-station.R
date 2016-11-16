@@ -51,7 +51,7 @@ snow_station %<>% select(
 
 snow_station %<>% arrange(Indicator, Ecoprovince, Station, StartYear, EndYear)
 
-snow_station_observed %<>% select(Station = STATIONID, Year = YEAR, `Snow Depth` = APR_1_DEPTH, `Snow Water Equivalent` = APR_1_SWE)
+snow_station_observed %<>% select(Station = STATIONID, Year = YEAR, `Snow Depth` = depth_anom, `Snow Water Equivalent` = swe_anom)
 
 snow_station_observed %<>% gather(Indicator, Value, -Station, -Year)
 
