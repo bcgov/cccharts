@@ -39,13 +39,9 @@ plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "
 
 ### snow ###
 
-plot_estimates_pngs(data = cccharts::snow, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+plot_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "snow", ask = FALSE)
 
-map_estimates_pngs(data = cccharts::snow, by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
-
-plot_fit_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), observed = cccharts::snow_observed, dir = "snow", facet = "Ecoprovince", free_y = TRUE, ask = FALSE)
-
-plot_fit_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Water Equivalent"), observed = cccharts::snow_observed, dir = "snow", facet = "Ecoprovince", free_y = TRUE, ask = FALSE)
+map_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "snow", ask = FALSE)
 
 ### snow station ###
 
