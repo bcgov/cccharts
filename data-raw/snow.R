@@ -30,7 +30,7 @@ snow$Indicator <- NA
 snow$Indicator[snow$measure == "depth"] <- "Snow Depth"
 snow$Indicator[snow$measure == "swe"] <- "Snow Water Equivalent"
 
-snow$Units <- "anomaly"
+snow$Units <- "Percent"
 snow$Period <- 1L
 
 snow$Ecoprovince %<>%  factor(levels = ecoprovince)
@@ -69,7 +69,7 @@ snow %<>% select(
   Indicator, Units, Period, StartYear, EndYear, Ecoprovince,
   Estimate, Lower, Upper, Intercept, Significant)
 
-snow_observed$Units <- "anomaly"
+snow_observed$Units <- "Percent"
 
 snow_observed %<>% select(Indicator, Ecoprovince, Year, Value, Units)
 
