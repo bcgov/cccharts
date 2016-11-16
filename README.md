@@ -29,14 +29,14 @@ map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1
 ![](README-unnamed-chunk-3-1.png)
 
 ``` r
-plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed, 
-                    facet = "Station", nrow = 2, color = "Term")
+plot_fit(data = dplyr::filter(cccharts::flow_station_timing, Term == "Medium"), observed = cccharts::flow_station_timing_observed, facet = "Station")
 ```
 
 ![](README-unnamed-chunk-4-1.png)
 
 To generate the plot files (creates a folder in the working directory called `cccharts`).
 
+    library(cccharts)
     demo("cccharts", ask = FALSE)
 
 Installation

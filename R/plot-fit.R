@@ -44,6 +44,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
     stop("inconsistent units", call. = FALSE)
 
   suppressMessages(observed %<>% dplyr::inner_join(data))
+  suppressMessages(data %<>% dplyr::semi_join(observed))
 
   observed %<>% dplyr::filter_(~Year >= StartYear, ~Year <= EndYear)
 

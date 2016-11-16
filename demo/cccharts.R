@@ -55,9 +55,9 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "S
 
 map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, labels = FALSE, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), observed = cccharts::snow_station_observed, dir = "snow_station", facet = "Station", ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), observed = cccharts::snow_station_observed, dir = "snow_station", facet = "Station",  free_y = TRUE, ask = FALSE)
 
-plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Water Equivalent"), observed = cccharts::snow_station_observed, dir = "snow_station", facet = "Station", ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Water Equivalent"), observed = cccharts::snow_station_observed, dir = "snow_station",  facet = "Station",  free_y = TRUE, ask = FALSE)
 
 ### glacial ###
 
