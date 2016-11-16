@@ -33,6 +33,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, li
   data %<>% complete_estimate_data()
   observed %<>% complete_observed_data()
 
+
   check_all_identical(data$Indicator)
 
   if (data$Units[1] == "percent") {
@@ -108,7 +109,6 @@ plot_fit_pngs <- function(
 
   data %<>% complete_estimate_data()
   observed %<>% complete_observed_data()
-
   if (ask && !yesno(paste0("Create directory '", dir ,"'"))) return(invisible(FALSE))
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)

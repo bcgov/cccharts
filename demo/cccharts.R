@@ -43,9 +43,9 @@ plot_estimates_pngs(data = cccharts::snow, low = getOption("cccharts.high"), hig
 
 map_estimates_pngs(data = cccharts::snow, by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_fit_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), observed = cccharts::snow_observed, dir = "snow", facet = "Ecoprovince", ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), observed = cccharts::snow_observed, dir = "snow", facet = "Ecoprovince", free_y = TRUE, ask = FALSE)
 
-plot_fit_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Water Equivalent"), observed = cccharts::snow_observed, dir = "snow", facet = "Ecoprovince", ask = FALSE)
+plot_fit_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Water Equivalent"), observed = cccharts::snow_observed, dir = "snow", facet = "Ecoprovince", free_y = TRUE, ask = FALSE)
 
 ### snow station ###
 

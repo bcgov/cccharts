@@ -259,9 +259,9 @@ complete_observed_data <- function(data) {
   if (!tibble::has_name(data, "Season")) data$Season <- factor("Annual", levels = .season)
 
   data %<>% dplyr::select_(
-    ~Indicator, ~Statistic, ~Season, ~Station, ~Year, ~Value, ~Units)
+    ~Indicator, ~Statistic, ~Season, ~Ecoprovince, ~Station, ~Year, ~Value, ~Units)
 
-  data %<>% dplyr::arrange_(~Indicator, ~Statistic, ~Season, ~Station, ~Year)
+  data %<>% dplyr::arrange_(~Indicator, ~Statistic, ~Season, ~Ecoprovince, ~Station, ~Year)
   data
 }
 

@@ -67,11 +67,11 @@ flow_station_timing_observed$Season <- factor("Annual", levels = season)
 flow_station_timing_observed$Units <- "Days"
 flow_station_timing_observed$Indicator <- "Flow"
 
-flow_station_timing_observed %<>% inner_join(unique(select(flow_station_timing, Station, station)), by = "station")
+flow_station_timing_observed %<>% inner_join(unique(select(flow_station_timing, Ecoprovince, Station, station)), by = "station")
 
-flow_station_timing_observed %<>% select(Indicator, Statistic, Season, Station, Year, Value, Units)
+flow_station_timing_observed %<>% select(Indicator, Statistic, Season, Ecoprovince, Station, Year, Value, Units)
 
-flow_station_timing_observed %<>% arrange(Indicator, Statistic, Season, Station, Year)
+flow_station_timing_observed %<>% arrange(Indicator, Statistic, Season, Ecoprovince, Station, Year)
 
 flow_station_timing_observed$Station %<>% factor(levels = levels(flow_station_timing$Station))
 

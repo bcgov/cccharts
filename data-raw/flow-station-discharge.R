@@ -64,11 +64,11 @@ flow_station_discharge_observed %<>% filter(!is.na(Value))
 flow_station_discharge_observed$Units <- "Cumecs"
 flow_station_discharge_observed$Indicator <- "Flow"
 
-flow_station_discharge_observed %<>% inner_join(unique(select(flow_station_discharge, Station, station)), by = "station")
+flow_station_discharge_observed %<>% inner_join(unique(select(flow_station_discharge, Station, Ecoprovince, station)), by = "station")
 
-flow_station_discharge_observed %<>% select(Indicator, Statistic, Season, Station, Year, Value, Units)
+flow_station_discharge_observed %<>% select(Indicator, Statistic, Season, Ecoprovince, Station, Year, Value, Units)
 
-flow_station_discharge_observed %<>% arrange(Indicator, Statistic, Season, Station, Year)
+flow_station_discharge_observed %<>% arrange(Indicator, Statistic, Season, Ecoprovince, Station, Year)
 
 flow_station_discharge_observed$Station %<>% factor(levels = levels(flow_station_discharge$Station))
 

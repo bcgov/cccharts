@@ -39,9 +39,9 @@ snow %<>% mutate(Uncertainty = multiply_by(slope_SE, 1.96))
 snow %<>% mutate(Estimate = slope_percentperyear,
                  Lower = slope_percentperyear - Uncertainty,
                  Upper = slope_percentperyear + Uncertainty,
-                 Estimate = Estimate * 10,
-                 Lower = Lower * 10,
-                 Upper = Upper * 10)
+                 Estimate = Estimate ,
+                 Lower = Lower,
+                 Upper = Upper)
 
 snow %<>% select(
   Indicator, Units, Period, StartYear, EndYear, Ecoprovince,
@@ -49,41 +49,31 @@ snow %<>% select(
 
 snow %<>% arrange(Indicator, Ecoprovince, StartYear, EndYear)
 
-snow_observed %<>% rename(Year = year)
+snow_observed %<>% rename(Year = year, Indicator = measure)
 
-snow_observed %<>% gather(Ecoprovince, Value, -Year)
-snow_se_observed <- filter(snow_observed, str_detect(Ecoprovince, "\\sSE$"))
+snow_observed %<>% gather(Ecoprovince, Value, -Year, -Indicator)
 snow_observed %<>% filter(!str_detect(Ecoprovince, "\\sSE$"))
-
-snow_se_observed$Ecoprovince %<>% str_replace("\\sSE$", "")
 
 snow_observed$Ecoprovince %<>% str_to_title() %>% str_replace("And", "and") %>%
   factor(levels = ecoprovince)
-snow_se_observed$Ecoprovince %<>% str_to_title() %>% str_replace("And", "and") %>%
-  factor(levels = ecoprovince)
 
-snow_observed$Indicator <- "Snow Depth"
-snow_se_observed$Indicator <- "Snow Water Equivalent"
-
-snow_observed %<>% bind_rows(snow_se_observed)
+snow_observed$Indicator[snow_observed$Indicator == "depth"] <- "Snow Depth"
+snow_observed$Indicator[snow_observed$Indicator == "swe"] <- "Snow Water Equivalent"
 
 snow_observed %<>% inner_join(snow, by = c("Indicator", "Ecoprovince"))
 snow_observed %<>% filter(Year >= StartYear & Year <= EndYear)
 
 snow_observed %<>% mutate(Value = as.numeric(Value))
 
-scale <- group_by(snow_observed, Indicator, Ecoprovince) %>% summarise(Scale = mean(Value)) %>%
-  ungroup()
-
-snow %<>% inner_join(scale, by = c("Indicator", "Ecoprovince"))
-
 snow %<>% select(
   Indicator, Units, Period, StartYear, EndYear, Ecoprovince,
-  Estimate, Lower, Upper, Intercept, Scale, Significant)
+  Estimate, Lower, Upper, Intercept, Significant)
 
 snow_observed$Units <- "anomaly"
 
 snow_observed %<>% select(Indicator, Ecoprovince, Year, Value, Units)
+
+snow %<>% mutate(Intercept = Intercept + Estimate * StartYear)
 
 use_data(snow, overwrite = TRUE)
 use_data(snow_observed, overwrite = TRUE)
