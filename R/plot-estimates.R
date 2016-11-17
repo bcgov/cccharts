@@ -129,7 +129,7 @@ plot_estimates <- function(
 #' @param vjust A number specifying the vertical offset for NS labels.
 #' @export
 plot_estimates_pngs <- function(
-  data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
+  data = cccharts::precipitation, x = NULL, by = "Indicator", facet = NULL, nrow = NULL,
   geom = "point", width = 350L, height = 350L,
   ask = TRUE, dir = NULL, ylimits = NULL, climits = NULL,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  ybreaks = waiver(), xbreaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, prefix = "",
@@ -140,6 +140,7 @@ plot_estimates_pngs <- function(
   check_scalar(geom, c("^point$", "^bar$", "^point$"))
   check_flag(horizontal)
   if (!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
+  check_vector(by, "", min_length = 1)
 
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
@@ -157,13 +158,12 @@ plot_estimates_pngs <- function(
   if (is.null(ylimits)) ylimits <- get_ylimits(data)
   if (is.null(climits)) climits <- get_climits(data)
   if (is.null(x)) x <- get_x(data)
-  if (is.null(by)) by <- get_by(data, x, facet)
 
   data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, dir = dir,
                         width = width, height = height, ylimits = ylimits, climits = climits,
                         ybreaks = ybreaks, xbreaks = xbreaks,
                         low = low, mid = mid, high = high, horizontal = horizontal,
                         ylab = ylab, hjust = hjust, vjust = vjust,
-                        fun = plot_estimates, prefix = prefix)
+                        fun = plot_estimates, prefix = prefix, by = by)
   invisible(data)
 }

@@ -4,9 +4,9 @@
 \alias{plot_estimates_pngs}
 \title{Estimate PNGs}
 \usage{
-plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
-  facet = NULL, nrow = NULL, geom = "point", width = 350L,
-  height = 350L, ask = TRUE, dir = NULL, ylimits = NULL,
+plot_estimates_pngs(data = cccharts::precipitation, x = NULL,
+  by = "Indicator", facet = NULL, nrow = NULL, geom = "point",
+  width = 350L, height = 350L, ask = TRUE, dir = NULL, ylimits = NULL,
   climits = NULL, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   ybreaks = waiver(), xbreaks = waiver(), horizontal = TRUE,

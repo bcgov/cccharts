@@ -150,7 +150,7 @@ map_estimates <- function(
 #' @param ecoprovinces A character vector specifying the ecoprovince areas to include in the map.
 #' @export
 map_estimates_pngs <- function(
-  data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
+  data = cccharts::precipitation, by = "Indicator", station = FALSE, nrow = NULL,
   map = cccharts::bc, width = 500L, height = 450L,
   ask = TRUE, dir = NULL, climits = NULL, llab = ylab_trend, labels = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
@@ -166,6 +166,7 @@ map_estimates_pngs <- function(
   check_flag(ask)
   check_vector(bounds, c(0,1), min_length = 4, max_length = 4)
   check_vector(ecoprovinces, value = .ecoprovince, min_length = 1)
+  check_vector(by, "", min_length = 1)
 
   if (is.null(dir)) {
     dir <- deparse(substitute(data)) %>% stringr::str_replace("^\\w+[:]{2,2}", "")
@@ -181,12 +182,11 @@ map_estimates_pngs <- function(
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   if (is.null(climits)) climits <- get_climits(data)
-  if (is.null(by)) by <- get_by(data, c("Ecoprovince", "Station"))
 
   data %<>% plyr::dlply(by, fun_png, nrow = nrow, station = station, dir = dir,
               width = width, height = height, map = map, llab = llab,
               climits = climits, labels = labels, low = low, mid = mid, high = high,
               bounds = bounds, ecoprovinces = ecoprovinces,
-              fun = map_estimates, prefix = prefix)
+              fun = map_estimates, prefix = prefix, by = by)
   invisible(data)
 }

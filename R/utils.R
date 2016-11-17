@@ -82,7 +82,7 @@ ylab_estimates <- function(data) {
     stringr::str_replace("10 years", "decade") %>%
     stringr::str_replace("1 years", "year") %>%
     stringr::str_replace("percent", "Percent")
-    ylab
+  ylab
 }
 
 #' Y-Axis Label Trend
@@ -99,7 +99,7 @@ ylab_trend <- function(data) {
     stringr::str_replace("10 years", "decade") %>%
     stringr::str_replace("1 years", "year") %>%
     stringr::str_replace("percent", "Percent")
-    ylab
+  ylab
 }
 
 #' Y-Axis Label Fit
@@ -138,33 +138,14 @@ get_ylimits <- function(data) {
   x
 }
 
-get_filename <- function(data) {
-  filename <- NULL
-  if (all_identical(data$Indicator)) filename %<>% paste(data$Indicator[1])
-  if (all_identical(data$Statistic) && data$Statistic[1] != "Mean")
-    filename %<>% paste(data$Statistic[1])
-  if (all_identical(data$Season) && data$Season != "Annual")
-    filename %<>% paste(data$Season[1])
-  if (all_identical(data$Term) && !is.na(data$Term[1]))
-    filename %<>% paste(data$Term[1])
-  if (all_identical(data$Station)) {
-    if (!is.na(data$Station[1])) {
-      filename %<>% paste(data$Station[1])
-    } else if (all_identical(data$Ecoprovince)) {
-      filename %<>% paste(data$Ecoprovince[1])
-    }
-  } else {
-    if (all_identical(data$Ecoprovince))
-      filename %<>% paste(data$Ecoprovince[1])
-  }
-  stopifnot(!is.null(filename))
-  filename
-}
+get_filename <- function(data, by) {
+  check_vector(by, "", min_length = 1)
 
-get_by <- function(data, x, facet = NULL) {
-  by <- c("Indicator", "Ecoprovince", "Station", "Statistic", "Season")
-  by <- by[!by %in% c(x, facet)]
-  by
+  filename <- NULL
+  for (b in by) {
+    filename %<>% paste(data[[b]][1])
+  }
+  filename
 }
 
 get_x <- function(data) {
@@ -289,10 +270,10 @@ plot_ggplot <- function(gp, filename, width, height) {
   dev.off()
 }
 
-fun_png <- function(data, dir, width, height, fun, prefix, ...) {
+fun_png <- function(data, dir, width, height, fun, prefix, by, ...) {
   check_string(prefix)
 
-  filename <- get_filename(data) %>% paste0(".png") %>% paste0(prefix, .)
+  filename <- get_filename(data, by) %>% paste0(".png") %>% paste0(prefix, .)
   filename <- file.path(dir, filename)
 
   gp <- fun(data, ...)

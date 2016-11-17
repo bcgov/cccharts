@@ -4,7 +4,7 @@
 \alias{plot_fit_pngs}
 \title{Fit PNGS}
 \usage{
-plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
+plot_fit_pngs(data = cccharts::precipitation, observed, by = "Indicator",
   facet = NULL, nrow = NULL, color = NULL, width = 450L,
   height = 450L, ask = TRUE, dir = NULL, ylimits = NULL,
   ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,

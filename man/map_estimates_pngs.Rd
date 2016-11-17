@@ -4,7 +4,7 @@
 \alias{map_estimates_pngs}
 \title{Maps PNGs}
 \usage{
-map_estimates_pngs(data = cccharts::precipitation, by = NULL,
+map_estimates_pngs(data = cccharts::precipitation, by = "Indicator",
   station = FALSE, nrow = NULL, map = cccharts::bc, width = 500L,
   height = 450L, ask = TRUE, dir = NULL, climits = NULL,
   llab = ylab_trend, labels = TRUE, low = getOption("cccharts.low"),

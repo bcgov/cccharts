@@ -108,13 +108,14 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
 #' @param free_y A flag indicating whether the facet axis should have free_y scales.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,
+  data = cccharts::precipitation, observed, by = "Indicator", facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,
   free_y = FALSE, prefix = "") {
 
   test_estimate_data(data)
   test_observed_data(observed)
   check_flag(ask)
   check_flag(free_y)
+  check_vector(by, "", min_length = 1)
   if (!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 
   if (is.null(dir)) {
@@ -138,13 +139,11 @@ plot_fit_pngs <- function(
   suppressMessages(data %<>% dplyr::semi_join(observed))
   suppressMessages(observed %<>% dplyr::semi_join(data))
 
-  if (is.null(by)) by <- get_by(data, "Year", facet)
-
   data %<>% plyr::dlply(by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
               width = width, height = height, ylimits = ylimits,
               ybreaks = ybreaks, xbreaks = xbreaks, color = color,
               ylab = ylab, free_y = free_y,
-              fun = plot_fit, prefix = prefix)
+              fun = plot_fit, prefix = prefix, by = by)
 
   invisible(data)
 }
