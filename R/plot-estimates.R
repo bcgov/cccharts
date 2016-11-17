@@ -23,7 +23,7 @@
 plot_estimates <- function(
   data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  ybreaks = waiver(), xbreaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
+  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
@@ -32,7 +32,6 @@ plot_estimates <- function(
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
   }
-  check_flag(horizontal)
 
   if (data$Units[1] %in% c("percent", "Percent")) {
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
@@ -97,8 +96,6 @@ plot_estimates <- function(
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
   gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
-  if (!horizontal)
-    gp <- gp + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
   gp
 }
 
@@ -122,7 +119,6 @@ plot_estimates <- function(
 #' @param high A string specifying the color for positive values.
 #' @param ybreaks A numeric vector of y-axis tick mark positions.
 #' @param xbreaks A numeric vector of x-axis tick mark positions.
-#' @param horizontal A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @param prefix A string specifying the prefix for file names.
 #' @param hjust A number specifying the horizontal offset for NS labels.
@@ -132,13 +128,12 @@ plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = "Indicator", facet = NULL, nrow = NULL,
   geom = "point", width = 350L, height = 350L,
   ask = TRUE, dir = NULL, ylimits = NULL, climits = NULL,
-  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  ybreaks = waiver(), xbreaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, prefix = "",
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates, prefix = "",
   hjust = 1.2, vjust = 1.8) {
 
   test_estimate_data(data)
   check_flag(ask)
   check_scalar(geom, c("^point$", "^bar$", "^point$"))
-  check_flag(horizontal)
   if (!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
   check_vector(by, "", min_length = 1)
 
@@ -162,7 +157,7 @@ plot_estimates_pngs <- function(
   data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, dir = dir,
                         width = width, height = height, ylimits = ylimits, climits = climits,
                         ybreaks = ybreaks, xbreaks = xbreaks,
-                        low = low, mid = mid, high = high, horizontal = horizontal,
+                        low = low, mid = mid, high = high,
                         ylab = ylab, hjust = hjust, vjust = vjust,
                         fun = plot_estimates, prefix = prefix, by = by)
   invisible(data)
