@@ -6,7 +6,7 @@
 \usage{
 map_estimates_pngs(data = cccharts::precipitation, by = NULL,
   station = FALSE, nrow = NULL, map = cccharts::bc, width = 500L,
-  height = 450L, ask = TRUE, dir = NULL, limits = NULL,
+  height = 450L, ask = TRUE, dir = NULL, climits = NULL,
   llab = ylab_trend, labels = TRUE, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   bounds = c(0, 1, 0, 1), ecoprovinces = c("Coast and Mountains",
@@ -34,7 +34,7 @@ map_estimates_pngs(data = cccharts::precipitation, by = NULL,
 
 \item{dir}{A string of the directory to store the results in.}
 
-\item{limits}{A numeric vector of length two providing limits of the color scale.}
+\item{climits}{A character vector of length two providing limits of the color scale.}
 
 \item{llab}{A function that takes the data and returns a string for the legend label.}
 

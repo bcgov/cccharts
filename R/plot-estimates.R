@@ -21,7 +21,7 @@
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
 plot_estimates <- function(
-  data, x, facet = NULL, nrow = NULL, ylimits = NULL, limits = NULL, geom = "point",
+  data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
   test_estimate_data(data)
@@ -40,8 +40,8 @@ plot_estimates <- function(
                              Upper = ~Upper / 100)
     if (is.numeric(ylimits))
       ylimits %<>% magrittr::divide_by(100)
-    if (is.numeric(limits))
-      limits %<>% magrittr::divide_by(100)
+    if (is.numeric(climits))
+      climits %<>% magrittr::divide_by(100)
     if (is.numeric(breaks))
       breaks %<>% magrittr::divide_by(100)
   }
@@ -51,7 +51,7 @@ plot_estimates <- function(
   if (ci) {
     data %<>% inconsistent_significance()
     if (any(data$Inconsistent)) {
-      warning(sum(data$Inconsistent), " data points have inconsistent significance and limits", call. = FALSE, immediate. = TRUE)
+      warning(sum(data$Inconsistent), " data points have inconsistent significance and confidence limits", call. = FALSE, immediate. = TRUE)
     }
   }
 
@@ -85,9 +85,9 @@ plot_estimates <- function(
   gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = hjust, vjust = vjust, size = 2.8)
 
   if (is.null(mid)) {
-    gp <- gp + scale_fill_gradient(limits = limits, low = low, high = high, guide = FALSE)
+    gp <- gp + scale_fill_gradient(limits = climits, low = low, high = high, guide = FALSE)
   } else {
-    gp <- gp + scale_fill_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
+    gp <- gp + scale_fill_gradient2(limits = climits, low = low, mid = mid, high = high, guide = FALSE)
   }
 
   if (length(facet) == 1) {
@@ -115,7 +115,7 @@ plot_estimates <- function(
 #' @param ask A flag indicating whether to ask before creating the directory
 #' @param dir A string of the directory to store the results in.
 #' @param ylimits A numeric vector of length two providing limits of the y-axis scale.
-#' @param limits A numeric vector of length two providing limits of the color scale.
+#' @param climits A character vector of length two providing limits of the color scale.
 #' @param low A string specifying the color for negative values.
 #' @param mid A string specifying the color for no change.
 #' @param high A string specifying the color for positive values.
@@ -129,7 +129,7 @@ plot_estimates <- function(
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
   geom = "point", width = 350L, height = 350L,
-  ask = TRUE, dir = NULL, ylimits = NULL, limits = NULL,
+  ask = TRUE, dir = NULL, ylimits = NULL, climits = NULL,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, prefix = "",
   hjust = 1.2, vjust = 1.8) {
 
@@ -153,15 +153,12 @@ plot_estimates_pngs <- function(
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   if (is.null(ylimits)) ylimits <- get_ylimits(data)
-  if (is.null(limits)) limits <- get_limits(data)
+  if (is.null(climits)) climits <- get_climits(data)
   if (is.null(x)) x <- get_x(data)
   if (is.null(by)) by <- get_by(data, x, facet)
 
-  if (all(limits > 0)) limits[1] <- 0
-  if (all(limits < 0)) limits[2] <- 0
-
   data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, dir = dir,
-                        width = width, height = height, ylimits = ylimits, limits = limits, breaks = breaks,
+                        width = width, height = height, ylimits = ylimits, climits = climits, breaks = breaks,
                         low = low, mid = mid, high = high, horizontal = horizontal,
                         ylab = ylab, hjust = hjust, vjust = vjust,
                         fun = plot_estimates, prefix = prefix)

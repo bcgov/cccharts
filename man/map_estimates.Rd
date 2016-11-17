@@ -5,7 +5,7 @@
 \title{Map Trend Estimates}
 \usage{
 map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
-  limits = NULL, labels = TRUE, llab = ylab_trend,
+  climits = NULL, labels = TRUE, llab = ylab_trend,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"),
   high = getOption("cccharts.high"), ecoprovinces = c("Coast and Mountains",
   "Georgia Depression", "Central Interior", "Southern Interior",
@@ -22,7 +22,7 @@ map_estimates(data, nrow = NULL, station = FALSE, map = cccharts::bc,
 
 \item{map}{A SpatialPolygonsDataFrame object.}
 
-\item{limits}{A numeric vector of length two providing limits of the color scale.}
+\item{climits}{A character vector of length two providing limits of the color scale.}
 
 \item{labels}{A flag indicating wether to plot labels.}
 

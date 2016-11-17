@@ -7,7 +7,7 @@
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
   facet = NULL, nrow = NULL, geom = "point", width = 350L,
   height = 350L, ask = TRUE, dir = NULL, ylimits = NULL,
-  limits = NULL, low = getOption("cccharts.low"),
+  climits = NULL, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates,
   prefix = "", hjust = 1.2, vjust = 1.8)
@@ -35,7 +35,7 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 
 \item{ylimits}{A numeric vector of length two providing limits of the y-axis scale.}
 
-\item{limits}{A numeric vector of length two providing limits of the color scale.}
+\item{climits}{A character vector of length two providing limits of the color scale.}
 
 \item{low}{A string specifying the color for negative values.}
 

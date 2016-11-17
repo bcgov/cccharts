@@ -5,7 +5,7 @@
 \title{Plot Trend Estimates}
 \usage{
 plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
-  limits = NULL, geom = "point", low = getOption("cccharts.low"),
+  climits = NULL, geom = "point", low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates,
   hjust = 1.2, vjust = 1.8)
@@ -21,7 +21,7 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
 
 \item{ylimits}{A numeric vector of length two providing limits of the y-axis scale.}
 
-\item{limits}{A numeric vector of length two providing limits of the color scale.}
+\item{climits}{A character vector of length two providing limits of the color scale.}
 
 \item{geom}{A string of the geom ("point" or "bar")}
 

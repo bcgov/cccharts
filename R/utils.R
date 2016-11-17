@@ -122,14 +122,20 @@ get_labels <- function(data) {
   return(comma)
 }
 
-get_limits <- function(data) {
+get_climits <- function(data) {
   x <- c(data$Estimate)
-  range(x, na.rm = TRUE)
+  x %<>% range(na.rm = TRUE)
+  if (x[1] > 0) x[1] <- 0
+  if (x[2] < 0) x[2] <- 0
+  x
 }
 
 get_ylimits <- function(data) {
   x <- c(data$Estimate, data$Lower, data$Upper)
-  range(x, na.rm = TRUE)
+  x %<>% range(na.rm = TRUE)
+  if (x[1] > 0) x[1] <- 0
+  if (x[2] < 0) x[2] <- 0
+  x
 }
 
 get_filename <- function(data) {

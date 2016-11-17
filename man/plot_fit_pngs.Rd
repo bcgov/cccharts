@@ -6,7 +6,7 @@
 \usage{
 plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
   facet = NULL, nrow = NULL, color = NULL, width = 450L,
-  height = 450L, ask = TRUE, dir = NULL, limits = NULL,
+  height = 450L, ask = TRUE, dir = NULL, ylimits = NULL,
   breaks = waiver(), ylab = ylab_fit, free_y = FALSE, prefix = "")
 }
 \arguments{
@@ -30,7 +30,7 @@ plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
 
 \item{dir}{A string of the directory to store the results in.}
 
-\item{limits}{A numeric vector of length two providing limits of the color scale.}
+\item{ylimits}{A numeric vector of length two providing limits of the y-axis scale.}
 
 \item{breaks}{A numeric vector of positions.}
 

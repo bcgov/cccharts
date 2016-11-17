@@ -5,7 +5,7 @@
 \title{Plot Trend Observed}
 \usage{
 plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
-  limits = NULL, breaks = waiver(), ylab = ylab_fit, free_y = FALSE)
+  ylimits = NULL, breaks = waiver(), ylab = ylab_fit, free_y = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -18,7 +18,7 @@ plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
 
 \item{color}{A string indicating the column to plot by color.}
 
-\item{limits}{A numeric vector of length two providing limits of the color scale.}
+\item{ylimits}{A numeric vector of length two providing limits of the y-axis scale.}
 
 \item{breaks}{A numeric vector of positions.}
 
