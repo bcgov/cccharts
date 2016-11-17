@@ -21,7 +21,7 @@
 #' plot_estimates(cccharts::precipitation, x = "Season",
 #'   facet = "Ecoprovince", nrow = 2)
 plot_estimates <- function(
-  data, x, facet = NULL, nrow = NULL, ylimits = NULL, limits = NULL, geom = "point", ci = TRUE,
+  data, x, facet = NULL, nrow = NULL, ylimits = NULL, limits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
   test_estimate_data(data)
@@ -46,7 +46,7 @@ plot_estimates <- function(
       breaks %<>% magrittr::divide_by(100)
   }
 
-  ci <- ci && !all(is.na(data$Lower))
+  ci <- any(!is.na(data$Lower))
 
   if (ci) {
     data %<>% inconsistent_significance()
@@ -64,38 +64,30 @@ plot_estimates <- function(
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = ylimits, breaks = breaks)
 
-  if (!ci) {
-    if (geom == "point") {
-      gp <- gp +  geom_hline(yintercept = 0) +
-        geom_point(size = 4, aes_string(color = "Estimate"))
-    } else {
-      gp <- gp +  geom_hline(yintercept = 0) +
-        geom_col(aes_string(fill = "Estimate"))
+
+
+  if (geom == "point") {
+    if (ci) {
+      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
+                                width = 0.3, size = 0.5, color = "grey25")
     }
-  } else { # with limits
-    if (geom == "point") {
-      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
-        geom_point(size = 4, aes_string(color = "Estimate")) +
-        geom_hline(aes(yintercept = 0), linetype = 2)
-    } else { # bar with limits
-      gp <- gp + geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower", color = "Estimate"), width = 0.3, size = 0.5) +
-        geom_col(aes_string(fill = "Estimate")) +
-        geom_hline(aes(yintercept = 0))
+    gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
+      geom_point(size = 4, shape = 21, aes_string(fill = "Estimate"), color = "grey25")
+  } else {
+    gp <- gp + geom_hline(aes(yintercept = 0)) +
+      geom_col(aes_string(fill = "Estimate"), color = "grey25")
+    if (ci) {
+      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
+                                width = 0.3, size = 0.5, color = "grey25")
     }
   }
+
   gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = hjust, vjust = vjust, size = 2.8)
 
-  if(is.null(mid)) {
-    gp <- gp + scale_color_gradient(limits = limits, low = low, high = high, guide = FALSE)
+  if (is.null(mid)) {
+    gp <- gp + scale_fill_gradient(limits = limits, low = low, high = high, guide = FALSE)
   } else {
-    gp <- gp + scale_color_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
-  }
-  if (geom == "bar") {
-    if (is.null(mid)) {
-      gp <- gp + scale_fill_gradient(limits = limits, low = low, high = high, guide = FALSE)
-    } else {
-      gp <- gp + scale_fill_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
-    }
+    gp <- gp + scale_fill_gradient2(limits = limits, low = low, mid = mid, high = high, guide = FALSE)
   }
 
   if (length(facet) == 1) {
@@ -104,9 +96,8 @@ plot_estimates <- function(
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
   gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
-  if (!horizontal) {
+  if (!horizontal)
     gp <- gp + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
-  }
   gp
 }
 
@@ -119,7 +110,6 @@ plot_estimates <- function(
 #' @param facet A string indicating the factor to facet wrap by.
 #' @param nrow A count of the number of rows when facet wrapping.
 #' @param geom A string of the geom ("point" or "bar")
-#' @param ci A flag indicating whether to plot confidence intervals.
 #' @param width A count of the png width in pixels.
 #' @param height A count of the png height in pixels.
 #' @param ask A flag indicating whether to ask before creating the directory
@@ -138,7 +128,7 @@ plot_estimates <- function(
 #' @export
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
-  geom = "point", ci = TRUE, width = 350L, height = 350L,
+  geom = "point", width = 350L, height = 350L,
   ask = TRUE, dir = NULL, ylimits = NULL, limits = NULL,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, prefix = "",
   hjust = 1.2, vjust = 1.8) {
@@ -146,7 +136,6 @@ plot_estimates_pngs <- function(
   test_estimate_data(data)
   check_flag(ask)
   check_scalar(geom, c("^point$", "^bar$", "^point$"))
-  check_flag(ci)
   check_flag(horizontal)
   if (!is.function(ylab)) stop("ylab must be a function", call. = FALSE)
 
@@ -171,10 +160,10 @@ plot_estimates_pngs <- function(
   if (all(limits > 0)) limits[1] <- 0
   if (all(limits < 0)) limits[2] <- 0
 
-  data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, ci = ci, dir = dir,
-              width = width, height = height, ylimits = ylimits, limits = limits, breaks = breaks,
-              low = low, mid = mid, high = high, horizontal = horizontal,
-              ylab = ylab, hjust = hjust, vjust = vjust,
-              fun = plot_estimates, prefix = prefix)
+  data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, dir = dir,
+                        width = width, height = height, ylimits = ylimits, limits = limits, breaks = breaks,
+                        low = low, mid = mid, high = high, horizontal = horizontal,
+                        ylab = ylab, hjust = hjust, vjust = vjust,
+                        fun = plot_estimates, prefix = prefix)
   invisible(data)
 }

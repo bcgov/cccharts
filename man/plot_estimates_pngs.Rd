@@ -5,7 +5,7 @@
 \title{Estimate PNGs}
 \usage{
 plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
-  facet = NULL, nrow = NULL, geom = "point", ci = TRUE, width = 350L,
+  facet = NULL, nrow = NULL, geom = "point", width = 350L,
   height = 350L, ask = TRUE, dir = NULL, ylimits = NULL,
   limits = NULL, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
@@ -24,8 +24,6 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 \item{nrow}{A count of the number of rows when facet wrapping.}
 
 \item{geom}{A string of the geom ("point" or "bar")}
-
-\item{ci}{A flag indicating whether to plot confidence intervals.}
 
 \item{width}{A count of the png width in pixels.}
 
