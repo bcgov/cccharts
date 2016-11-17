@@ -140,7 +140,7 @@ get_ylimits <- function(data) {
 
 get_filename <- function(data, by) {
   check_vector(by, "", min_length = 1)
-
+  if (!"Indicator" %in% by) by %<>% c("Indicator", .)
   filename <- NULL
   for (b in by) {
     filename %<>% paste(data[[b]][1])
