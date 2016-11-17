@@ -9,8 +9,8 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
   height = 350L, ask = TRUE, dir = NULL, ylimits = NULL,
   climits = NULL, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  ybreaks = waiver(), horizontal = TRUE, ylab = ylab_estimates,
-  prefix = "", hjust = 1.2, vjust = 1.8)
+  ybreaks = waiver(), xbreaks = waiver(), horizontal = TRUE,
+  ylab = ylab_estimates, prefix = "", hjust = 1.2, vjust = 1.8)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -43,7 +43,9 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL, by = NULL,
 
 \item{high}{A string specifying the color for positive values.}
 
-\item{ybreaks}{A numeric vector of positions.}
+\item{ybreaks}{A numeric vector of y-axis tick mark positions.}
+
+\item{xbreaks}{A numeric vector of x-axis tick mark positions.}
 
 \item{horizontal}{A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).}
 

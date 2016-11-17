@@ -24,7 +24,7 @@
 #' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
 plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, ylimits = NULL,
-                     ybreaks = waiver(), ylab = ylab_fit, free_y = FALSE) {
+                     ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit, free_y = FALSE) {
   check_flag(free_y)
 
   test_estimate_data(data)
@@ -75,6 +75,9 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
     scale_y_continuous(ylab(data), labels = get_labels(observed),
                        limits = ylimits, breaks = ybreaks)
 
+  if (is.vector(xbreaks))
+    gp <- gp + scale_x_continuous(breaks = xbreaks)
+
   if (is.null(color)) {
     gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", alpha = "Significant"), size = 1.5)
   } else {
@@ -105,7 +108,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
 #' @param free_y A flag indicating whether the facet axis should have free_y scales.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, ybreaks = waiver(), ylab = ylab_fit,
+  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,
   free_y = FALSE, prefix = "") {
 
   test_estimate_data(data)
@@ -138,7 +141,8 @@ plot_fit_pngs <- function(
   if (is.null(by)) by <- get_by(data, "Year", facet)
 
   data %<>% plyr::dlply(by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
-              width = width, height = height, ylimits = ylimits, ybreaks = ybreaks, color = color,
+              width = width, height = height, ylimits = ylimits,
+              ybreaks = ybreaks, xbreaks = xbreaks, color = color,
               ylab = ylab, free_y = free_y,
               fun = plot_fit, prefix = prefix)
 

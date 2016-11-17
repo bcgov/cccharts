@@ -33,7 +33,7 @@ map_estimates_pngs(data = flow_station_timing, station = TRUE, low = getOption("
 
 plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed, facet = "Station", by = "Indicator", free_y = TRUE, width = 600L, ask = FALSE)
 
-plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed, by = "Station", width = 300L, height = 300L, ask = FALSE)
+plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed, by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
 
 ### flow discharge ####
 
@@ -45,7 +45,7 @@ map_estimates_pngs(data = flow_station_discharge, station = TRUE, low = getOptio
 
 plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed, facet = "Station", by = "Indicator", free_y = TRUE, width = 600L, ask = FALSE)
 
-plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed, by = "Station", width = 300L, height = 300L, ask = FALSE)
+plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed, by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
 
 ### snow ###
 
@@ -57,4 +57,4 @@ map_estimates_pngs(data = cccharts::snow, by = "Indicator", low = getOption("ccc
 
 map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, ask = FALSE)
+plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)

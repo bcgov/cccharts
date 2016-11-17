@@ -7,7 +7,8 @@
 plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
   facet = NULL, nrow = NULL, color = NULL, width = 450L,
   height = 450L, ask = TRUE, dir = NULL, ylimits = NULL,
-  ybreaks = waiver(), ylab = ylab_fit, free_y = FALSE, prefix = "")
+  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,
+  free_y = FALSE, prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -32,7 +33,9 @@ plot_fit_pngs(data = cccharts::precipitation, observed, by = NULL,
 
 \item{ylimits}{A numeric vector of length two providing limits of the y-axis scale.}
 
-\item{ybreaks}{A numeric vector of positions.}
+\item{ybreaks}{A numeric vector of y-axis tick mark positions.}
+
+\item{xbreaks}{A numeric vector of x-axis tick mark positions.}
 
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
 
