@@ -23,7 +23,7 @@
 plot_estimates <- function(
   data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
+  ybreaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
@@ -42,8 +42,8 @@ plot_estimates <- function(
       ylimits %<>% magrittr::divide_by(100)
     if (is.numeric(climits))
       climits %<>% magrittr::divide_by(100)
-    if (is.numeric(breaks))
-      breaks %<>% magrittr::divide_by(100)
+    if (is.numeric(ybreaks))
+      ybreaks %<>% magrittr::divide_by(100)
   }
 
   ci <- any(!is.na(data$Lower))
@@ -62,7 +62,7 @@ plot_estimates <- function(
 
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
     scale_y_continuous(ylab(data), labels = get_labels(data),
-                       limits = ylimits, breaks = breaks)
+                       limits = ylimits, breaks = ybreaks)
 
 
 
@@ -119,7 +119,7 @@ plot_estimates <- function(
 #' @param low A string specifying the color for negative values.
 #' @param mid A string specifying the color for no change.
 #' @param high A string specifying the color for positive values.
-#' @param breaks A numeric vector of positions.
+#' @param ybreaks A numeric vector of positions.
 #' @param horizontal A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @param prefix A string specifying the prefix for file names.
@@ -130,7 +130,7 @@ plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = NULL, facet = NULL, nrow = NULL,
   geom = "point", width = 350L, height = 350L,
   ask = TRUE, dir = NULL, ylimits = NULL, climits = NULL,
-  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, prefix = "",
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  ybreaks = waiver(), horizontal = TRUE, ylab = ylab_estimates, prefix = "",
   hjust = 1.2, vjust = 1.8) {
 
   test_estimate_data(data)
@@ -158,7 +158,7 @@ plot_estimates_pngs <- function(
   if (is.null(by)) by <- get_by(data, x, facet)
 
   data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, dir = dir,
-                        width = width, height = height, ylimits = ylimits, climits = climits, breaks = breaks,
+                        width = width, height = height, ylimits = ylimits, climits = climits, ybreaks = ybreaks,
                         low = low, mid = mid, high = high, horizontal = horizontal,
                         ylab = ylab, hjust = hjust, vjust = vjust,
                         fun = plot_estimates, prefix = prefix)

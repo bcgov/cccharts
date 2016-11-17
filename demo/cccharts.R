@@ -1,7 +1,7 @@
 library(cccharts)
 
 ### sea level ####
-estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", by = "Indicator", width = 300L, height = 300L, breaks = seq(-15,15,by = 5), low = "#543005", mid = "#f5f5f5", high = "#053061",ask = FALSE)
+estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", by = "Indicator", width = 300L, height = 300L, ybreaks = seq(-15,15,by = 5), low = "#543005", mid = "#f5f5f5", high = "#053061",ask = FALSE)
 
 map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55), low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE)
 
@@ -27,7 +27,7 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_stati
 
 flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Medium")
 
-plot_estimates_pngs(data = flow_station_timing, x = "Station", by = "Indicator", breaks = seq(-10,5,by = 2.5), width = 700L, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+plot_estimates_pngs(data = flow_station_timing, x = "Station", by = "Indicator", ybreaks = seq(-10,5,by = 2.5), width = 700L, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 map_estimates_pngs(data = flow_station_timing, station = TRUE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
@@ -39,7 +39,7 @@ plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timi
 
 flow_station_discharge <- dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Medium")
 
-plot_estimates_pngs(data = flow_station_discharge, x = "Station", by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), breaks = seq(-1,0.5, by = 0.25), ask = FALSE, width = 700L)
+plot_estimates_pngs(data = flow_station_discharge, x = "Station", by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ybreaks = seq(-1,0.5, by = 0.25), ask = FALSE, width = 700L)
 
 map_estimates_pngs(data = flow_station_discharge, station = TRUE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
@@ -49,7 +49,7 @@ plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_d
 
 ### snow ###
 
-plot_estimates_pngs(data = cccharts::snow, breaks = seq(-20,10,by = 5), low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 map_estimates_pngs(data = cccharts::snow, by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 

@@ -24,7 +24,7 @@
 #' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
 plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, ylimits = NULL,
-                     breaks = waiver(), ylab = ylab_fit, free_y = FALSE) {
+                     ybreaks = waiver(), ylab = ylab_fit, free_y = FALSE) {
   check_flag(free_y)
 
   test_estimate_data(data)
@@ -61,8 +61,8 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
     data %<>% dplyr::mutate_(y = ~y / 100,
                              yend = ~yend / 100)
     observed %<>% dplyr::mutate_(Value = ~Value/100)
-    if (is.numeric(breaks))
-      breaks %<>% magrittr::divide_by(100)
+    if (is.numeric(ybreaks))
+      ybreaks %<>% magrittr::divide_by(100)
     if (is.numeric(ylimits))
       ylimits %<>% magrittr::divide_by(100)
   }
@@ -73,7 +73,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
   gp <- ggplot(observed, aes_string(x = "Year", y = "Value")) +
     geom_point(alpha = 1/3) +
     scale_y_continuous(ylab(data), labels = get_labels(observed),
-                       limits = ylimits, breaks = breaks)
+                       limits = ylimits, breaks = ybreaks)
 
   if (is.null(color)) {
     gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", alpha = "Significant"), size = 1.5)
@@ -105,7 +105,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
 #' @param free_y A flag indicating whether the facet axis should have free_y scales.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, breaks = waiver(), ylab = ylab_fit,
+  data = cccharts::precipitation, observed, by = NULL, facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, ybreaks = waiver(), ylab = ylab_fit,
   free_y = FALSE, prefix = "") {
 
   test_estimate_data(data)
@@ -138,7 +138,7 @@ plot_fit_pngs <- function(
   if (is.null(by)) by <- get_by(data, "Year", facet)
 
   data %<>% plyr::dlply(by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
-              width = width, height = height, ylimits = ylimits, breaks = breaks, color = color,
+              width = width, height = height, ylimits = ylimits, ybreaks = ybreaks, color = color,
               ylab = ylab, free_y = free_y,
               fun = plot_fit, prefix = prefix)
 

@@ -7,7 +7,7 @@
 plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
   climits = NULL, geom = "point", low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  breaks = waiver(), horizontal = TRUE, ylab = ylab_estimates,
+  ybreaks = waiver(), horizontal = TRUE, ylab = ylab_estimates,
   hjust = 1.2, vjust = 1.8)
 }
 \arguments{
@@ -31,7 +31,7 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
 
 \item{high}{A string specifying the color for positive values.}
 
-\item{breaks}{A numeric vector of positions.}
+\item{ybreaks}{A numeric vector of positions.}
 
 \item{horizontal}{A flag indicating whether the x-axis labels should be horizontal (as opposed to vertical).}
 
