@@ -15,8 +15,8 @@ The package is not available on CRAN, but can be installed from GitHub using the
     # install.packages("devtools")
     devtools::install_github("bcgov/cccharts")
 
-Usage
------
+Features
+--------
 
 ### Three Plot Types
 
@@ -44,8 +44,8 @@ The default color scheme is a *diverging* BrBG Brewer [palette](http://colorbrew
 
 Type `data()` to see the available datasets or for example type `?snow` for more information on the snow data.
 
-Utilisation
------------
+Usage
+-----
 
 ``` r
 library(cccharts)
@@ -73,11 +73,13 @@ To generate the plot files (creates a folder in the working directory called `cc
     library(cccharts)
     demo("cccharts", ask = FALSE)
 
-### Getting Help or Reporting an Issue
+Getting Help or Reporting an Issue
+----------------------------------
 
 To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/rcaaqs/issues/).
 
-### How to Contribute
+How to Contribute
+-----------------
 
 If you would like to contribute to the package, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
 

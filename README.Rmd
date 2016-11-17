@@ -29,7 +29,7 @@ The package is not available on CRAN, but can be installed from GitHub using the
 devtools::install_github("bcgov/cccharts")
 ```
 
-## Usage
+## Features
 
 ### Three Plot Types
 
@@ -65,7 +65,7 @@ To make all points the same color (and suppress a color legend) simply set `low`
 Type `data()` to see the available datasets or for example type `?snow`
 for more information on the snow data.
 
-## Utilisation
+## Usage
 
 ```{r, fig.width=8, fig.height=8}
 library(cccharts)
@@ -86,11 +86,11 @@ library(cccharts)
 demo("cccharts", ask = FALSE)
 ```
 
-### Getting Help or Reporting an Issue
+## Getting Help or Reporting an Issue
 
 To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/rcaaqs/issues/).
 
-### How to Contribute
+## How to Contribute
 
 If you would like to contribute to the package, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
 
