@@ -5,11 +5,10 @@ estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Statio
                                  low = "#543005", mid = "#f5f5f5", high = "#053061",ask = FALSE)
 
 map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
-                          low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE,
-                          ecoprovinces = c("Coast and Mountains", "Georgia Depression"))
+                          low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE)
 
 png(filename = "cccharts/sea_level_station.png", width = 600L, height = 600L, type = get_png_type())
-envreportutils::multiplot(map[[1]], estimates[[1]], layout = matrix(c(1,1,2,1), nrow = 2), widths = c(3,2), heights = c(2,2))
+envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2)
 dev.off()
 
 ### SST ####
@@ -45,7 +44,7 @@ plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "
 
 ### snow ###
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), dir = "snow", breaks = seq(-20,10,by = 5), ask = FALSE)
+plot_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), dir = "snow", breaks = seq(-20,10,by = 5), low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 map_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "snow", ask = FALSE)
 
