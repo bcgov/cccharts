@@ -1,21 +1,29 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](http://bcdevexchange.org/badge/2.svg)](https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md) [![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
+[![Travis-CI Build Status](http://bcdevexchange.org/badge/3.svg)](https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md) [![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
 
 cccharts
 ========
 
-Introduction
+`cccharts` is an R package to plot climate change indicator data for British Columbia. It is essentially a wrapper on top of `ggplot2` code.
+
+Installation
 ------------
 
-`cccharts` is an R package to plot climate change indicator data for British Columbia. It is essentially a wrapper on top of `ggplot2` code.
+The package is not available on CRAN, but can be installed from GitHub using the [devtools](https://github.com/hadley/devtools) package:
+
+    # install.packages("devtools")
+    devtools::install_github("bcgov/cccharts")
+
+Usage
+-----
 
 ### Three Plot Types
 
-It produces three types of plots:
+`cccharts` produces three types of plots:
 
 -   Color-coded point (or bar chart) estimates with upper and lower confidence intervals (if available) (`plot_estimates`).
--   Color-coded maps of BC with the estimates for Ecoprovinces or Stations (`map_estimates`).
+-   Color-coded maps of B.C. with the estimates for Ecoprovinces or Stations (`map_estimates`).
 -   Raw data with estimated trend lines (`plot_fit`).
 
 Examples of the three types of plots are presented below.
@@ -32,7 +40,9 @@ The default color scheme is a *diverging* BrBG Brewer [palette](http://colorbrew
 
 ### Data
 
-`cccharts` also provides actual datasets. Type `data()` to see the available datasets or for example type `?snow` for more information on the snow data.
+`cccharts`pulls climate change indicator data from the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/dataset?download_audience=Public). The source data sets are licensed under the [Open Government License - British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61).
+
+Type `data()` to see the available datasets or for example type `?snow` for more information on the snow data.
 
 Utilisation
 -----------
@@ -63,22 +73,13 @@ To generate the plot files (creates a folder in the working directory called `cc
     library(cccharts)
     demo("cccharts", ask = FALSE)
 
-Installation
-------------
+### Getting Help or Reporting an Issue
 
-To install the latest version from GitHub
+To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/rcaaqs/issues/).
 
-    # install.packages("devtools")
-    devtools::install_github("bcgov/cccharts")
+### How to Contribute
 
-Contribution
-------------
-
-Please report any [issues](https://github.com/bcgov/cccharts/issues).
-
-[Pull requests](https://github.com/bcgov/cccharts/pulls) are always welcome.
-
-If you would like to contribute, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
+If you would like to contribute to the package, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
@@ -98,8 +99,5 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-Maintenance
------------
 
 This repository is maintained by [Environmental Reporting BC](http://www2.gov.bc.ca/gov/content?id=FF80E0B985F245CEA62808414D78C41B). Click [here](https://github.com/bcgov/EnvReportBC-RepoList) for a complete list of our repositories on GitHub.
