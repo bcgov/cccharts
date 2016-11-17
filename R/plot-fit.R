@@ -23,7 +23,7 @@
 #' @examples
 #' plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
 #'   facet = "Station", nrow = 2)
-plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, ylimits = NULL,
+plot_fit <- function(data, observed, facet = NULL, nrow = NULL, ylimits = NULL,
                      ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit, free_y = FALSE) {
   check_flag(free_y)
 
@@ -78,12 +78,7 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
   if (is.vector(xbreaks))
     gp <- gp + scale_x_continuous(breaks = xbreaks)
 
-  if (is.null(color)) {
     gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", alpha = "Significant"), size = 1.5)
-  } else {
-    gp <- gp + geom_segment(data = data, aes_string(x = "x", xend = "xend", y = "y", yend = "yend", color = color, alpha = "Significant"), size = 1.5) +
-      scale_color_manual(values = c("black", "red"))
-  }
   gp <- gp + scale_alpha_manual(values = c(1,1/2), drop = FALSE, guide = FALSE)
 
   if (free_y) {
@@ -104,11 +99,10 @@ plot_fit <- function(data, observed, facet = NULL, nrow = NULL, color = NULL, yl
 #'
 #' @inheritParams plot_estimates_pngs
 #' @param observed A data.frame of the observed data.
-#' @param color A string indicating the column to plot by color.
 #' @param free_y A flag indicating whether the facet axis should have free_y scales.
 #' @export
 plot_fit_pngs <- function(
-  data = cccharts::precipitation, observed, by = "Indicator", facet = NULL, nrow = NULL, color = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,
+  data = cccharts::precipitation, observed, by = "Indicator", facet = NULL, nrow = NULL, width = 450L, height = 450L, ask = TRUE, dir = NULL, ylimits = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,
   free_y = FALSE, prefix = "") {
 
   test_estimate_data(data)
@@ -141,7 +135,7 @@ plot_fit_pngs <- function(
 
   data %<>% plyr::dlply(by, fun_png, observed = observed, facet = facet, nrow = nrow, dir = dir,
               width = width, height = height, ylimits = ylimits,
-              ybreaks = ybreaks, xbreaks = xbreaks, color = color,
+              ybreaks = ybreaks, xbreaks = xbreaks,
               ylab = ylab, free_y = free_y,
               fun = plot_fit, prefix = prefix, by = by)
 

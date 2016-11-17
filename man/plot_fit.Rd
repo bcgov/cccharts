@@ -4,9 +4,9 @@
 \alias{plot_fit}
 \title{Plot Trend Observed}
 \usage{
-plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
-  ylimits = NULL, ybreaks = waiver(), xbreaks = waiver(),
-  ylab = ylab_fit, free_y = FALSE)
+plot_fit(data, observed, facet = NULL, nrow = NULL, ylimits = NULL,
+  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_fit,
+  free_y = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -16,8 +16,6 @@ plot_fit(data, observed, facet = NULL, nrow = NULL, color = NULL,
 \item{facet}{A string indicating the factor to facet wrap by.}
 
 \item{nrow}{A count of the number of rows when facet wrapping.}
-
-\item{color}{A string indicating the column to plot by color.}
 
 \item{ylimits}{A numeric vector of length two providing limits of the y-axis scale.}
 
