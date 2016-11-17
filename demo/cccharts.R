@@ -39,17 +39,16 @@ plot_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Seaso
 
 map_estimates_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Medium"), station = TRUE, dir = "flow_station_discharge", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-# fit for flow discharge
 plot_fit_pngs(data = dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Medium"), observed = cccharts::flow_station_discharge_observed, facet = "Station", by = "Indicator", dir = "flow_station_discharge", free_y = TRUE, width = 600L, ask = FALSE)
 
 ### snow ###
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), dir = "snow", breaks = seq(-20,10,by = 5), low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+plot_estimates_pngs(data = snow, breaks = seq(-20,10,by = 5), low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-map_estimates_pngs(data = dplyr::filter(cccharts::snow, Indicator == "Snow Depth"), by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), dir = "snow", ask = FALSE)
+map_estimates_pngs(data = cccharts::snow, by = "Indicator", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 ### snow station ###
 
-map_estimates_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), by = "Indicator", station = TRUE, labels = FALSE, dir = "snow_station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+map_estimates_pngs(data = cccharts::snow_station, by = "Indicator", station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_fit_pngs(data = dplyr::filter(cccharts::snow_station, Indicator == "Snow Depth"), observed = cccharts::snow_station_observed, by = "Station", dir = "snow_station", width = 300L, height = 300L, ask = FALSE)
+plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, ask = FALSE)

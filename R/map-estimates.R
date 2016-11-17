@@ -116,7 +116,6 @@ map_estimates <- function(
       data2 <- map@data
       data2$EastingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
       data2$NorthingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
-      print(data2)
       data2$EastingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 1275000
       data2$NorthingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 350000
       data2 %<>% dplyr::filter_(~Ecoprovince != "Southern Alaska Mountains")
