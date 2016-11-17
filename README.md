@@ -28,7 +28,7 @@ The three base functions return `ggplot` objects which can be modified prior to 
 
 ### Color Scheme
 
-The default color scheme is a *diverging* BrBG Brewer [palette](http://colorbrewer2.org/#type=diverging&scheme=BrBG&n=11). The user can override the color scheme for the `plot_estimates` or `map_estimates` functions by setting the `low`, `mid`, and `high` arguments. To switch to a *sequential* color scheme simply set `mid = NULL`.
+The default color scheme is a *diverging* BrBG Brewer [palette](http://colorbrewer2.org/#type=diverging&scheme=BrBG&n=11). The user can override the color scheme for the `plot_estimates` or `map_estimates` functions by setting the `low`, `mid`, and `high` arguments. To switch to a *sequential* color scheme simply set `mid = NULL`. To make all points the same color (and suppress a color legend) simply set `low` and `high` at the same value.
 
 ### Data
 

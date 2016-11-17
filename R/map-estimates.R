@@ -69,6 +69,7 @@ map_estimates <- function(
     suppressMessages(polygon <- broom::tidy(map))
     data %<>% latlong2eastnorth(projargs = "+init=epsg:3005")
   }
+  if (identical(low, high)) mid <- NULL
 
   gp <- ggplot() +
     coord_equal()
@@ -79,14 +80,17 @@ map_estimates <- function(
                             fill = "grey75", color = "white") +
       geom_point(data = data, aes_string(x = "Easting", y = "Northing", fill = "Estimate"),
                  size = 6, shape = 21, color = "grey33")
-    if(is.null(mid)) {
-      gp <- gp + scale_fill_gradient(limits = climits, labels = get_labels(data),
-                                      guide = guide_colourbar(title = clab(data), title.position = "bottom"),
-                                      low = low, high = high)
+    if (is.null(mid)) {
+      if (identical(low, high)) {
+        gp <- gp + scale_fill_gradient(guide = FALSE, low = low, high = high)
+      } else {
+        gp <- gp + scale_fill_gradient(limits = climits, labels = get_labels(data),
+                                       guide = guide_colourbar(title = clab(data), title.position = "bottom"),
+                                       low = low, high = high)      }
     } else {
       gp <- gp + scale_fill_gradient2(limits = climits, labels = get_labels(data),
-                                       guide = guide_colourbar(title = clab(data), title.position = "bottom"),
-                                       low = low, mid = mid, high = high)
+                                      guide = guide_colourbar(title = clab(data), title.position = "bottom"),
+                                      low = low, mid = mid, high = high)
     }
     if (labels) {
       levels(data$Station) <- stringr::str_replace_all(levels(data$Station), " ", "\n")
@@ -100,7 +104,7 @@ map_estimates <- function(
       geom_polygon(data = dplyr::filter_(polygon, ~!hole & !Significant),
                    ggplot2::aes_string(x = "long", y = "lat", group = "group"),
                    fill = "white", color = "grey75")
-    if(is.null(mid)) {
+    if (is.null(mid)) {
       gp <- gp + scale_fill_gradient(limits = climits, labels = get_labels(data), low = low,
                                      high = high,
                                      na.value = "grey90",
@@ -184,9 +188,9 @@ map_estimates_pngs <- function(
   if (is.null(climits)) climits <- get_climits(data)
 
   data %<>% plyr::dlply(by, fun_png, nrow = nrow, station = station, dir = dir,
-              width = width, height = height, map = map, clab = clab,
-              climits = climits, labels = labels, low = low, mid = mid, high = high,
-              bounds = bounds, ecoprovinces = ecoprovinces,
-              fun = map_estimates, prefix = prefix, by = by)
+                        width = width, height = height, map = map, clab = clab,
+                        climits = climits, labels = labels, low = low, mid = mid, high = high,
+                        bounds = bounds, ecoprovinces = ecoprovinces,
+                        fun = map_estimates, prefix = prefix, by = by)
   invisible(data)
 }

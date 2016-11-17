@@ -59,6 +59,12 @@ plot_estimates <- function(
   if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
   if (x == "Station") levels(data[[x]]) <- stringr::str_replace_all(levels(data[[x]]), " ", "\n")
 
+  outline <- "grey25"
+  if (identical(low, high)) {
+    mid <- NULL
+    outline <- low
+  }
+
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
     scale_y_continuous(ylab(data), labels = get_labels(data),
                        limits = ylimits, breaks = ybreaks)
@@ -69,16 +75,16 @@ plot_estimates <- function(
   if (geom == "point") {
     if (ci) {
       gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
-                                width = 0.3, size = 0.5, color = "grey25")
+                                width = 0.3, size = 0.5, color = outline)
     }
     gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
-      geom_point(size = 4, shape = 21, aes_string(fill = "Estimate"), color = "grey25")
+      geom_point(size = 4, shape = 21, aes_string(fill = "Estimate"), color = outline)
   } else {
     gp <- gp + geom_hline(aes(yintercept = 0)) +
-      geom_col(aes_string(fill = "Estimate"), color = "grey25")
+      geom_col(aes_string(fill = "Estimate"), color = outline)
     if (ci) {
       gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
-                                width = 0.3, size = 0.5, color = "grey25")
+                                width = 0.3, size = 0.5, color = outline)
     }
   }
 
