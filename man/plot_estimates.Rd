@@ -7,8 +7,7 @@
 plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
   climits = NULL, geom = "point", low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates,
-  hjust = 1.2, vjust = 1.8)
+  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -36,10 +35,6 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
 \item{xbreaks}{A numeric vector of x-axis tick mark positions.}
 
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
-
-\item{hjust}{A number specifying the horizontal offset for NS labels.}
-
-\item{vjust}{A number specifying the vertical offset for NS labels.}
 }
 \value{
 A ggplot2 object.

@@ -23,7 +23,7 @@
 plot_estimates <- function(
   data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates, hjust = 1.2, vjust = 1.8) {
+  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
@@ -82,7 +82,7 @@ plot_estimates <- function(
     }
   }
 
-  gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = hjust, vjust = vjust, size = 2.8)
+  gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
 
   if (is.null(mid)) {
     gp <- gp + scale_fill_gradient(limits = climits, low = low, high = high, guide = FALSE)
@@ -121,15 +121,12 @@ plot_estimates <- function(
 #' @param xbreaks A numeric vector of x-axis tick mark positions.
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
 #' @param prefix A string specifying the prefix for file names.
-#' @param hjust A number specifying the horizontal offset for NS labels.
-#' @param vjust A number specifying the vertical offset for NS labels.
 #' @export
 plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = "Indicator", facet = NULL, nrow = NULL,
   geom = "point", width = 350L, height = 350L,
   ask = TRUE, dir = NULL, ylimits = NULL, climits = NULL,
-  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates, prefix = "",
-  hjust = 1.2, vjust = 1.8) {
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates, prefix = "") {
 
   test_estimate_data(data)
   check_flag(ask)
@@ -158,7 +155,7 @@ plot_estimates_pngs <- function(
                         width = width, height = height, ylimits = ylimits, climits = climits,
                         ybreaks = ybreaks, xbreaks = xbreaks,
                         low = low, mid = mid, high = high,
-                        ylab = ylab, hjust = hjust, vjust = vjust,
+                        ylab = ylab,
                         fun = plot_estimates, prefix = prefix, by = by)
   invisible(data)
 }

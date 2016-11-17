@@ -10,7 +10,7 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL,
   climits = NULL, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates,
-  prefix = "", hjust = 1.2, vjust = 1.8)
+  prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -50,10 +50,6 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL,
 \item{ylab}{A function that takes the data and returns a string for the y-axis label.}
 
 \item{prefix}{A string specifying the prefix for file names.}
-
-\item{hjust}{A number specifying the horizontal offset for NS labels.}
-
-\item{vjust}{A number specifying the vertical offset for NS labels.}
 }
 \description{
 Generates plots of climate indicator data as png files.
