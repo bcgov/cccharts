@@ -116,6 +116,9 @@ map_estimates <- function(
       data2 <- map@data
       data2$EastingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
       data2$NorthingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
+      print(data2)
+      data2$EastingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 1275000
+      data2$NorthingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 350000
       data2 %<>% dplyr::filter_(~Ecoprovince != "Southern Alaska Mountains")
       data2$Ecoprovince %<>% stringr::str_c(" \n(", acronym(.),")")
       data2$Ecoprovince %<>% stringr::str_replace("Southern", "S.") %>%
@@ -149,7 +152,7 @@ map_estimates <- function(
 #' @export
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = NULL, station = FALSE, nrow = NULL,
-  map = cccharts::bc, width = 500L, height = 425L,
+  map = cccharts::bc, width = 500L, height = 450L,
   ask = TRUE, dir = NULL, limits = NULL, llab = ylab_trend, labels = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   bounds = c(0,1,0,1),
