@@ -7,7 +7,7 @@
 map_estimates_pngs(data = cccharts::precipitation, by = "Indicator",
   station = FALSE, nrow = NULL, map = cccharts::bc, width = 500L,
   height = 450L, ask = TRUE, dir = NULL, climits = NULL,
-  llab = ylab_trend, labels = TRUE, low = getOption("cccharts.low"),
+  clab = ylab_trend, labels = TRUE, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   bounds = c(0, 1, 0, 1), ecoprovinces = c("Coast and Mountains",
   "Georgia Depression", "Central Interior", "Southern Interior",
@@ -36,7 +36,7 @@ map_estimates_pngs(data = cccharts::precipitation, by = "Indicator",
 
 \item{climits}{A character vector of length two providing limits of the color scale.}
 
-\item{llab}{A function that takes the data and returns a string for the legend label.}
+\item{clab}{A function that takes the data and returns a string for the color legend label.}
 
 \item{labels}{A flag indicating wether to plot labels.}
 

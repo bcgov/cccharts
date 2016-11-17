@@ -19,7 +19,7 @@
 #' @return A ggplot2 object.
 #' @export
 map_estimates <- function(
-  data, nrow = NULL, station = FALSE, map = cccharts::bc, climits = NULL, labels = TRUE, llab = ylab_trend,
+  data, nrow = NULL, station = FALSE, map = cccharts::bc, climits = NULL, labels = TRUE, clab = ylab_trend,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                    "Southern Interior", "Southern Interior Mountains",
@@ -81,11 +81,11 @@ map_estimates <- function(
                  size = 6, shape = 21, color = "grey33")
     if(is.null(mid)) {
       gp <- gp + scale_fill_gradient(limits = climits, labels = get_labels(data),
-                                      guide = guide_colourbar(title = llab(data), title.position = "bottom"),
+                                      guide = guide_colourbar(title = clab(data), title.position = "bottom"),
                                       low = low, high = high)
     } else {
       gp <- gp + scale_fill_gradient2(limits = climits, labels = get_labels(data),
-                                       guide = guide_colourbar(title = llab(data), title.position = "bottom"),
+                                       guide = guide_colourbar(title = clab(data), title.position = "bottom"),
                                        low = low, mid = mid, high = high)
     }
     if (labels) {
@@ -104,12 +104,12 @@ map_estimates <- function(
       gp <- gp + scale_fill_gradient(limits = climits, labels = get_labels(data), low = low,
                                      high = high,
                                      na.value = "grey90",
-                                     guide = guide_colourbar(title = llab(data), title.position = "bottom"))
+                                     guide = guide_colourbar(title = clab(data), title.position = "bottom"))
     } else {
       gp <- gp + scale_fill_gradient2(limits = climits, labels = get_labels(data),
                                       low = low, mid = mid, high = high,
                                       na.value = "grey90",
-                                      guide = guide_colourbar(title = llab(data), title.position = "bottom"))
+                                      guide = guide_colourbar(title = clab(data), title.position = "bottom"))
 
     }
     if (labels) {
@@ -144,7 +144,7 @@ map_estimates <- function(
 #' @inheritParams plot_estimates_pngs
 #' @param station A flag indicating whether the plot is for stations or ecoprovinces.
 #' @param map A SpatialPolygonsDataFrame object.
-#' @param llab A function that takes the data and returns a string for the legend label.
+#' @param clab A function that takes the data and returns a string for the color legend label.
 #' @param labels A flag indicating wether to plot labels.
 #' @param bounds A numeric vector of four values between 0 and 1 specifying the start and end of the x-axis bounding box and the start and end of the y-axis bounding box.
 #' @param ecoprovinces A character vector specifying the ecoprovince areas to include in the map.
@@ -152,7 +152,7 @@ map_estimates <- function(
 map_estimates_pngs <- function(
   data = cccharts::precipitation, by = "Indicator", station = FALSE, nrow = NULL,
   map = cccharts::bc, width = 500L, height = 450L,
-  ask = TRUE, dir = NULL, climits = NULL, llab = ylab_trend, labels = TRUE,
+  ask = TRUE, dir = NULL, climits = NULL, clab = ylab_trend, labels = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   bounds = c(0,1,0,1),
   ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
@@ -184,7 +184,7 @@ map_estimates_pngs <- function(
   if (is.null(climits)) climits <- get_climits(data)
 
   data %<>% plyr::dlply(by, fun_png, nrow = nrow, station = station, dir = dir,
-              width = width, height = height, map = map, llab = llab,
+              width = width, height = height, map = map, clab = clab,
               climits = climits, labels = labels, low = low, mid = mid, high = high,
               bounds = bounds, ecoprovinces = ecoprovinces,
               fun = map_estimates, prefix = prefix, by = by)
