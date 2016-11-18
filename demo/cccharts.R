@@ -1,9 +1,12 @@
 library(cccharts)
 
 ### sea level ####
-estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station", width = 300L, height = 300L, ybreaks = seq(-15,15,by = 5), low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE)
+estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station",
+                                 width = 300L, height = 300L, ybreaks = seq(-15,15,by = 5),
+                                 low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
-map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55), low = "#543005", mid = "#f5f5f5", high = "#053061", ask = FALSE)
+map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
+                          low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
 png(filename = "cccharts/sea_level_station.png", width = 600L, height = 600L, type = get_png_type())
 envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2, widths = c(3,1))
