@@ -271,10 +271,11 @@ plot_ggplot <- function(gp, filename, width, height) {
   dev.off()
 }
 
-fun_png <- function(data, dir, width, height, fun, prefix, by, ...) {
+fun_png <- function(data, dir, width, height, fun, prefix, by, suffix, ...) {
   check_string(prefix)
 
-  filename <- get_filename(data, by) %>% paste0(".png") %>% paste0(prefix, .)
+  filename <- get_filename(data, by) %>% paste0("_", suffix, ".png") %>% paste0(prefix, .)
+  filename <- gsub("^_", "", filename)
   filename <- file.path(dir, filename)
 
   gp <- fun(data, ...)
