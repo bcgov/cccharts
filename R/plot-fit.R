@@ -137,7 +137,7 @@ plot_fit_pngs <- function(
               width = width, height = height, ylimits = ylimits,
               ybreaks = ybreaks, xbreaks = xbreaks,
               ylab = ylab, free_y = free_y,
-              fun = plot_fit, prefix = prefix, by = by)
+              fun = plot_fit, prefix = prefix, by = by, suffix = "fit")
 
   invisible(data)
 }
