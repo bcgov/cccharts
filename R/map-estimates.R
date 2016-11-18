@@ -191,6 +191,6 @@ map_estimates_pngs <- function(
                         width = width, height = height, map = map, clab = clab,
                         climits = climits, labels = labels, low = low, mid = mid, high = high,
                         bounds = bounds, ecoprovinces = ecoprovinces,
-                        fun = map_estimates, prefix = prefix, by = by)
+                        fun = map_estimates, prefix = prefix, by = by, suffix = "map")
   invisible(data)
 }
