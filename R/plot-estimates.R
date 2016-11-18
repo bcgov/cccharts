@@ -78,7 +78,7 @@ plot_estimates <- function(
                                 width = 0.3, size = 0.5, color = outline)
     }
     gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
-      geom_point(size = 4, shape = 21, aes_string(fill = "Estimate"), color = outline)
+      geom_point(size = 6, shape = 21, aes_string(fill = "Estimate"), color = outline)
   } else {
     gp <- gp + geom_hline(aes(yintercept = 0)) +
       geom_col(aes_string(fill = "Estimate"), color = outline)
