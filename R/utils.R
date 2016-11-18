@@ -145,6 +145,7 @@ get_filename <- function(data, by) {
   for (b in by) {
     filename %<>% paste(data[[b]][1])
   }
+  filename <- gsub("\\s", "_", filename)
   filename
 }
 
