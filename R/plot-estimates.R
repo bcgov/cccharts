@@ -162,6 +162,6 @@ plot_estimates_pngs <- function(
                         ybreaks = ybreaks, xbreaks = xbreaks,
                         low = low, mid = mid, high = high,
                         ylab = ylab,
-                        fun = plot_estimates, prefix = prefix, by = by, suffix = "estimate")
+                        fun = plot_estimates, prefix = prefix, by = by, suffix = "estimates")
   invisible(data)
 }
