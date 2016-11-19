@@ -75,7 +75,7 @@ plot_estimates <- function(
   if (geom == "point") {
     if (ci) {
       gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
-                                width = 0.3, size = 0.5, color = outline)
+                                width = 0.1, size = 0.5, color = outline)
     }
     gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
       geom_point(size = 6, shape = 21, aes_string(fill = "Estimate"), color = outline)
