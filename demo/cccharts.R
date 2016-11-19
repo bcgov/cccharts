@@ -2,15 +2,25 @@ library(cccharts)
 
 ### sea level ####
 estimates <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station",
-                                 width = 300L, height = 300L, ybreaks = seq(-15,15,by = 5),
+                                 width = 500L, height = 500L, ybreaks = seq(-15,15,by = 5),
                                  low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
 map <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
-                          low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
+                          width = 500L, height = 500L, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
-png(filename = "cccharts/sea_level_station.png", width = 600L, height = 600L, type = get_png_type())
-envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2, widths = c(3,1))
+sl_estimates <- estimates[[1]] +
+  theme(plot.margin = unit(c(13,10,10,0),"mm"))
+plot(sl_estimates)
+
+##print map to PNG
+png(filename = "cccharts/estimates/sea_level_station/Sea_Level_estimates.png", width = 500, height = 500, units = "px")
+sl_estimates
 dev.off()
+
+### multiplot sea level map and sea level estimates plots ###
+# png(filename = "cccharts/sea_level_station.png", width = 600L, height = 600L, type = get_png_type())
+# envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2, widths = c(3,1))
+# dev.off()
 
 ### SST ####
 
