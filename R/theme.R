@@ -38,7 +38,9 @@ theme_cccharts <- function(facet = FALSE, map = FALSE) {
     legend.position = ("bottom"),
     legend.title = element_text(size = 11, face = "bold"),
     legend.direction = ("horizontal"),
-    legend.key = element_rect(color = "white", fill = NA))
+    legend.key = element_rect(color = "white", fill = NA),
+    strip.text.x = element_text(size = 12)
+    )
 
   if (map) {
     theme <- theme + theme(
