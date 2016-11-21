@@ -62,7 +62,7 @@ plot_estimates <- function(
   outline <- "grey25"
   if (identical(low, high)) {
     mid <- NULL
-    outline <- low
+    outline <- "grey25"
   }
 
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
