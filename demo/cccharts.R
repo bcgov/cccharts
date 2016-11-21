@@ -26,15 +26,19 @@ dev.off()
 
 sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station, Season == "Annual")
 
-plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE, width = 450L)
+plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
+                    width = 600L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
 
 # hack to separate Departure Bay and Entrance Island map points
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Departure Bay"] <- 49
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.2
 
-map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5), ask = FALSE)
+map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5),
+                   width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE)
 
-plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"), x = "Season", facet = "Station", low = "black", high = "black", ask = FALSE, width = 600L, height = 500L, dir = "sea_surface_temperature_station", prefix = "Seasonal")
+plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"),
+                    x = "Season", facet = "Station", low = "#6baed6", high = "#6baed6", ask = FALSE,
+                    width = 800L, height = 600L, dir = "sea_surface_temperature_station", prefix = "Seasonal")
 
 ### flow timing ####
 
