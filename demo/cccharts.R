@@ -33,11 +33,16 @@ plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom 
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Departure Bay"] <- 49
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.2
 
+# hack to map Kains Island, Amphitrite Point and Pine Island points correctly
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Departure Bay"] <- 49
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.2
+
+
 map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5),
                    width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE)
 
 plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"),
-                    x = "Season", facet = "Station", low = "#6baed6", high = "#6baed6", ask = FALSE,
+                    x = "Season", facet = "Station", low = "#6baed6", mid = NULL, high = "#6baed6", ask = FALSE,
                     width = 800L, height = 600L, dir = "sea_surface_temperature_station", prefix = "Seasonal")
 
 ### flow timing ####
