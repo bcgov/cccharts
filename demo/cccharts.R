@@ -34,9 +34,9 @@ sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.2
 
 # hack to map Kains Island, Amphitrite Point and Pine Island points correctly
-sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Departure Bay"] <- 49
-sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.2
-
+# sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Kains Island"] <-
+# sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Amphitrite Point"] <-
+# sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Pine Island"] <-
 
 map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5),
                    width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE)
