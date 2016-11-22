@@ -12,8 +12,9 @@ sl_estimates <- estimates[[1]] +
   theme(plot.margin = unit(c(13,10,10,0),"mm"))
 plot(sl_estimates)
 
-##print map to PNG
-png(filename = "cccharts/estimates/sea_level_station/Sea_Level_estimates.png", width = 500, height = 500, units = "px")
+##print sea level estimates to PNG
+png(filename = "cccharts/estimates/sea_level_station/Sea_Level_estimates.png",
+    width = 500, height = 500, units = "px")
 sl_estimates
 dev.off()
 
@@ -26,8 +27,20 @@ dev.off()
 
 sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station, Season == "Annual")
 
-plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
-                    width = 600L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
+estimate_sst <- plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
+                    width = 520L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
+
+sst_estimates <- estimate_sst[[1]] +
+  theme(plot.margin = unit(c(17,10,10,0),"mm"),
+        axis.text.x = element_text(size = 12))
+plot(sst_estimates)
+
+##print sea level estimates to PNG
+png(filename = "cccharts/estimates/sea_surface_temperature_station/Sea_Surface_Temperature_estimates.png",
+    width = 520, height = 500, units = "px")
+sst_estimates
+dev.off()
+
 
 # separate Departure Bay and Entrance Island map points
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Departure Bay"] <- 49.07
@@ -36,7 +49,7 @@ sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Statio
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.25
 sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Entrance Island"] <- -123.9
 
-# map station points based on Google Map lat/long coordinates
+# map SST station points based on Google Map lat/long coordinates
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Race Rocks"] <- 48.31
 sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Race Rocks"] <- -123.53
 
