@@ -29,14 +29,25 @@ sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station
 plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
                     width = 600L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
 
-# hack to separate Departure Bay and Entrance Island map points
-sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Departure Bay"] <- 49
-sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.2
+# separate Departure Bay and Entrance Island map points
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Departure Bay"] <- 49.07
+sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Departure Bay"] <- -123.91
 
-# hack to map Kains Island, Amphitrite Point and Pine Island points correctly
-# sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Kains Island"] <-
-# sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Amphitrite Point"] <-
-# sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Pine Island"] <-
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Entrance Island"] <- 49.25
+sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Entrance Island"] <- -123.9
+
+# map station points based on Google Map lat/long coordinates
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Race Rocks"] <- 48.31
+sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Race Rocks"] <- -123.53
+
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Amphitrite Point"] <- 48.92
+sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Amphitrite Point"] <- -125.54
+
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Kains Island"] <- 50.45
+sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Kains Island"] <- -128.03
+
+sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Pine Island"] <- 50.98
+sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Pine Island"] <- -127.72
 
 map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5),
                    width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE)
