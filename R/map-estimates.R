@@ -130,7 +130,7 @@ map_estimates <- function(
         stringr::str_replace("and", "&")
       data2$Ecoprovince %<>% stringr::str_replace("( )(Mountains|Depression|Plains)", "\n\\2")
       data2$Ecoprovince %<>% stringr::str_replace("(\\(NBM\\)|\\(TP\\)|\\(BP\\)|\\(CI\\)|\\(SIM\\)|\\(SI\\)|\\(SBI\\))", "\n\\1")
-  #    data2$Ecoprovince %<>% stringr::str_c(" \n(", acronym(.),")")
+
 
       gp <- gp + ggplot2::geom_text(data = data2, aes_(x = ~EastingEcoprovince, y = ~NorthingEcoprovince, label = ~Ecoprovince))
     }
