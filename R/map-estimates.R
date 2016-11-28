@@ -119,16 +119,18 @@ map_estimates <- function(
     if (labels) {
       data2 <- map@data
       data2$EastingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
-      data2$NorthingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 700000
-      data2$EastingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 1275000
-      data2$NorthingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 350000
+      data2$NorthingEcoprovince[data2$Ecoprovince == "Coast and Mountains"] <- 720000
+      data2$EastingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 1285000
+      data2$NorthingEcoprovince[data2$Ecoprovince == "Georgia Depression"] <- 377500
       data2 %<>% dplyr::filter_(~Ecoprovince != "Southern Alaska Mountains")
-      data2$Ecoprovince %<>% stringr::str_c(" \n(", acronym(.),")")
+      data2$Ecoprovince %<>% stringr::str_c(" (", acronym(.),")")
       data2$Ecoprovince %<>% stringr::str_replace("Southern", "S.") %>%
         stringr::str_replace("Sub[-]", "S. ") %>%
         stringr::str_replace("Northern", "N.") %>%
         stringr::str_replace("and", "&")
       data2$Ecoprovince %<>% stringr::str_replace("( )(Mountains|Depression|Plains)", "\n\\2")
+      data2$Ecoprovince %<>% stringr::str_replace("(\\(NBM\\)|\\(TP\\)|\\(BP\\)|\\(CI\\)|\\(SIM\\)|\\(SI\\)|\\(SBI\\))", "\n\\1")
+  #    data2$Ecoprovince %<>% stringr::str_c(" \n(", acronym(.),")")
 
       gp <- gp + ggplot2::geom_text(data = data2, aes_(x = ~EastingEcoprovince, y = ~NorthingEcoprovince, label = ~Ecoprovince))
     }
