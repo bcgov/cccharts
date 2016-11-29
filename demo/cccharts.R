@@ -95,12 +95,20 @@ plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_d
 
 ### snow ###
 
-plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
+                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+                    width = 900L, height = 500L, ask = FALSE)
 
-map_estimates_pngs(data = cccharts::snow, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5),
+                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+                    width = 500L, height = 500L, ask = FALSE)
+
+map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+                   width = 500L, height = 550L, ask = FALSE)
+
 
 ### snow station ###
 
-map_estimates_pngs(data = cccharts::snow_station, station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
-
-plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+# map_estimates_pngs(data = cccharts::snow_station, station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+#
+# plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
