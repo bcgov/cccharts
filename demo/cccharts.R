@@ -4,7 +4,6 @@ library(magrittr)
 ### sea level ####
 
 ## sea level annual estimates map
-## set ggrepel::geom_text_repel() min.segment.length = unit(0.5, "lines") for this map in map-estimates.R
 map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
                           width = 500L, height = 500L, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
@@ -13,8 +12,12 @@ estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Sta
                                  width = 500L, height = 500L, ybreaks = seq(-15,15,by = 5),
                                  low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
-## tweaking theme of sea level estimates plot
+## tweaking theme and plotting order of sea level estimates plot
+
+order <- c("Prince\nRupert", "Victoria", "Vancouver", "Tofino")
+
 estimates.sl[[1]] <- estimates.sl[[1]] +
+  scale_x_discrete(limits = order) +
   theme(plot.margin = unit(c(13,10,10,0),"mm"))
 plot(estimates.sl[[1]])
 
@@ -39,8 +42,13 @@ sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station
 estimate_sst <- plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
                     width = 520L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
 
-## tweaking theme of SST annual estimates plot
+## tweaking theme and plotting order of SST annual estimates plot
+
+sst.order <- c("Entrance\nIsland", "Langara\nIsland", "Race\nRocks", "Pine\nIsland",
+               "Amphitrite\nPoint", "Kains\nIsland", "Departure\nBay")
+
 estimate_sst[[1]] <- estimate_sst[[1]] +
+  scale_x_discrete(limits = sst.order) +
   theme(plot.margin = unit(c(17,10,10,0),"mm"),
         axis.text.x = element_text(size = 12))
 plot(estimate_sst[[1]])
@@ -120,7 +128,6 @@ plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_d
 snow_estimates_data <- dplyr::select(cccharts::snow, -(c(Lower, Upper))) %>%
                   dplyr::arrange(Indicator, Estimate)
 
-
 snow_estimates_plot <- plot_estimates_pngs(data = snow_estimates_data, ybreaks = seq(-20,10,by = 5), geom = "bar",
                     low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
                     width = 500L, height = 500L, ask = FALSE)
@@ -144,7 +151,7 @@ map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = "#f5f5f5", high
 
 
 ### snow station ###
-
+#
 # map_estimates_pngs(data = cccharts::snow_station, station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 #
 # plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
