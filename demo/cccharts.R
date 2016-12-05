@@ -14,10 +14,10 @@ estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Sta
 
 ## tweaking theme and plotting order of sea level estimates plot
 
-order <- c("Prince\nRupert", "Victoria", "Vancouver", "Tofino")
+#order <- c("Prince\nRupert", "Victoria", "Vancouver", "Tofino")
 
 estimates.sl[[1]] <- estimates.sl[[1]] +
-  scale_x_discrete(limits = order) +
+#  scale_x_discrete(limits = order) +
   theme(plot.margin = unit(c(13,10,10,0),"mm"))
 plot(estimates.sl[[1]])
 
@@ -44,11 +44,11 @@ estimate_sst <- plot_estimates_pngs(data = sea_surface_temperature_station, x = 
 
 ## tweaking theme and plotting order of SST annual estimates plot
 
-sst.order <- c("Entrance\nIsland", "Langara\nIsland", "Race\nRocks", "Pine\nIsland",
-               "Amphitrite\nPoint", "Kains\nIsland", "Departure\nBay")
+# sst.order <- c("Entrance\nIsland", "Langara\nIsland", "Race\nRocks", "Pine\nIsland",
+#                "Amphitrite\nPoint", "Kains\nIsland", "Departure\nBay")
 
 estimate_sst[[1]] <- estimate_sst[[1]] +
-  scale_x_discrete(limits = sst.order) +
+#  scale_x_discrete(limits = sst.order) +
   theme(plot.margin = unit(c(17,10,10,0),"mm"),
         axis.text.x = element_text(size = 12))
 plot(estimate_sst[[1]])
