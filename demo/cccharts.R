@@ -141,9 +141,19 @@ snow_estimates_plot[[1]] <- snow_estimates_plot[[1]] +
   scale_x_discrete(limits = depth_order)
 plot(snow_estimates_plot[[1]])
 
+png(filename = "cccharts/estimates/snow_estimates_data/Snow_Depth_estimates.png",
+    width = 520, height = 500, units = "px")
+snow_estimates_plot[[1]]
+dev.off()
+
 snow_estimates_plot[[2]] <- snow_estimates_plot[[2]] +
   scale_x_discrete(limits = swe_order)
 plot(snow_estimates_plot[[2]])
+
+png(filename = "cccharts/estimates/snow_estimates_data/Snow_Water_Equivalent_estimates.png",
+    width = 520, height = 500, units = "px")
+snow_estimates_plot[[2]]
+dev.off()
 
 ## snow annual ecoprovince estimates map
 map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
