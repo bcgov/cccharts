@@ -1,5 +1,4 @@
 library(cccharts)
-library(magrittr)
 
 ### sea level ####
 
@@ -118,17 +117,8 @@ plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_d
 
 ### snow ###
 
-# plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
-#                     low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
-#                     width = 900L, height = 500L, ask = FALSE)
-
 ## snow annual ecoprovince estimates
-
-## Remove CIs for plotting
-snow_estimates_data <- dplyr::select(cccharts::snow, -(c(Lower, Upper))) %>%
-                  dplyr::arrange(Indicator, Estimate)
-
-snow_estimates_plot <- plot_estimates_pngs(data = snow_estimates_data, ybreaks = seq(-20,10,by = 5), geom = "bar",
+snow_estimates_plot <- plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), geom = "bar",
                     low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
                     width = 500L, height = 500L, ask = FALSE)
 
@@ -141,7 +131,7 @@ snow_estimates_plot[[1]] <- snow_estimates_plot[[1]] +
   scale_x_discrete(limits = depth_order)
 plot(snow_estimates_plot[[1]])
 
-png(filename = "cccharts/estimates/snow_estimates_data/Snow_Depth_estimates.png",
+png(filename = "cccharts/estimates/snow/Snow_Depth_estimates.png",
     width = 520, height = 500, units = "px")
 snow_estimates_plot[[1]]
 dev.off()
@@ -150,7 +140,7 @@ snow_estimates_plot[[2]] <- snow_estimates_plot[[2]] +
   scale_x_discrete(limits = swe_order)
 plot(snow_estimates_plot[[2]])
 
-png(filename = "cccharts/estimates/snow_estimates_data/Snow_Water_Equivalent_estimates.png",
+png(filename = "cccharts/estimates/snow/Snow_Water_Equivalent_estimates.png",
     width = 520, height = 500, units = "px")
 snow_estimates_plot[[2]]
 dev.off()
@@ -161,7 +151,10 @@ map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = "#f5f5f5", high
 
 
 ### snow station ###
-#
-# map_estimates_pngs(data = cccharts::snow_station, station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
-#
-# plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
+                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+                    width = 900L, height = 500L, ask = FALSE)
+
+map_estimates_pngs(data = cccharts::snow_station, station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+
+plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
