@@ -35,10 +35,9 @@ snow$Period <- 1L
 
 snow$Ecoprovince %<>%  factor(levels = ecoprovince)
 
-snow %<>% mutate(Uncertainty = multiply_by(slope_SE, 1.96))
 snow %<>% mutate(Estimate = slope_percentperyear,
-                 Lower = slope_percentperyear - Uncertainty,
-                 Upper = slope_percentperyear + Uncertainty,
+                 Lower = slope_lci,
+                 Upper = slope_uci,
                  Estimate = Estimate ,
                  Lower = Lower,
                  Upper = Upper)
