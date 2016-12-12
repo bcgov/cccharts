@@ -21,6 +21,7 @@
 map_estimates <- function(
   data, nrow = NULL, station = FALSE, map = cccharts::bc, climits = NULL, labels = TRUE, clab = ylab_trend,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  insig = "white",
   ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                    "Southern Interior", "Southern Interior Mountains",
                    "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
@@ -36,6 +37,7 @@ map_estimates <- function(
   }
   check_vector(bounds, c(0,1), min_length = 4, max_length = 4)
   check_vector(ecoprovinces, value = .ecoprovince, min_length = 1)
+  if (!is.null(insig)) check_string(insig)
 
   ecoprovinces %<>% c("Southern Alaska Mountains", "British Columbia") %>% unique()
 
@@ -100,10 +102,12 @@ map_estimates <- function(
   } else {
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
                             ggplot2::aes_string(x = "long", y = "lat", group = "group", fill = "Estimate"),
-                            color = "white") +
-      geom_polygon(data = dplyr::filter_(polygon, ~!hole & !Significant),
+                            color = "white")
+    if (!is.null(insig)) {
+      gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole & !Significant),
                    ggplot2::aes_string(x = "long", y = "lat", group = "group"),
-                   fill = "white", color = "grey75")
+                   fill = insig, color = "grey75")
+    }
     if (is.null(mid)) {
       gp <- gp + scale_fill_gradient(limits = climits, labels = get_labels(data), low = low,
                                      high = high,
@@ -160,6 +164,7 @@ map_estimates_pngs <- function(
   map = cccharts::bc, width = 500L, height = 450L,
   ask = TRUE, dir = NULL, climits = NULL, clab = ylab_trend, labels = TRUE,
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  insig = "white",
   bounds = c(0,1,0,1),
   ecoprovinces = c("Coast and Mountains", "Georgia Depression", "Central Interior",
                    "Southern Interior", "Southern Interior Mountains",
@@ -187,11 +192,12 @@ map_estimates_pngs <- function(
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
-  if (is.null(climits)) climits <- get_climits(data)
+  if (is.null(climits)) climits <- get_climits(data, insig)
 
   data %<>% plyr::dlply(by, fun_png, nrow = nrow, station = station, dir = dir,
                         width = width, height = height, map = map, clab = clab,
                         climits = climits, labels = labels, low = low, mid = mid, high = high,
+                        insig = insig,
                         bounds = bounds, ecoprovinces = ecoprovinces,
                         fun = map_estimates, prefix = prefix, by = by, suffix = "map")
   invisible(data)

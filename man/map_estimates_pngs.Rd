@@ -9,11 +9,11 @@ map_estimates_pngs(data = cccharts::precipitation, by = "Indicator",
   height = 450L, ask = TRUE, dir = NULL, climits = NULL,
   clab = ylab_trend, labels = TRUE, low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  bounds = c(0, 1, 0, 1), ecoprovinces = c("Coast and Mountains",
-  "Georgia Depression", "Central Interior", "Southern Interior",
-  "Southern Interior Mountains", "Sub-Boreal Interior", "Boreal Plains",
-  "Taiga Plains", "Northern Boreal Mountains", "British Columbia"),
-  prefix = "")
+  insig = "white", bounds = c(0, 1, 0, 1),
+  ecoprovinces = c("Coast and Mountains", "Georgia Depression",
+  "Central Interior", "Southern Interior", "Southern Interior Mountains",
+  "Sub-Boreal Interior", "Boreal Plains", "Taiga Plains",
+  "Northern Boreal Mountains", "British Columbia"), prefix = "")
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -45,6 +45,8 @@ map_estimates_pngs(data = cccharts::precipitation, by = "Indicator",
 \item{mid}{A string specifying the color for no change.}
 
 \item{high}{A string specifying the color for positive values.}
+
+\item{insig}{A string specifying the color for insignificant estimates.}
 
 \item{bounds}{A numeric vector of four values between 0 and 1 specifying the start and end of the x-axis bounding box and the start and end of the y-axis bounding box.}
 

@@ -7,7 +7,8 @@
 plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
   climits = NULL, geom = "point", low = getOption("cccharts.low"),
   mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates)
+  insig = NULL, ybreaks = waiver(), xbreaks = waiver(),
+  ylab = ylab_estimates)
 }
 \arguments{
 \item{data}{A data frame of the data to plot}
@@ -29,6 +30,8 @@ plot_estimates(data, x, facet = NULL, nrow = NULL, ylimits = NULL,
 \item{mid}{A string specifying the color for no change.}
 
 \item{high}{A string specifying the color for positive values.}
+
+\item{insig}{A string specifying the color for insignificant estimates.}
 
 \item{ybreaks}{A numeric vector of y-axis tick mark positions.}
 
