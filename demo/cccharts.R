@@ -11,25 +11,16 @@ estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Sta
                                  width = 500L, height = 500L, ybreaks = seq(-15,15,by = 5),
                                  low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
-## tweaking theme and plotting order of sea level estimates plot
-
-#order <- c("Prince\nRupert", "Victoria", "Vancouver", "Tofino")
-
+## tweaking theme of sea level estimates plot
 estimates.sl[[1]] <- estimates.sl[[1]] +
-#  scale_x_discrete(limits = order) +
   theme(plot.margin = unit(c(13,10,10,0),"mm"))
 plot(estimates.sl[[1]])
 
-##print sea level estimates plot to PNG
+## print sea level estimates plot to PNG
 png(filename = "cccharts/estimates/sea_level_station/Sea_Level_estimates.png",
     width = 500, height = 500, units = "px")
 estimates.sl[[1]]
 dev.off()
-
-### multiplot sea level map and sea level estimates plots ###
-# png(filename = "cccharts/sea_level_station.png", width = 600L, height = 600L, type = get_png_type())
-# envreportutils::multiplot(map[[1]], estimates[[1]], cols = 2, widths = c(3,1))
-# dev.off()
 
 
 ### SST ####
@@ -41,18 +32,13 @@ sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station
 estimate_sst <- plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
                     width = 520L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
 
-## tweaking theme and plotting order of SST annual estimates plot
-
-# sst.order <- c("Entrance\nIsland", "Langara\nIsland", "Race\nRocks", "Pine\nIsland",
-#                "Amphitrite\nPoint", "Kains\nIsland", "Departure\nBay")
-
+## tweaking theme of SST annual estimates plot
 estimate_sst[[1]] <- estimate_sst[[1]] +
-#  scale_x_discrete(limits = sst.order) +
   theme(plot.margin = unit(c(17,10,10,0),"mm"),
         axis.text.x = element_text(size = 12))
 plot(estimate_sst[[1]])
 
-##print SST annual estimates to PNG
+## print SST annual estimates to PNG
 png(filename = "cccharts/estimates/sea_surface_temperature_station/Sea_Surface_Temperature_estimates.png",
     width = 520, height = 500, units = "px")
 estimate_sst[[1]]
@@ -102,6 +88,7 @@ plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timi
 
 plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed, by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
 
+
 ### flow discharge ####
 
 flow_station_discharge <- dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Medium")
@@ -118,27 +105,36 @@ plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_d
 ### snow ###
 
 ## snow annual ecoprovince estimates
+
+## adding new column to dataframe for mapping white to NS Estimates values
+# snow.data <- cccharts::snow
+# snow.data$scale <- ifelse((snow.data$Significant == "FALSE"), NA, snow.data$Estimate)
+# snow.data <- dplyr::filter(snow.data, Indicator == "Snow Depth")
+
 snow_estimates_plot <- plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), geom = "bar",
                     low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
                     width = 500L, height = 500L, ask = FALSE)
 
-## Lists for reordering bars by Estimate
+## lists for reordering bars by Estimate
 depth_order <- c("SI", "CI", "SIM","GD", "BP", "CM",  "SBI", "TP","NBM")
 swe_order <- c("SI", "CI", "SIM","GD", "BP", "SBI",  "CM", "TP","NBM")
 
+
 ## reorder bars in plots
 snow_estimates_plot[[1]] <- snow_estimates_plot[[1]] +
+#  geom_col(aes(x = Ecoprovince, y = Estimate, fill = scale), data = snow.data) +
   scale_x_discrete(limits = depth_order)
 plot(snow_estimates_plot[[1]])
-
-png(filename = "cccharts/estimates/snow/Snow_Depth_estimates.png",
-    width = 520, height = 500, units = "px")
-snow_estimates_plot[[1]]
-dev.off()
 
 snow_estimates_plot[[2]] <- snow_estimates_plot[[2]] +
   scale_x_discrete(limits = swe_order)
 plot(snow_estimates_plot[[2]])
+
+## print out PNG plots
+png(filename = "cccharts/estimates/snow/Snow_Depth_estimates.png",
+    width = 520, height = 500, units = "px")
+snow_estimates_plot[[1]]
+dev.off()
 
 png(filename = "cccharts/estimates/snow/Snow_Water_Equivalent_estimates.png",
     width = 520, height = 500, units = "px")
@@ -146,15 +142,18 @@ snow_estimates_plot[[2]]
 dev.off()
 
 ## snow annual ecoprovince estimates map
-map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+# snow.map <- cccharts::snow
+# snow.map$Estimate <- ifelse((snow.data$Significant == "FALSE"), NA, snow.map$Estimate)
+
+map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = "#f5f5f5", high = "#f5f5f5",
                    width = 500L, height = 550L, ask = FALSE)
 
 
 ### snow station ###
-plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
-                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
-                    width = 900L, height = 500L, ask = FALSE)
-
-map_estimates_pngs(data = cccharts::snow_station, station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
-
-plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+# plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
+#                     low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+#                     width = 900L, height = 500L, ask = FALSE)
+#
+# map_estimates_pngs(data = cccharts::snow_station, station = TRUE, labels = FALSE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+#
+# plot_fit_pngs(data = snow_station, observed = cccharts::snow_station_observed, by = c("Indicator", "Station"), width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
