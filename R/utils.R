@@ -122,8 +122,12 @@ get_labels <- function(data) {
   return(comma)
 }
 
-get_climits <- function(data) {
-  x <- c(data$Estimate)
+get_climits <- function(data, insig) {
+  if (is.null(insig) || !any(data$Significant)) {
+    x <- c(data$Estimate)
+  } else {
+    x <- c(data$Estimate[data$Significant])
+  }
   x %<>% range(na.rm = TRUE)
   if (x[1] > 0) x[1] <- 0
   if (x[2] < 0) x[2] <- 0

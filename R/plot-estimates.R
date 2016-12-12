@@ -23,6 +23,7 @@
 plot_estimates <- function(
   data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  insig = NULL,
   ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates) {
   test_estimate_data(data)
   data %<>% complete_estimate_data()
@@ -32,6 +33,7 @@ plot_estimates <- function(
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
   }
+  if (!is.null(insig)) check_string(insig)
 
   if (data$Units[1] %in% c("percent", "Percent")) {
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
@@ -79,9 +81,13 @@ plot_estimates <- function(
     }
     gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
       geom_point(size = 6, shape = 21, aes_string(fill = "Estimate"), color = outline)
+    if (!is.null(insig))
+      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 6, shape = 21, fill = insig, color = outline)
   } else {
     gp <- gp + geom_hline(aes(yintercept = 0)) +
       geom_col(aes_string(fill = "Estimate"), color = outline)
+    if (!is.null(insig))
+      gp <- gp + geom_col(data = dplyr::filter_(data, ~Significant == "NS"), fill = insig, color = outline)
     if (ci) {
       gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
                                 width = 0.2, size = 0.5, color = outline)
@@ -123,6 +129,7 @@ plot_estimates <- function(
 #' @param low A string specifying the color for negative values.
 #' @param mid A string specifying the color for no change.
 #' @param high A string specifying the color for positive values.
+#' @param insig A string specifying the color for insignificant estimates.
 #' @param ybreaks A numeric vector of y-axis tick mark positions.
 #' @param xbreaks A numeric vector of x-axis tick mark positions.
 #' @param ylab A function that takes the data and returns a string for the y-axis label.
@@ -132,7 +139,9 @@ plot_estimates_pngs <- function(
   data = cccharts::precipitation, x = NULL, by = "Indicator", facet = NULL, nrow = NULL,
   geom = "point", width = 350L, height = 350L,
   ask = TRUE, dir = NULL, ylimits = NULL, climits = NULL,
-  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates, prefix = "") {
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  insig = NULL,
+  ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates, prefix = "") {
 
   test_estimate_data(data)
   check_flag(ask)
@@ -154,13 +163,13 @@ plot_estimates_pngs <- function(
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   if (is.null(ylimits)) ylimits <- get_ylimits(data)
-  if (is.null(climits)) climits <- get_climits(data)
+  if (is.null(climits)) climits <- get_climits(data, insig)
   if (is.null(x)) x <- get_x(data)
 
   data %<>% plyr::dlply(by, fun_png, x = x, facet = facet, nrow = nrow, geom = geom, dir = dir,
                         width = width, height = height, ylimits = ylimits, climits = climits,
                         ybreaks = ybreaks, xbreaks = xbreaks,
-                        low = low, mid = mid, high = high,
+                        low = low, mid = mid, high = high, insig = insig,
                         ylab = ylab,
                         fun = plot_estimates, prefix = prefix, by = by, suffix = "estimates")
   invisible(data)

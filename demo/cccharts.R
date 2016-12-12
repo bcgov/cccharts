@@ -112,7 +112,7 @@ plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_d
 # snow.data <- dplyr::filter(snow.data, Indicator == "Snow Depth")
 
 snow_estimates_plot <- plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), geom = "bar",
-                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", insig = "white",
                     width = 500L, height = 500L, ask = FALSE)
 
 ## lists for reordering bars by Estimate
@@ -142,12 +142,13 @@ snow_estimates_plot[[2]]
 dev.off()
 
 ## snow annual ecoprovince estimates map
+
 # snow.map <- cccharts::snow
 # snow.map$Estimate <- ifelse((snow.data$Significant == "FALSE"), NA, snow.map$Estimate)
 
-map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = "#f5f5f5", high = "#f5f5f5",
-                   width = 500L, height = 550L, ask = FALSE)
 
+map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = NULL, high = "#f5f5f5",
+      width = 500L, height = 550L, ask = FALSE)
 
 ### snow station ###
 # plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
