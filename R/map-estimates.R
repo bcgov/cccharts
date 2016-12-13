@@ -106,7 +106,7 @@ map_estimates <- function(
     if (!is.null(insig)) {
       gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole & !Significant),
                    ggplot2::aes_string(x = "long", y = "lat", group = "group"),
-                   fill = insig, color = "grey75")
+                   fill = insig, color = "white")
     }
     if (is.null(mid)) {
       gp <- gp + scale_fill_gradient(limits = climits, labels = get_labels(data), low = low,
