@@ -115,47 +115,47 @@ swe_order <- c("SI", "CI", "SIM","GD", "BP", "SBI",  "CM", "TP","NBM")
 
 ## reorder bars in plots
 snow_estimates_plot[[1]] <- snow_estimates_plot[[1]] +
-  scale_x_discrete(limits = depth_order)
+  scale_x_discrete(limits = depth_order) +
+  theme(plot.margin = unit(c(13,10,10,0),"mm"))
 plot(snow_estimates_plot[[1]])
 
 snow_estimates_plot[[2]] <- snow_estimates_plot[[2]] +
-  scale_x_discrete(limits = swe_order)
+  scale_x_discrete(limits = swe_order) +
+  theme(plot.margin = unit(c(13,10,10,0),"mm"))
 plot(snow_estimates_plot[[2]])
 
 ## print out PNG plots
 png(filename = "cccharts/estimates/snow/Snow_Depth_estimates.png",
-    width = 520, height = 500, units = "px")
+    width = 500, height = 500, units = "px")
 snow_estimates_plot[[1]]
 dev.off()
 
 png(filename = "cccharts/estimates/snow/Snow_Water_Equivalent_estimates.png",
-    width = 520, height = 500, units = "px")
+    width = 500, height = 500, units = "px")
 snow_estimates_plot[[2]]
 dev.off()
 
 ## snow annual ecoprovince estimates map
 snow_maps <- map_estimates_pngs(data = cccharts::snow, low = "#8c510a", high = "#f6e8c3",
-      width = 500L, height = 550L, ask = FALSE, insig = "grey90")
+      width = 500L, height = 500L, ask = FALSE, insig = "grey90")
 
 ## add annotation to maps
 snow_maps[[1]] <- snow_maps[[1]] +
   labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)")
 plot(snow_maps[[1]])
 
-## print out PNG maps
-png(filename = "cccharts/map/snow/Snow_Depth_map.png",
-    width = 520, height = 500, units = "px")
-snow_maps[[1]]
-dev.off()
-
-## add annotation to maps
 snow_maps[[2]] <- snow_maps[[2]] +
   labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)")
 plot(snow_maps[[2]])
 
 ## print out PNG maps
+png(filename = "cccharts/map/snow/Snow_Depth_map.png",
+    width = 500, height = 500, units = "px")
+snow_maps[[1]]
+dev.off()
+
 png(filename = "cccharts/map/snow/Snow_Water_Equivalent_map.png",
-    width = 520, height = 500, units = "px")
+    width = 500, height = 500, units = "px")
 snow_maps[[2]]
 dev.off()
 
