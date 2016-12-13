@@ -105,24 +105,16 @@ plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_d
 ### snow ###
 
 ## snow annual ecoprovince estimates
-
-## adding new column to dataframe for mapping white to NS Estimates values
-# snow.data <- cccharts::snow
-# snow.data$scale <- ifelse((snow.data$Significant == "FALSE"), NA, snow.data$Estimate)
-# snow.data <- dplyr::filter(snow.data, Indicator == "Snow Depth")
-
 snow_estimates_plot <- plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), geom = "bar",
-                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", insig = "white",
+                    low = "#8c510a", high = "#f6e8c3", insig = "grey90",
                     width = 500L, height = 500L, ask = FALSE)
 
 ## lists for reordering bars by Estimate
 depth_order <- c("SI", "CI", "SIM","GD", "BP", "CM",  "SBI", "TP","NBM")
 swe_order <- c("SI", "CI", "SIM","GD", "BP", "SBI",  "CM", "TP","NBM")
 
-
 ## reorder bars in plots
 snow_estimates_plot[[1]] <- snow_estimates_plot[[1]] +
-#  geom_col(aes(x = Ecoprovince, y = Estimate, fill = scale), data = snow.data) +
   scale_x_discrete(limits = depth_order)
 plot(snow_estimates_plot[[1]])
 
@@ -142,13 +134,31 @@ snow_estimates_plot[[2]]
 dev.off()
 
 ## snow annual ecoprovince estimates map
+snow_maps <- map_estimates_pngs(data = cccharts::snow, low = "#8c510a", high = "#f6e8c3",
+      width = 500L, height = 550L, ask = FALSE, insig = "grey90")
 
-# snow.map <- cccharts::snow
-# snow.map$Estimate <- ifelse((snow.data$Significant == "FALSE"), NA, snow.map$Estimate)
+## add annotation to maps
+snow_maps[[1]] <- snow_maps[[1]] +
+  labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)")
+plot(snow_maps[[1]])
 
+## print out PNG maps
+png(filename = "cccharts/map/snow/Snow_Depth_map.png",
+    width = 520, height = 500, units = "px")
+snow_maps[[1]]
+dev.off()
 
-map_estimates_pngs(data = cccharts::snow, low = "#8c510a", mid = NULL, high = "#f5f5f5",
-      width = 500L, height = 550L, ask = FALSE)
+## add annotation to maps
+snow_maps[[2]] <- snow_maps[[2]] +
+  labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)")
+plot(snow_maps[[2]])
+
+## print out PNG maps
+png(filename = "cccharts/map/snow/Snow_Water_Equivalent_map.png",
+    width = 520, height = 500, units = "px")
+snow_maps[[2]]
+dev.off()
+
 
 ### snow station ###
 # plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
