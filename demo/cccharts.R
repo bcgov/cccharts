@@ -78,15 +78,31 @@ map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bound
 
 ### flow timing ####
 
-flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Medium")
+##50 year & 100 year timing trend results
+flow_station_timing_medium <- dplyr::filter(cccharts::flow_station_timing, Term == "Medium")
+flow_station_timing_long <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
 
-plot_estimates_pngs(data = flow_station_timing, x = "Station", ybreaks = seq(-10,5,by = 2.5), width = 700L, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-map_estimates_pngs(data = flow_station_timing, station = TRUE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+plot_estimates_pngs(data = flow_station_timing_medium, x = "Station", ybreaks = seq(-10,5,by = 2.5),
+                    width = 800L, low = "#3182bd", high = "#3182bd", ask = FALSE)
 
-plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed, facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
+plot_estimates_pngs(data = flow_station_timing_long, x = "Station", ybreaks = seq(-10,5,by = 2.5),
+                    width = 800L, low = "#3182bd", high = "#3182bd", ask = FALSE)
 
-plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed, by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+
+#map_estimates_pngs(data = flow_station_timing, station = TRUE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
+
+plot_fit_pngs(data = flow_station_timing_long, observed = cccharts::flow_station_timing_observed,
+              facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
+
+# plot_fit_pngs(data = flow_station_timing_long, observed = cccharts::flow_station_timing_observed,
+#               by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+
+plot_fit_pngs(data = flow_station_timing_medium, observed = cccharts::flow_station_timing_observed,
+              facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
+
+# plot_fit_pngs(data = flow_station_timing_medium, observed = cccharts::flow_station_timing_observed,
+#               by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
 
 
 ### flow discharge ####
