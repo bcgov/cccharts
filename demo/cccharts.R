@@ -1,6 +1,6 @@
 library(cccharts)
 
-### sea level ####
+### SEA LEVEL ####
 
 ## sea level annual estimates map
 map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
@@ -23,7 +23,7 @@ estimates.sl[[1]]
 dev.off()
 
 
-### SST ####
+### SEA SURFACE TEMPERATURE ####
 
 ## SST annual estimates plot
 sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station, Season == "Annual")
@@ -76,49 +76,53 @@ map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bound
                    width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE)
 
 
-### flow timing ####
+### RIVER FLOW TIMING ####
 
-##50 year & 100 year timing trend results
-flow_station_timing_medium <- dplyr::filter(cccharts::flow_station_timing, Term == "Medium")
-flow_station_timing_long <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
+##100 year timing trend results
+flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
 
 
-plot_estimates_pngs(data = flow_station_timing_medium, x = "Station", ybreaks = seq(-10,5,by = 2.5),
+## estimate plots
+plot_estimates_pngs(data = flow_station_timing, x = "Station", ybreaks = seq(-10,5,by = 2.5),
                     width = 800L, low = "#3182bd", high = "#3182bd", ask = FALSE)
 
-plot_estimates_pngs(data = flow_station_timing_long, x = "Station", ybreaks = seq(-10,5,by = 2.5),
-                    width = 800L, low = "#3182bd", high = "#3182bd", ask = FALSE)
-
-
-#map_estimates_pngs(data = flow_station_timing, station = TRUE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
-
-plot_fit_pngs(data = flow_station_timing_long, observed = cccharts::flow_station_timing_observed,
+## facet of station plots with trends lines
+plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
               facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
 
-# plot_fit_pngs(data = flow_station_timing_long, observed = cccharts::flow_station_timing_observed,
+## individual station plots with trend lines
+# plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
 #               by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+#
+## map with points
+#map_estimates_pngs(data = flow_station_timing, station = TRUE,
+#low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
-plot_fit_pngs(data = flow_station_timing_medium, observed = cccharts::flow_station_timing_observed,
+
+### RIVER FLOW DISCHARGE ####
+
+##100 year timing trend results
+flow_station_discharge <- dplyr::filter(cccharts::flow_station_discharge,
+                                             Season == "Annual", Statistic == "Mean", Term == "Long")
+
+## estimate plots
+plot_estimates_pngs(data = flow_station_discharge, x = "Station", low = "#3182bd", high = "#3182bd",
+                    ybreaks = seq(-1,0.5, by = 0.25), ask = FALSE, width = 700L)
+
+## facet of station plots with trends lines
+plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed,
               facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
 
-# plot_fit_pngs(data = flow_station_timing_medium, observed = cccharts::flow_station_timing_observed,
-#               by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+## individual station plots with trend lines
+#plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed,
+#by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
+
+## map with points
+#map_estimates_pngs(data = flow_station_discharge, station = TRUE,
+#low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 
-### flow discharge ####
-
-flow_station_discharge <- dplyr::filter(cccharts::flow_station_discharge, Season == "Annual", Statistic == "Mean", Term == "Medium")
-
-plot_estimates_pngs(data = flow_station_discharge, x = "Station", low = getOption("cccharts.high"), high = getOption("cccharts.low"), ybreaks = seq(-1,0.5, by = 0.25), ask = FALSE, width = 700L)
-
-map_estimates_pngs(data = flow_station_discharge, station = TRUE, low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
-
-plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed, facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
-
-plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed, by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
-
-
-### snow ###
+### SNOW ###
 
 ## snow annual ecoprovince estimates
 snow_estimates_plot <- plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), geom = "bar",
@@ -176,7 +180,7 @@ snow_maps[[2]]
 dev.off()
 
 
-### snow station ###
+### SNOW STATION ###
 # plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
 #                     low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
 #                     width = 900L, height = 500L, ask = FALSE)
