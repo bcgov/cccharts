@@ -97,7 +97,7 @@ map_estimates <- function(
     if (labels) {
       levels(data$Station) <- stringr::str_replace_all(levels(data$Station), " ", "\n")
       gp <- gp + ggrepel::geom_text_repel(data = data, aes_(x = ~Easting, y = ~Northing, label = ~Station),
-                                          point.padding = unit(0.4, "lines"), min.segment.length = unit(0.5, "lines"), size = 5)
+                                          point.padding = unit(0.4, "lines"), min.segment.length = unit(0.6, "lines"), size = 5)
     }
   } else {
     gp <- gp + geom_polygon(data = dplyr::filter_(polygon, ~!hole),
