@@ -42,9 +42,9 @@ sea_level_station$Period <- 10L
 sea_level_station$Significant <- TRUE
 
 sea_level_station %<>% mutate(
-  Estimate = `slope_mm/year`,
-  Lower = `slope_mm/year` - `95_percent_mm/year`,
-  Upper = `slope_mm/year` + `95_percent_mm/year`)
+  Estimate = `slope_mm_per_year`,
+  Lower = slope_lcl,
+  Upper = slope_ucl)
 
 sea_level_station %<>% select(
   Indicator, Units, Period, StartYear, EndYear, Ecoprovince, Station, Latitude, Longitude,
