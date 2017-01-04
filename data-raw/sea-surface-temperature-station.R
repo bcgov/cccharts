@@ -37,9 +37,9 @@ sea_surface_temperature_station$Ecoprovince %<>%  factor(levels = ecoprovince)
 sea_surface_temperature_station$Season %<>% str_to_title() %>% factor(levels = season)
 
 sea_surface_temperature_station %<>% mutate(
-  Estimate = `Trend_Slope_degreesC_per_century`,
-  Lower = `Trend_Slope_degreesC_per_century` - `95_percent_uncert_degreesC_per_century`,
-  Upper = `Trend_Slope_degreesC_per_century` + `95_percent_uncert_degreesC_per_century`)
+  Estimate = `Trend_Slope_DegreesC_per_century`,
+  Lower = Trend_Slope_LCL,
+  Upper = Trend_Slope_UCL)
 
 
 sea_surface_temperature_station %<>% select(
