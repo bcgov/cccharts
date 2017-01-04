@@ -3,6 +3,7 @@ library(cccharts)
 ### SEA LEVEL ####
 
 ## sea level annual estimates map
+## set ggrepel::geom_text_repel(point.padding = unit(0.4, "lines"), min.segment.length = unit(0.6, "lines")
 map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
                           width = 500L, height = 500L, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
@@ -101,7 +102,27 @@ plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timi
 
 ### RIVER FLOW DISCHARGE ####
 
+
 ##100 year timing trend results
+discharge.mean <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Mean", Term == "Long")
+
+plot_estimates_pngs(data = discharge.mean,
+                    x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
+                    width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Mean")
+
+discharge.min <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum", Term == "Long")
+
+plot_estimates_pngs(data = discharge.min,
+                    x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
+                    width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Min")
+
+discharge.max <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum", Term == "Long")
+
+plot_estimates_pngs(data = discharge.max,
+                    x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
+                    width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Max")
+
+
 flow_station_discharge <- dplyr::filter(cccharts::flow_station_discharge,
                                              Season == "Annual", Statistic == "Mean", Term == "Long")
 
