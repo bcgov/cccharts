@@ -154,7 +154,9 @@ plot_estimates_pngs <- function(
   } else
     check_string(dir)
 
-  dir <- file.path("cccharts", "estimates", dir)
+  if (!abs_path(dir)) {
+    dir <- file.path("cccharts", "estimates", dir)
+  }
 
   data %<>% complete_estimate_data()
 
