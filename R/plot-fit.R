@@ -117,7 +117,9 @@ plot_fit_pngs <- function(
   } else
     check_string(dir)
 
-  dir <- file.path("cccharts", "fit", dir)
+  if (!abs_path(dir)) {
+    dir <- file.path("cccharts", "fit", dir)
+  }
 
   data %<>% complete_estimate_data()
   observed %<>% complete_observed_data()

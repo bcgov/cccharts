@@ -184,7 +184,9 @@ map_estimates_pngs <- function(
   } else
     check_string(dir)
 
-  dir <- file.path("cccharts", "map", dir)
+  if (!abs_path(dir)) {
+    dir <- file.path("cccharts", "map", dir)
+  }
 
   data %<>% complete_estimate_data()
 
