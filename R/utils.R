@@ -336,3 +336,13 @@ write_geojson <- function(map = cccharts::bc, file = "map") {
   check_string(file)
   geojsonio::geojson_write(map, file = file, precision = 5)
 }
+
+# Check if a path supplied is absolute or relative. Return TRUE if absolute,
+# otherwise return FALSE
+abs_path <- function(path) {
+  if (grepl("^(/|[A-Za-z]:(/|\\\\)|~)", path)) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
