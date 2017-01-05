@@ -30,7 +30,7 @@ sea_surface_temperature_station$Station %<>% factor(unique(sea_surface_temperatu
 
 sea_surface_temperature_station$Indicator <- "Sea Surface Temperature"
 
-sea_surface_temperature_station$Units <- "Celsius"
+sea_surface_temperature_station$Units <- "Degrees Celsius"
 sea_surface_temperature_station$Period <- 100L
 
 sea_surface_temperature_station$Ecoprovince %<>%  factor(levels = ecoprovince)
