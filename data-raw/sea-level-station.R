@@ -36,7 +36,7 @@ sea_level_station$Station %<>% factor(unique(sea_level_station$Station))
 
 sea_level_station$Indicator <- "Sea Level"
 
-sea_level_station$Units <- "Centimeter"
+sea_level_station$Units <- "Centimetres"
 sea_level_station$Period <- 10L
 
 sea_level_station$Significant <- TRUE
