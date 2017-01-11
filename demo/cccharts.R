@@ -82,53 +82,52 @@ map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bound
 ##100 year timing trend results
 flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
 
+## map with points
+map_estimates_pngs(data = flow_station_timing, station = TRUE,
+                   low = "#8c510a", high = "#2166ac", ask = FALSE)
 
 ## estimate plots
-plot_estimates_pngs(data = flow_station_timing, x = "Station", ybreaks = seq(-10,5,by = 2.5),
-                    width = 800L, low = "#3182bd", high = "#3182bd", ask = FALSE)
-
+# plot_estimates_pngs(data = flow_station_timing, x = "Station", ybreaks = seq(-10,5,by = 2.5),
+#                     width = 800L, low = "#3182bd", high = "#3182bd", ask = FALSE)
+#
 ## facet of station plots with trends lines
-plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
-              facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
-
+# plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
+#               facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
+#
 ## individual station plots with trend lines
 # plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
 #               by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
 #
-## map with points
-#map_estimates_pngs(data = flow_station_timing, station = TRUE,
-#low = getOption("cccharts.high"), high = getOption("cccharts.low"), ask = FALSE)
 
 
 ### RIVER FLOW DISCHARGE ####
 
 
 ##100 year timing trend results
-discharge.mean <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Mean", Term == "Long")
+discharge.mean.annual <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Mean",
+                               Season == "Annual", Term == "Long")
 
-plot_estimates_pngs(data = discharge.mean,
-                    x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
-                    width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Mean")
+discharge.min.annual <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum",
+                                      Season == "Annual", Term == "Long")
 
-discharge.min <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum", Term == "Long")
+discharge.mean.summer <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Mean",
+                                Season == "Summer", Term == "Long")
 
-plot_estimates_pngs(data = discharge.min,
-                    x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
-                    width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Min")
+discharge.min.summer <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum",
+                                      Season == "Summer", Term == "Long")
 
-discharge.max <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum", Term == "Long")
-
-plot_estimates_pngs(data = discharge.max,
-                    x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
-                    width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Max")
-
-
-flow_station_discharge <- dplyr::filter(cccharts::flow_station_discharge,
-                                             Season == "Annual", Statistic == "Mean", Term == "Long")
 
 ## estimate plots
-plot_estimates_pngs(data = flow_station_discharge, x = "Station", low = "#3182bd", high = "#3182bd",
+plot_estimates_pngs(data = discharge.min.summer, x = "Station", low = "#3182bd", high = "#3182bd",
                     ybreaks = seq(-1,0.5, by = 0.25), ask = FALSE, width = 700L)
+
+# plot_estimates_pngs(data = discharge.mean,
+#                     x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
+#                     width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Mean")
+#
+# plot_estimates_pngs(data = discharge.min,
+#                     x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
+#                     width = 800L, height = 600L, dir = "discharge", prefix = "Seasonal_Min")
 
 ## facet of station plots with trends lines
 plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed,
