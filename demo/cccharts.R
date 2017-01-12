@@ -5,7 +5,8 @@ library(cccharts)
 ## sea level annual estimates map
 ## set ggrepel::geom_text_repel(point.padding = unit(0.4, "lines"), min.segment.length = unit(0.6, "lines")
 map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
-                          width = 500L, height = 500L, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
+                   width = 500L, height = 500L, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
+                   ask = FALSE, insig = NULL)
 
 ## sea level annual estimates plot
 estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station",
@@ -71,37 +72,36 @@ sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Statio
 sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station == "Pine Island"] <- 50.98
 sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Pine Island"] <- -127.72
 
-
 ## set ggrepel::geom_text_repel() min.segment.length = unit(0.4, "lines") for this map in map-estimates.R
 map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5),
-                   width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE)
+                   width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE, insig = NULL)
 
 
 ### RIVER FLOW TIMING ####
 
 ##100 year timing trend results
 flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
+flow_station_timing <- cccharts::change_period(flow_station_timing, 100L)
 
 ## map with points
 map_estimates_pngs(data = flow_station_timing, station = TRUE,
                    low = "#8c510a", high = "#2166ac", ask = FALSE)
 
-## estimate plots
-# plot_estimates_pngs(data = flow_station_timing, x = "Station", ybreaks = seq(-10,5,by = 2.5),
+# ## estimate plots
+# plot_estimates_pngs(data = flow_station_timing, x = "Station",
 #                     width = 800L, low = "#3182bd", high = "#3182bd", ask = FALSE)
 #
-## facet of station plots with trends lines
+# ## facet of station plots with trends lines
 # plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
 #               facet = "Station", free_y = TRUE, width = 600L, ask = FALSE)
 #
-## individual station plots with trend lines
+# ## individual station plots with trend lines
 # plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
-#               by = "Station", width = 300L, height = 300L, xbreaks = seq(1950, 2010,by = 10), ask = FALSE)
-#
+#               by = "Station", width = 300L, height = 300L, xbreaks = seq(1900, 2010,by = 20), ask = FALSE)
+
 
 
 ### RIVER FLOW DISCHARGE ####
-
 
 ##100 year timing trend results
 discharge.mean.annual <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Mean",
