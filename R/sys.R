@@ -10,7 +10,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-.season <- c("Annual", "Spring", "Summer", "Fall", "Winter")
+.season <- c("Annual", "Early Spring", "Spring", "Late Spring", "Early Summer", "Summer",
+              "Late Summer", "Fall", "Winter")
 
 .ecoprovince <- c("Coast and Mountains", "Georgia Depression", "Sub-Boreal Interior",
                   "Northern Boreal Mountains", "Boreal Plains", "Central Interior",
