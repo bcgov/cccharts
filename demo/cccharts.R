@@ -113,23 +113,29 @@ dev.off()
 
 ### RIVER FLOW DISCHARGE ####
 
+flow_station_discharge <- cccharts::flow_station_discharge
+flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_discharge$StartYear
+flow_station_discharge <- dplyr::mutate(Estimate = (Estimate * range)*100,
+                                   Lower = (Lower * range)*100, Upper = (Upper * range)*100)
+flow_station_discharge$Period <- as.integer(100)
+
 ##100 year timing trend results
-discharge.mean.annual <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Mean",
+discharge.mean.annual <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
                                Season == "Annual", Term == "Long")
 
-discharge.min.annual <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum",
+discharge.min.annual <- dplyr::filter(flow_station_discharge, Statistic == "Minimum",
                                       Season == "Annual", Term == "Long")
 
-discharge.mean.summer <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Mean",
-                                Season == "Summer", Term == "Long")
+discharge.mean.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
+                                Season == "Early Summer", Term == "Long")
 
-discharge.min.summer <- dplyr::filter(cccharts::flow_station_discharge, Statistic == "Minimum",
-                                      Season == "Summer", Term == "Long")
+discharge.min.summer <- dplyr::filter(flow_station_discharge, Statistic == "Minimum",
+                                      Season == "Late Summer", Term == "Long")
 
 
 ## estimate plots
-plot_estimates_pngs(data = discharge.min.summer, x = "Station", low = "#3182bd", high = "#3182bd",
-                    ybreaks = seq(-1,0.5, by = 0.25), ask = FALSE, width = 700L)
+plot_estimates_pngs(data = discharge.min.annual, x = "Station", low = "#3182bd", high = "#3182bd",
+                    ask = FALSE, width = 700L)
 
 # plot_estimates_pngs(data = discharge.mean,
 #                     x = "Season", facet = "Station", ask = FALSE, low = "#6baed6", mid = NULL, high = "#6baed6",
