@@ -84,8 +84,19 @@ flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Lon
 flow_station_timing <- cccharts::change_period(flow_station_timing, 100L)
 
 ## map with points
-map_estimates_pngs(data = flow_station_timing, station = TRUE,
-                   low = "#8c510a", high = "#2166ac", ask = FALSE)
+timing <- map_estimates_pngs(data = flow_station_timing, station = TRUE,
+                   low = "#8c510a", high = "#2166ac", ask = FALSE, insig = "grey40")
+
+## add annotation to map
+timing[[1]] <- timing[[1]] +
+  labs(caption = "*Grey-coloured stations have trend\nestimates that are not significant (NS)")
+plot(timing[[1]])
+
+## print out PNG maps
+png(filename = "cccharts/map/flow_station_timing/Flow_Timing_map.png",
+    width = 500, height = 500, units = "px")
+timing[[1]]
+dev.off()
 
 # ## estimate plots
 # plot_estimates_pngs(data = flow_station_timing, x = "Station",
@@ -98,7 +109,6 @@ map_estimates_pngs(data = flow_station_timing, station = TRUE,
 # ## individual station plots with trend lines
 # plot_fit_pngs(data = flow_station_timing, observed = cccharts::flow_station_timing_observed,
 #               by = "Station", width = 300L, height = 300L, xbreaks = seq(1900, 2010,by = 20), ask = FALSE)
-
 
 
 ### RIVER FLOW DISCHARGE ####
