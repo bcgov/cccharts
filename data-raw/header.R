@@ -27,7 +27,7 @@ library(dplyr)
 
 rm(list = ls())
 
-season <- c("Annual", "Spring", "Summer", "Fall", "Winter")
+season <- c("Annual", "Early Spring", "Late Spring", "Early Summer", "Late Summer", "Fall", "Winter")
 
 ecoprovince <- c("Coast and Mountains", "Georgia Depression", "Sub-Boreal Interior",
                   "Northern Boreal Mountains", "Boreal Plains", "Central Interior",
@@ -77,10 +77,10 @@ get_flow_statistic_season <- function(data, col) {
 
   data$Season %<>% str_replace("ann", "Annual") %>%
     str_replace("DJF", "Winter") %>%
-    str_replace("MAM", "Spring") %>%
-    str_replace("AMJ", "Spring") %>%
-    str_replace("JJA", "Summer") %>%
-    str_replace("JAS", "Summer") %>%
+    str_replace("MAM", "Early Spring") %>%
+    str_replace("AMJ", "Late Spring") %>%
+    str_replace("JJA", "Early Summer") %>%
+    str_replace("JAS", "Late Summer") %>%
     str_replace("SON", "Fall")
 
   data$Season %<>% factor(levels = season)
