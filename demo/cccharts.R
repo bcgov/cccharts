@@ -139,8 +139,8 @@ discharge.min.annual <- dplyr::filter(flow_station_discharge, Statistic == "Mini
 discharge.min.summer <- dplyr::filter(flow_station_discharge, Statistic == "Minimum",
                                        Season == "Late Summer", Term == "Long")
 
-# discharge.mean.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
-#                                 Season == "Early Summer", Term == "Long")
+discharge.mean.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
+                                Season == "Early Summer", Term == "Long")
 # ##fall and winter
 # discharge.mean.winter <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
 #                                       Season == "Winter", Term == "Long")
@@ -150,26 +150,37 @@ discharge.min.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mini
 
 ## estimate plots
 min.summer <- plot_estimates_pngs(data = discharge.min.summer, x = "Station", low = "#3182bd",
-                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L)
+                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+                    ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
 
 min.annual <- plot_estimates_pngs(data = discharge.min.annual, x = "Station", low = "#3182bd",
-                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L)
+                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+                    ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
 
-# mean.annual <- plot_estimates_pngs(data = discharge.mean.annual, x = "Station", low = "#3182bd",
-#                                   high = "#3182bd", ask = FALSE, width = 500L, height = 500L)
+mean.annual <- plot_estimates_pngs(data = discharge.mean.annual, x = "Station", low = "#3182bd",
+                                  high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+                                  ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
+
+mean.summer <- plot_estimates_pngs(data = discharge.mean.summer, x = "Station", low = "#3182bd",
+                                   high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+                                   ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
 
 ## add titles to plots
 min.summer[[1]] <- min.summer[[1]] +
- ggtitle("Minimum River Flow - Late Summer")
+ ggtitle("Minimum Summer River Flow")
+plot(min.summer[[1]])
+
+mean.summer[[1]] <- mean.summer[[1]] +
+  ggtitle("Mean Summer River Flow")
 plot(min.summer[[1]])
 
 min.annual[[1]] <- min.annual[[1]] +
-  ggtitle("Minimum River Flow - Annual")
+  ggtitle("Minimum Annual River Flow")
 plot(min.annual[[1]])
 
-# mean.annual[[1]] <- mean.annual[[1]] +
-#   ggtitle("Mean River Flow - Annual")
-# plot(mean.annual[[1]])
+mean.annual[[1]] <- mean.annual[[1]] +
+  ggtitle("Mean Annual River Flow")
+plot(mean.annual[[1]])
 
 ## print out PNG plots
 png(filename = "cccharts/estimates/discharge.min.summer/Discharge_MinSummer_estimates.png",
@@ -182,10 +193,15 @@ png(filename = "cccharts/estimates/discharge.min.annual/Discharge_MinAnnual_esti
 min.annual[[1]]
 dev.off()
 
-# png(filename = "cccharts/estimates/discharge.mean.annual/Discharge_MeanAnnual_estimates.png",
-#     width = 500, height = 500, units = "px")
-# mean.annual[[1]]
-# dev.off()
+png(filename = "cccharts/estimates/discharge.mean.summer/Discharge_MeanSummer_estimates.png",
+    width = 500, height = 500, units = "px")
+mean.summer[[1]]
+dev.off()
+
+png(filename = "cccharts/estimates/discharge.mean.annual/Discharge_MeanAnnual_estimates.png",
+    width = 500, height = 500, units = "px")
+mean.annual[[1]]
+dev.off()
 
 # ## facet of station plots with trends lines
 # plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed,
