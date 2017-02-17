@@ -113,11 +113,24 @@ dev.off()
 
 ### RIVER FLOW DISCHARGE ####
 library(magrittr)
+library(dplyr)
 flow_station_discharge <- cccharts::flow_station_discharge
 flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_discharge$StartYear
 flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range)*100,
                                    Lower = (Lower * range)*100, Upper = (Upper * range)*100)
 flow_station_discharge$Period <- as.integer(100)
+
+flow_station_discharge <- filter(flow_station_discharge,
+                                 Trend_Type %in% c("Annual Mean", "Annual Min" ,
+                                                   "Winter Mean", "Spring Mean",
+                                                   "Summer Mean", "Fall Mean"))
+flow_station_discharge_longest <- flow_station_discharge %>%
+  group_by(Station) %>%
+  filter(range == max(range)) %>%
+  ungroup()
+
+plot_estimates(flow_station_discharge_longest, x = "Trend_Type", facet = "Station") +
+  theme(axis.text.x = element_text(angle = 320, hjust = 0))
 
 ##100 year timing trend results
 ##annual
