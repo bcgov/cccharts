@@ -24,6 +24,7 @@ test_observed_data <- function(data) {
     Units = ""))
 }
 
+
 test_estimate_data <- function(data) {
   data %<>% complete_estimate_data()
 
@@ -40,10 +41,12 @@ test_estimate_data <- function(data) {
     Station = factor(c("", NA)),
     Latitude = c(1, NA),
     Longitude = c(1, NA),
+    Trend_Type = c("", NA),
     Estimate = c(1),
     Lower = c(1, NA),
     Upper = c(1, NA),
     Intercept = c(1, NA),
     Scale = c(1),
-    Significant = c(TRUE, FALSE, NA)))
+    Significant = c(TRUE, FALSE, NA),
+    Sign = c("", NA)))
 }
