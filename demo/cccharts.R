@@ -112,25 +112,159 @@ dev.off()
 
 
 ### RIVER FLOW DISCHARGE ####
+plot_river_estimates <- function(
+  data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  insig = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates) {
+  test_estimate_data(data)
+  data %<>% complete_estimate_data()
+  check_all_identical(data$Indicator)
+
+  if (!is.null(facet)) {
+    check_vector(facet, "", min_length = 1, max_length = 2)
+    check_cols(data, facet)
+  }
+  if (!is.null(insig)) check_string(insig)
+
+  if (data$Units[1] %in% c("percent", "Percent")) {
+    data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
+                             Lower = ~Lower / 100,
+                             Upper = ~Upper / 100)
+    if (is.numeric(ylimits))
+      ylimits %<>% magrittr::divide_by(100)
+    if (is.numeric(climits))
+      climits %<>% magrittr::divide_by(100)
+    if (is.numeric(ybreaks))
+      ybreaks %<>% magrittr::divide_by(100)
+  }
+
+  ci <- any(!is.na(data$Lower))
+
+  # if (ci) {
+  #   data %<>% inconsistent_significance()
+  #   if (any(data$Inconsistent)) {
+  #     warning(sum(data$Inconsistent), " data points have inconsistent significance and confidence limits", call. = FALSE, immediate. = TRUE)
+  #   }
+  # }
+
+  data$Significant %<>% not_significant()
+
+  if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
+  if (x == "Station") levels(data[[x]]) <- stringr::str_replace_all(levels(data[[x]]), " ", "\n")
+
+  outline <- "grey25"
+  if (identical(low, high)) {
+    mid <- NULL
+    outline <- "grey25"
+  }
+
+  gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
+    scale_y_continuous(ylab(data), labels = get_labels(data),
+                       limits = ylimits, breaks = ybreaks)
+
+  if (is.vector(xbreaks))
+    gp <- gp + scale_x_continuous(breaks = xbreaks)
+
+  if (geom == "point") {
+    if (ci) {
+      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
+                                width = 0.15, size = 0.5, color = outline)
+    }
+    gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
+      geom_point(size = 3, aes_string(fill = "Estimate", shape = "Sign"), color = outline) +
+      scale_shape_manual(values = c(stable = 21, increase = 24, decrease = 25), guide = "none")
+    if (!is.null(insig))
+      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 3, shape = 21, fill = insig, color = outline)
+  } else {
+    gp <- gp + geom_hline(aes(yintercept = 0)) +
+      geom_col(aes_string(fill = "Estimate"), color = outline)
+    if (!is.null(insig))
+      gp <- gp + geom_col(data = dplyr::filter_(data, ~Significant == "NS"), fill = insig, color = outline)
+    if (ci) {
+      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
+                                width = 0.2, size = 0.5, color = outline)
+    }
+  }
+
+  gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
+
+  if (is.null(mid)) {
+    gp <- gp + scale_fill_gradient(limits = climits, low = low, high = high, guide = FALSE)
+  } else {
+    gp <- gp + scale_fill_gradient2(limits = climits, low = low, mid = mid, high = high, guide = FALSE)
+  }
+
+  if (length(facet) == 1) {
+    gp <- gp + facet_wrap(facet, nrow = nrow)
+  } else if (length(facet) == 2) {
+    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
+  }
+  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
+  gp
+}
+
+
+
 library(magrittr)
 library(dplyr)
-flow_station_discharge <- cccharts::flow_station_discharge
+library(cowplot)
+#flow_station_discharge <- cccharts::flow_station_discharge
 flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_discharge$StartYear
-flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range)*100,
-                                   Lower = (Lower * range)*100, Upper = (Upper * range)*100)
-flow_station_discharge$Period <- as.integer(100)
+flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range) * 100,
+                                   Lower = (Lower * range) * 100, Upper = (Upper * range) * 100)
+# flow_station_discharge$Period <- as.integer(100)
 
 flow_station_discharge <- filter(flow_station_discharge,
                                  Trend_Type %in% c("Annual Mean", "Annual Min" ,
                                                    "Winter Mean", "Spring Mean",
                                                    "Summer Mean", "Fall Mean"))
-flow_station_discharge_longest <- flow_station_discharge %>%
-  group_by(Station) %>%
-  filter(range == max(range)) %>%
-  ungroup()
 
-plot_estimates(flow_station_discharge_longest, x = "Trend_Type", facet = "Station") +
-  theme(axis.text.x = element_text(angle = 320, hjust = 0))
+this_theme <- theme(axis.text.x = element_text(angle = 320, hjust = 0),
+                    plot.margin = unit(c(25, 1, 1, 1), "points"),
+                    plot.subtitle = element_text(size = 14))
+
+for (s in unique(flow_station_discharge$Station)) {
+  med_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Medium")
+  stn_name <- tools::toTitleCase(tolower(s))
+
+  if (nrow(med_data) == 0) {
+    cat("No medium data for ", s, "\n")
+    p_med <- NULL
+  } else {
+  p_med <- plot_river_estimates(med_data, x = "Trend_Type", ylimits = c(-100, 100)) +
+    this_theme +
+    labs(subtitle = paste0(med_data$StartYear[1], " - ", med_data$EndYear[1]))
+  #plot(p_med)
+  }
+
+  long_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Long")
+  if (nrow(long_data) == 0) {
+    cat("No long data for ", s, "\n")
+    p_long <- NULL
+  } else {
+  p_long <- plot_river_estimates(long_data, x = "Trend_Type", ylimits = c(-100, 100)) +
+    this_theme +
+    labs(subtitle = paste0(long_data$StartYear[1], " - ", long_data$EndYear[1]))
+  #plot(p_long)
+  }
+  p <- plot_grid(p_med, p_long, nrow = 2) +
+    draw_plot_label(label = stn_name, x = 0.5, y = 1, size = 16, hjust = 0.5)
+
+  if (is.null(p_med)) {
+    p <- p + draw_text("No Medium-Term Analysis", y = 0.75, size = 14)
+  }
+
+  if (is.null(p_long)) {
+    p <- p + draw_text("No Long-Term Analysis", y = 0.25, size = 14)
+  }
+  plot(p)
+  png(filename = paste0(gsub("\\s", "_", s), "_discharge.png"),
+      width = 350, height = 600, units = "px")
+  plot(p)
+  dev.off()
+  # ggsave(filename = paste0(s, "_flow_plot.png"), plot = p,
+  #        width = 300, height = 600, units = "px", dpi = 72)
+}
 
 ##100 year timing trend results
 ##annual
@@ -149,8 +283,8 @@ discharge.min.annual <- dplyr::filter(flow_station_discharge, Statistic == "Mini
 # discharge.mean.spring <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
 #                                       Season == "Early Spring", Term == "Long")
 ##summer
-discharge.min.summer <- dplyr::filter(flow_station_discharge, Statistic == "Minimum",
-                                       Season == "Late Summer", Term == "Long")
+discharge.min.summer <- dplyr::filter(flow_station_discharge,
+                                       Trend_Type == "Summer Mean", Term == "Long")
 
 discharge.mean.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
                                 Season == "Early Summer", Term == "Long")
@@ -162,8 +296,8 @@ discharge.mean.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mea
 #                                       Season == "Fall", Term == "Long")
 
 ## estimate plots
-min.summer <- plot_estimates_pngs(data = discharge.min.summer, x = "Station", low = "#3182bd",
-                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+min.summer <- plot_estimates(data = discharge.min.summer, x = "Station", #low = "#3182bd",
+                    #high = "#3182bd", #ask = FALSE, width = 500L, height = 500L,
                     ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
 
 min.annual <- plot_estimates_pngs(data = discharge.min.annual, x = "Station", low = "#3182bd",

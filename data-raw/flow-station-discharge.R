@@ -32,7 +32,7 @@ flow_station_discharge %<>% rename(Station = station_name,
                          Significant = sig)
 
 flow_station_discharge$Term %<>% str_to_title() %>% factor(levels = term)
-flow_station_discharge$Station %<>% str_to_title() %>% str_replace("(.*)(\\sRiver\\s)(At|Near)(.*)", "\\1")
+# flow_station_discharge$Station %<>% str_to_title() %>% str_replace("(.*)(\\sRiver\\s)(At|Near)(.*)", "\\1")
 
 flow_station_discharge %<>% get_ecoprovince()
 
