@@ -171,10 +171,10 @@ plot_river_estimates <- function(
                                 width = 0.15, size = 0.5, color = outline)
     }
     gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
-      geom_point(size = 3, aes_string(fill = "Estimate", shape = "Sign"), color = outline) +
+      geom_point(size = 4, aes_string(fill = "Estimate", shape = "Sign"), color = outline) +
       scale_shape_manual(values = c(stable = 21, increase = 24, decrease = 25), guide = "none")
     if (!is.null(insig))
-      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 3, shape = 21, fill = insig, color = outline)
+      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 4, shape = 21, fill = insig, color = outline)
   } else {
     gp <- gp + geom_hline(aes(yintercept = 0)) +
       geom_col(aes_string(fill = "Estimate"), color = outline)
