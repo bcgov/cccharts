@@ -116,8 +116,8 @@ plot_river_estimates <- function(
   data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
   insig = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates) {
-  test_estimate_data(data)
-  data %<>% complete_estimate_data()
+  # test_estimate_data(data)
+  # data %<>% complete_estimate_data()
   check_all_identical(data$Indicator)
 
   if (!is.null(facet)) {
@@ -208,7 +208,7 @@ plot_river_estimates <- function(
 library(magrittr)
 library(dplyr)
 library(cowplot)
-#flow_station_discharge <- cccharts::flow_station_discharge
+flow_station_discharge <- cccharts::flow_station_discharge
 flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_discharge$StartYear
 flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range) * 100,
                                    Lower = (Lower * range) * 100, Upper = (Upper * range) * 100)
@@ -219,19 +219,29 @@ flow_station_discharge <- filter(flow_station_discharge,
                                                    "Winter Mean", "Spring Mean",
                                                    "Summer Mean", "Fall Mean"))
 
-this_theme <- theme(axis.text.x = element_text(angle = 320, hjust = 0),
+flow_station_discharge$Seasonal <- as.factor(ifelse(flow_station_discharge$Season == "Annual",
+                                        "Annual", "Seasonal"))
+
+## Create y limits (nearest 10 of max and min upper and lower CLs)
+ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE) / 10) * 10,
+           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE) / 10 ) * 10)
+
+this_theme <- theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
                     plot.margin = unit(c(25, 1, 1, 1), "points"),
-                    plot.subtitle = element_text(size = 14))
+                    plot.subtitle = element_text(size = 14),
+                    panel.spacing = unit(0, "points"))
 
 for (s in unique(flow_station_discharge$Station)) {
   med_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Medium")
   stn_name <- tools::toTitleCase(tolower(s))
+  stn_id <- flow_station_discharge$station[flow_station_discharge$Station == s][1]
 
   if (nrow(med_data) == 0) {
     cat("No medium data for ", s, "\n")
     p_med <- NULL
   } else {
-  p_med <- plot_river_estimates(med_data, x = "Trend_Type", ylimits = c(-100, 100)) +
+  p_med <- plot_river_estimates(med_data, x = "Trend_Type", ylimits = ylims) +
+    facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
     labs(subtitle = paste0(med_data$StartYear[1], " - ", med_data$EndYear[1]))
   #plot(p_med)
@@ -242,7 +252,8 @@ for (s in unique(flow_station_discharge$Station)) {
     cat("No long data for ", s, "\n")
     p_long <- NULL
   } else {
-  p_long <- plot_river_estimates(long_data, x = "Trend_Type", ylimits = c(-100, 100)) +
+  p_long <- plot_river_estimates(long_data, x = "Trend_Type", ylimits = ylims) +
+    facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
     labs(subtitle = paste0(long_data$StartYear[1], " - ", long_data$EndYear[1]))
   #plot(p_long)
@@ -258,7 +269,7 @@ for (s in unique(flow_station_discharge$Station)) {
     p <- p + draw_text("No Long-Term Analysis", y = 0.25, size = 14)
   }
   plot(p)
-  png(filename = paste0(gsub("\\s", "_", s), "_discharge.png"),
+  png(filename = paste0(stn_id, "_discharge.png"),
       width = 350, height = 600, units = "px")
   plot(p)
   dev.off()
