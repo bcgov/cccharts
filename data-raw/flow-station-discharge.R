@@ -63,7 +63,9 @@ flow_station_discharge %<>% mutate(
                              "Summer Mean", "Fall Mean"),
                            vectorize_all = FALSE),
   Sign = ifelse(Estimate > 0, "increase",
-                ifelse(Estimate == 0, "stable", "decrease")))
+                ifelse(Estimate == 0, "stable", "decrease")),
+  StartYear = as.integer(StartYear),
+  EndYear = as.integer(EndYear))
 
 flow_station_discharge %<>% get_flow_statistic_season(col = "trend_type")
 
