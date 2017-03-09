@@ -118,7 +118,7 @@ plot_river_estimates <- function(
   insig = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates) {
   # test_estimate_data(data)
   # data %<>% complete_estimate_data()
-  check_all_identical(data$Indicator)
+  cccharts:::check_all_identical(data$Indicator)
 
   if (!is.null(facet)) {
     check_vector(facet, "", min_length = 1, max_length = 2)
@@ -147,7 +147,7 @@ plot_river_estimates <- function(
   #   }
   # }
 
-  data$Significant %<>% not_significant()
+  data$Significant %<>% cccharts:::not_significant()
 
   if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
   if (x == "Station") levels(data[[x]]) <- stringr::str_replace_all(levels(data[[x]]), " ", "\n")
@@ -159,7 +159,7 @@ plot_river_estimates <- function(
   }
 
   gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
-    scale_y_continuous(ylab(data), labels = get_labels(data),
+    scale_y_continuous(ylab(data), labels = cccharts:::get_labels(data),
                        limits = ylimits, breaks = ybreaks)
 
   if (is.vector(xbreaks))
@@ -171,13 +171,13 @@ plot_river_estimates <- function(
                                 width = 0.15, size = 0.5, color = outline)
     }
     gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
-      geom_point(size = 4, aes_string(fill = "Estimate", shape = "Sign"), color = outline) +
+      geom_point(size = 4, aes_string(fill = "Sign", shape = "Sign"), color = outline) +
       scale_shape_manual(values = c(stable = 21, increase = 24, decrease = 25), guide = "none")
     if (!is.null(insig))
       gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 4, shape = 21, fill = insig, color = outline)
   } else {
     gp <- gp + geom_hline(aes(yintercept = 0)) +
-      geom_col(aes_string(fill = "Estimate"), color = outline)
+      geom_col(aes_string(fill = "Sign"), color = outline)
     if (!is.null(insig))
       gp <- gp + geom_col(data = dplyr::filter_(data, ~Significant == "NS"), fill = insig, color = outline)
     if (ci) {
@@ -188,11 +188,7 @@ plot_river_estimates <- function(
 
   gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
 
-  if (is.null(mid)) {
-    gp <- gp + scale_fill_gradient(limits = climits, low = low, high = high, guide = FALSE)
-  } else {
-    gp <- gp + scale_fill_gradient2(limits = climits, low = low, mid = mid, high = high, guide = FALSE)
-  }
+  gp <- gp + scale_fill_manual(values = c(stable = mid, increase = high, decrease = low), guide = FALSE)
 
   if (length(facet) == 1) {
     gp <- gp + facet_wrap(facet, nrow = nrow)
@@ -210,8 +206,11 @@ library(dplyr)
 library(cowplot)
 flow_station_discharge <- cccharts::flow_station_discharge
 flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_discharge$StartYear
+
+# Convert estimate from percent per year to total % change
 flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range) * 100,
-                                   Lower = (Lower * range) * 100, Upper = (Upper * range) * 100)
+                                          Lower = (Lower * range) * 100, Upper = (Upper * range) * 100)
+
 # flow_station_discharge$Period <- as.integer(100)
 
 flow_station_discharge <- filter(flow_station_discharge,
@@ -224,7 +223,9 @@ flow_station_discharge$Seasonal <- as.factor(ifelse(flow_station_discharge$Seaso
 
 ## Create y limits (nearest 10 of max and min upper and lower CLs)
 ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE) / 10) * 10,
-           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE) / 10 ) * 10)
+           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE) / 10) * 10)
+
+rivers_ylab <- function(...) "Change in Flow (%)"
 
 this_theme <- theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
                     plot.margin = unit(c(25, 1, 1, 1), "points"),
@@ -240,7 +241,9 @@ for (s in unique(flow_station_discharge$Station)) {
     cat("No medium data for ", s, "\n")
     p_med <- NULL
   } else {
-  p_med <- plot_river_estimates(med_data, x = "Trend_Type", ylimits = ylims) +
+  p_med <- plot_river_estimates(med_data, x = "Trend_Type", ylimits = ylims,
+                                low = "#a6611a", mid = "#f5f5f5", high = "#018571",
+                                ylab = rivers_ylab) +
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
     labs(subtitle = paste0(med_data$StartYear[1], " - ", med_data$EndYear[1]))
@@ -252,7 +255,9 @@ for (s in unique(flow_station_discharge$Station)) {
     cat("No long data for ", s, "\n")
     p_long <- NULL
   } else {
-  p_long <- plot_river_estimates(long_data, x = "Trend_Type", ylimits = ylims) +
+  p_long <- plot_river_estimates(long_data, x = "Trend_Type", ylimits = ylims,
+                                 low = "#a6611a", mid = "#f5f5f5", high = "#018571",
+                                 ylab = rivers_ylab) +
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
     labs(subtitle = paste0(long_data$StartYear[1], " - ", long_data$EndYear[1]))
