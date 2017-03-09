@@ -199,8 +199,6 @@ plot_river_estimates <- function(
   gp
 }
 
-
-
 library(magrittr)
 library(dplyr)
 library(cowplot)
