@@ -211,8 +211,6 @@ flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_di
 flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range) * 100,
                                           Lower = (Lower * range) * 100, Upper = (Upper * range) * 100)
 
-# flow_station_discharge$Period <- as.integer(100)
-
 flow_station_discharge <- filter(flow_station_discharge,
                                  Trend_Type %in% c("Annual Mean", "Annual Min" ,
                                                    "Winter Mean", "Spring Mean",
@@ -232,6 +230,9 @@ this_theme <- theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12)
                     plot.subtitle = element_text(size = 14),
                     panel.spacing = unit(0, "points"))
 
+out_dir <- "cccharts/estimates/flow_station_discharge/"
+dir.create(out_dir, showWarnings = FALSE)
+
 for (s in unique(flow_station_discharge$Station)) {
   med_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Medium")
   stn_name <- tools::toTitleCase(tolower(s))
@@ -247,7 +248,6 @@ for (s in unique(flow_station_discharge$Station)) {
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
     labs(subtitle = paste0(med_data$StartYear[1], " - ", med_data$EndYear[1]))
-  #plot(p_med)
   }
 
   long_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Long")
@@ -261,7 +261,6 @@ for (s in unique(flow_station_discharge$Station)) {
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
     labs(subtitle = paste0(long_data$StartYear[1], " - ", long_data$EndYear[1]))
-  #plot(p_long)
   }
   p <- plot_grid(p_med, p_long, nrow = 2) +
     draw_plot_label(label = stn_name, x = 0.5, y = 1, size = 16, hjust = 0.5)
@@ -273,13 +272,10 @@ for (s in unique(flow_station_discharge$Station)) {
   if (is.null(p_long)) {
     p <- p + draw_text("No Long-Term Analysis", y = 0.25, size = 14)
   }
-  plot(p)
-  png(filename = paste0(stn_id, "_discharge.png"),
+  png(filename = paste0(out_dir, stn_id, "_discharge.png"),
       width = 350, height = 600, units = "px")
   plot(p)
   dev.off()
-  # ggsave(filename = paste0(s, "_flow_plot.png"), plot = p,
-  #        width = 300, height = 600, units = "px", dpi = 72)
 }
 
 ##100 year timing trend results
