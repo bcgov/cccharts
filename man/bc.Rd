@@ -15,4 +15,3 @@ SpatialPolygonsDataFrame of Ecoprovinces for British Columbia.
 From bcmaps package.
 }
 \keyword{datasets}
-

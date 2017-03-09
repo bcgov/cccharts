@@ -20,4 +20,3 @@ snow_station_observed
 Snow Station Data Observed
 }
 \keyword{datasets}
-

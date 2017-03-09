@@ -18,4 +18,3 @@ plot_ggplot(gp, filename, width, height)
 \description{
 Plot GGPlot
 }
-

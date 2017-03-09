@@ -17,4 +17,3 @@ The modified data.
 \description{
 Changes Period of data by scaling the trend and its upper and lower limits.
 }
-

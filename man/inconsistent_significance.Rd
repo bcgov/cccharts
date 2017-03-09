@@ -15,4 +15,3 @@ The data with an additional column called Inconsistent.
 \description{
 Inconsistent Significance
 }
-

@@ -18,4 +18,3 @@ ggplot2 theme for cccharts plots
 \code{\link[envreportutils]{theme_soe}} and
  \code{\link[envreportutils]{theme_soe_facet}}
 }
-

@@ -15,4 +15,3 @@ A string
 \description{
 Y-Axis Label Trend
 }
-

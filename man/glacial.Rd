@@ -26,4 +26,3 @@ Data licensed under the Open Data License-BC.
 See metadata record in BC Data Catalogue for more details on the original data set.
 }
 \keyword{datasets}
-

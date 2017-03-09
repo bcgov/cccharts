@@ -37,4 +37,3 @@ Plots trends with observed data.
 plot_fit(cccharts::flow_station_timing, cccharts::flow_station_timing_observed,
   facet = "Station", nrow = 2)
 }
-
