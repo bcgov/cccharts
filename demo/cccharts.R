@@ -202,20 +202,19 @@ plot_river_estimates <- function(
 library(magrittr)
 library(dplyr)
 library(cowplot)
-flow_station_discharge <- cccharts::flow_station_discharge
-flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_discharge$StartYear
+ordered_seasons <- c("Annual Mean", "Annual Minimum", "Annual Maximum",
+                     "Fall Mean", "Winter Mean", "Early Spring Mean",
+                     "Late Spring Maximum", "Early Summer Mean", "Late Summer Minimum")
 
-# Convert estimate from percent per year to total % change
-flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range) * 100,
-                                          Lower = (Lower * range) * 100, Upper = (Upper * range) * 100)
-
-flow_station_discharge <- filter(flow_station_discharge,
-                                 Trend_Type %in% c("Annual Mean", "Annual Min" ,
-                                                   "Winter Mean", "Spring Mean",
-                                                   "Summer Mean", "Fall Mean"))
-
-flow_station_discharge$Seasonal <- as.factor(ifelse(flow_station_discharge$Season == "Annual",
-                                        "Annual", "Seasonal"))
+# Convert estimate from percent per year to total % change, format seasons
+flow_station_discharge <- cccharts::flow_station_discharge %>%
+  dplyr::mutate(
+    range = EndYear - StartYear,
+    Estimate = (Estimate * range) * 100,
+    Lower = (Lower * range) * 100,
+    Upper = (Upper * range) * 100,
+    Season_stat = factor(paste(Season, Statistic), levels = ordered_seasons),
+    Seasonal = as.factor(ifelse(Season == "Annual", "Annual", "Seasonal")))
 
 ## Create y limits (nearest 10 of max and min upper and lower CLs)
 ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE) / 10) * 10,
@@ -240,7 +239,7 @@ for (s in unique(flow_station_discharge$Station)) {
     cat("No medium data for ", s, "\n")
     p_med <- NULL
   } else {
-  p_med <- plot_river_estimates(med_data, x = "Trend_Type", ylimits = ylims,
+  p_med <- plot_river_estimates(med_data, x = "Season_stat", ylimits = ylims,
                                 low = "#a6611a", mid = "#f5f5f5", high = "#018571",
                                 ylab = rivers_ylab) +
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
@@ -253,7 +252,7 @@ for (s in unique(flow_station_discharge$Station)) {
     cat("No long data for ", s, "\n")
     p_long <- NULL
   } else {
-  p_long <- plot_river_estimates(long_data, x = "Trend_Type", ylimits = ylims,
+  p_long <- plot_river_estimates(long_data, x = "Season_stat", ylimits = ylims,
                                  low = "#a6611a", mid = "#f5f5f5", high = "#018571",
                                  ylab = rivers_ylab) +
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
