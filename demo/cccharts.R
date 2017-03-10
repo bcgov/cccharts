@@ -202,9 +202,9 @@ plot_river_estimates <- function(
 library(magrittr)
 library(dplyr)
 library(cowplot)
-ordered_seasons <- c("Annual Mean", "Annual Minimum", "Annual Maximum",
+ordered_seasons <- c("Annual Mean", "Annual Min", "Annual Max",
                      "Fall Mean", "Winter Mean", "Early Spring Mean",
-                     "Late Spring Maximum", "Early Summer Mean", "Late Summer Minimum")
+                     "Late Spring Max", "Early Summer Mean", "Late Summer Min")
 
 # Convert estimate from percent per year to total % change, format seasons
 flow_station_discharge <- cccharts::flow_station_discharge %>%
@@ -213,8 +213,9 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
     Estimate = (Estimate * range) * 100,
     Lower = (Lower * range) * 100,
     Upper = (Upper * range) * 100,
-    Season_stat = factor(paste(Season, Statistic), levels = ordered_seasons),
+    Season_stat = factor(paste(Season, gsub("imum$", "", Statistic)), levels = ordered_seasons),
     Seasonal = as.factor(ifelse(Season == "Annual", "Annual", "Seasonal")))
+
 
 ## Create y limits (nearest 10 of max and min upper and lower CLs)
 ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE) / 10) * 10,
@@ -239,12 +240,14 @@ for (s in unique(flow_station_discharge$Station)) {
     cat("No medium data for ", s, "\n")
     p_med <- NULL
   } else {
-  p_med <- plot_river_estimates(med_data, x = "Season_stat", ylimits = ylims,
-                                low = "#a6611a", mid = "#f5f5f5", high = "#018571",
-                                ylab = rivers_ylab) +
+    med_mad <- round(med_data$MeanAnnualFlow[med_data$Trend_Type == "Annual Mean"], 1)
+    p_med <- plot_river_estimates(med_data, x = "Season_stat", ylimits = ylims,
+                                  low = "#a6611a", mid = "#f5f5f5", high = "#018571",
+                                  ylab = rivers_ylab) +
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
-    labs(subtitle = paste0(med_data$StartYear[1], " - ", med_data$EndYear[1]))
+    labs(subtitle = paste0(med_data$StartYear[1], " - ", med_data$EndYear[1], "*"),
+         caption = bquote("*"~Mean~Annual~Discharge:~.(med_mad)~m^{3}/s))
   }
 
   long_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Long")
@@ -252,12 +255,14 @@ for (s in unique(flow_station_discharge$Station)) {
     cat("No long data for ", s, "\n")
     p_long <- NULL
   } else {
-  p_long <- plot_river_estimates(long_data, x = "Season_stat", ylimits = ylims,
+    long_mad <- round(long_data$MeanAnnualFlow[long_data$Trend_Type == "Annual Mean"], 1)
+    p_long <- plot_river_estimates(long_data, x = "Season_stat", ylimits = ylims,
                                  low = "#a6611a", mid = "#f5f5f5", high = "#018571",
                                  ylab = rivers_ylab) +
     facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
     this_theme +
-    labs(subtitle = paste0(long_data$StartYear[1], " - ", long_data$EndYear[1]))
+    labs(subtitle = paste0(long_data$StartYear[1], " - ", long_data$EndYear[1], "*"),
+         caption = bquote("*"~Mean~Annual~Discharge:~.(long_mad)~m^{3}/s))
   }
   p <- plot_grid(p_med, p_long, nrow = 2) +
     draw_plot_label(label = stn_name, x = 0.5, y = 1, size = 16, hjust = 0.5)
