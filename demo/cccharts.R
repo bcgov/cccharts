@@ -115,7 +115,8 @@ dev.off()
 plot_river_estimates <- function(
   data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
   low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
-  insig = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates) {
+  insig = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates,
+  base_family = "") {
   # test_estimate_data(data)
   # data %<>% complete_estimate_data()
   cccharts:::check_all_identical(data$Indicator)
@@ -195,7 +196,7 @@ plot_river_estimates <- function(
   } else if (length(facet) == 2) {
     gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
   }
-  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE)
+  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE, base_family = base_family)
   gp
 }
 
@@ -219,7 +220,7 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
 out_dir <- "cccharts/estimates/flow_station_discharge/"
 dir.create(out_dir, showWarnings = FALSE)
 
-make_river_plot <- function(data, station, term, ylims) {
+make_river_plot <- function(data, station, term, ylims, base_family) {
   sub_data <- data[data$Station == station & data$Term == term, ]
 
   if (nrow(sub_data) == 0) {
@@ -228,7 +229,8 @@ make_river_plot <- function(data, station, term, ylims) {
   } else {
     p <- plot_river_estimates(sub_data, x = "Season_stat", ylimits = ylims,
                                   low = "#a6611a", mid = "#f5f5f5", high = "#018571",
-                                  ylab = function(...) "Change in Flow (%)") +
+                                  ylab = function(...) "Change in Flow (%)",
+                              base_family = base_family) +
       facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
       theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
             plot.margin = unit(c(25, 1, 1, 1), "points"),
@@ -253,9 +255,9 @@ for (s in unique(flow_station_discharge$Station)) {
   stn_name <- tools::toTitleCase(tolower(s))
   stn_id <- flow_station_discharge$station[flow_station_discharge$Station == s][1]
 
-  p_med <- make_river_plot(flow_station_discharge, s, "Medium", ylims)
+  p_med <- make_river_plot(flow_station_discharge, s, "Medium", ylims, "Arial")
 
-  p_long <- make_river_plot(flow_station_discharge, s, "Long", ylims)
+  p_long <- make_river_plot(flow_station_discharge, s, "Long", ylims, "Arial")
 
   p <- plot_grid(p_med, p_long, nrow = 2) +
     draw_plot_label(label = stn_name, x = 0.5, y = 1, size = 16, hjust = 0.5)
@@ -268,7 +270,7 @@ for (s in unique(flow_station_discharge$Station)) {
     p <- p + draw_text("Insufficient Data for Long-Term Analysis", y = 0.25, size = 14)
   }
   png(filename = paste0(out_dir, stn_id, "_discharge.png"),
-      width = 350, height = 600, units = "px")
+      width = 350, height = 600, units = "px", type = "cairo")
   plot(p)
   dev.off()
 }
