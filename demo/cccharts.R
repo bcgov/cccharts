@@ -231,48 +231,46 @@ this_theme <- theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12)
 out_dir <- "cccharts/estimates/flow_station_discharge/"
 dir.create(out_dir, showWarnings = FALSE)
 
+make_river_plot <- function(data, station, term) {
+  sub_data <- data[data$Station == station & data$Term == term, ]
+
+  if (nrow(sub_data) == 0) {
+    cat("No ", term, " data for ", station, "\n")
+    p <- NULL
+  } else {
+    p <- plot_river_estimates(sub_data, x = "Season_stat", ylimits = ylims,
+                                  low = "#a6611a", mid = "#f5f5f5", high = "#018571",
+                                  ylab = rivers_ylab) +
+      facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
+      this_theme +
+      labs(subtitle = make_subtitle(sub_data))
+  }
+  p
+}
+
+make_subtitle <- function(d) {
+  mad <- round(d$MeanAnnualFlow[d$Trend_Type == "Annual Mean"], 1)
+  bquote(.(d$StartYear[1])~"-"~.(d$EndYear[1])~scriptstyle((Mean~Annual~Discharge:~.(mad)~m^{3}/s)))
+}
+
 for (s in unique(flow_station_discharge$Station)) {
-  med_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Medium")
+
   stn_name <- tools::toTitleCase(tolower(s))
   stn_id <- flow_station_discharge$station[flow_station_discharge$Station == s][1]
 
-  if (nrow(med_data) == 0) {
-    cat("No medium data for ", s, "\n")
-    p_med <- NULL
-  } else {
-    med_mad <- round(med_data$MeanAnnualFlow[med_data$Trend_Type == "Annual Mean"], 1)
-    p_med <- plot_river_estimates(med_data, x = "Season_stat", ylimits = ylims,
-                                  low = "#a6611a", mid = "#f5f5f5", high = "#018571",
-                                  ylab = rivers_ylab) +
-    facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
-    this_theme +
-    labs(subtitle = paste0(med_data$StartYear[1], " - ", med_data$EndYear[1], "*"),
-         caption = bquote("*"~Mean~Annual~Discharge:~.(med_mad)~m^{3}/s))
-  }
+  p_med <- make_river_plot(flow_station_discharge, s, "Medium")
 
-  long_data <- filter_(flow_station_discharge, ~ Station == s, ~ Term == "Long")
-  if (nrow(long_data) == 0) {
-    cat("No long data for ", s, "\n")
-    p_long <- NULL
-  } else {
-    long_mad <- round(long_data$MeanAnnualFlow[long_data$Trend_Type == "Annual Mean"], 1)
-    p_long <- plot_river_estimates(long_data, x = "Season_stat", ylimits = ylims,
-                                 low = "#a6611a", mid = "#f5f5f5", high = "#018571",
-                                 ylab = rivers_ylab) +
-    facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
-    this_theme +
-    labs(subtitle = paste0(long_data$StartYear[1], " - ", long_data$EndYear[1], "*"),
-         caption = bquote("*"~Mean~Annual~Discharge:~.(long_mad)~m^{3}/s))
-  }
+  p_long <- make_river_plot(flow_station_discharge, s, "Long")
+
   p <- plot_grid(p_med, p_long, nrow = 2) +
     draw_plot_label(label = stn_name, x = 0.5, y = 1, size = 16, hjust = 0.5)
 
   if (is.null(p_med)) {
-    p <- p + draw_text("No Medium-Term Analysis", y = 0.75, size = 14)
+    p <- p + draw_text("Insufficient Data for Medium-Term Analysis", y = 0.75, size = 14)
   }
 
   if (is.null(p_long)) {
-    p <- p + draw_text("No Long-Term Analysis", y = 0.25, size = 14)
+    p <- p + draw_text("Insufficient Data for Long-Term Analysis", y = 0.25, size = 14)
   }
   png(filename = paste0(out_dir, stn_id, "_discharge.png"),
       width = 350, height = 600, units = "px")
