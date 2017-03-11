@@ -4,12 +4,14 @@
 \alias{theme_cccharts}
 \title{Theme}
 \usage{
-theme_cccharts(facet = FALSE, map = FALSE)
+theme_cccharts(facet = FALSE, map = FALSE, base_family = "")
 }
 \arguments{
 \item{facet}{A flag indicating whether to use the theme for facetted graphs.}
 
 \item{map}{A flag indicating whether to use the theme for maps.}
+
+\item{base_family}{Base font family for plotting}
 }
 \description{
 ggplot2 theme for cccharts plots
