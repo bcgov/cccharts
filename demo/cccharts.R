@@ -216,33 +216,24 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
     Season_stat = factor(paste(Season, gsub("imum$", "", Statistic)), levels = ordered_seasons),
     Seasonal = as.factor(ifelse(Season == "Annual", "Annual", "Seasonal")))
 
-
-## Create y limits (nearest 10 of max and min upper and lower CLs)
-ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE) / 10) * 10,
-           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE) / 10) * 10)
-
-rivers_ylab <- function(...) "Change in Flow (%)"
-
-this_theme <- theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
-                    plot.margin = unit(c(25, 1, 1, 1), "points"),
-                    plot.subtitle = element_text(size = 14),
-                    panel.spacing = unit(0, "points"))
-
 out_dir <- "cccharts/estimates/flow_station_discharge/"
 dir.create(out_dir, showWarnings = FALSE)
 
-make_river_plot <- function(data, station, term) {
+make_river_plot <- function(data, station, term, ylims) {
   sub_data <- data[data$Station == station & data$Term == term, ]
 
   if (nrow(sub_data) == 0) {
-    cat("No ", term, " data for ", station, "\n")
+    cat("No", term, "data for", station, "\n")
     p <- NULL
   } else {
     p <- plot_river_estimates(sub_data, x = "Season_stat", ylimits = ylims,
                                   low = "#a6611a", mid = "#f5f5f5", high = "#018571",
-                                  ylab = rivers_ylab) +
+                                  ylab = function(...) "Change in Flow (%)") +
       facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
-      this_theme +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
+            plot.margin = unit(c(25, 1, 1, 1), "points"),
+            plot.subtitle = element_text(size = 14),
+            panel.spacing = unit(0, "points")) +
       labs(subtitle = make_subtitle(sub_data))
   }
   p
@@ -253,14 +244,18 @@ make_subtitle <- function(d) {
   bquote(.(d$StartYear[1])~"-"~.(d$EndYear[1])~scriptstyle((Mean~Annual~Discharge:~.(mad)~m^{3}/s)))
 }
 
+## Create y limits (nearest 10 of max and min upper and lower CLs)
+ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE) / 10) * 10,
+           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE) / 10) * 10)
+
 for (s in unique(flow_station_discharge$Station)) {
 
   stn_name <- tools::toTitleCase(tolower(s))
   stn_id <- flow_station_discharge$station[flow_station_discharge$Station == s][1]
 
-  p_med <- make_river_plot(flow_station_discharge, s, "Medium")
+  p_med <- make_river_plot(flow_station_discharge, s, "Medium", ylims)
 
-  p_long <- make_river_plot(flow_station_discharge, s, "Long")
+  p_long <- make_river_plot(flow_station_discharge, s, "Long", ylims)
 
   p <- plot_grid(p_med, p_long, nrow = 2) +
     draw_plot_label(label = stn_name, x = 0.5, y = 1, size = 16, hjust = 0.5)
