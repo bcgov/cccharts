@@ -49,19 +49,20 @@ flow_station_discharge$Units <- "Cumecs"
 flow_station_discharge$Period <- 1L
 flow_station_discharge$Indicator <- "Discharge"
 
+trend_labels <- c("trend.ann.1thrdate"   = "Timing: 1/3",
+                  "trend.ann.1halfdate"  = "Timing: 1/2",
+                  "trend.ann.mean"       = "Annual Mean",
+                  "trend.ann.min"        = "Annual Min",
+                  "trend.ann.max"        = "Annual Max",
+                  "trend.SON.mean"       = "Fall Mean",
+                  "trend.DJF.mean"       = "Winter Mean",
+                  "trend.MAM.mean"       = "Spring Mean",
+                  "trend.JJA.mean"       = "Summer Mean",
+                  "trend.AMJ.max"        = "Early Spring Max",
+                  "trend.JAS.min"        = "Late Summer Min")
+
 flow_station_discharge %<>% mutate(
-  Trend_Type = trend_type %>%
-    stri_replace_all_fixed(c("trend.ann.1thrdate", "trend.ann.max",
-                             "trend.AMJ.max", "trend.JAS.min",
-                             "trend.ann.1halfdate", "trend.ann.mean",
-                             "trend.ann.min", "trend.DJF.mean",
-                             "trend.MAM.mean", "trend.JJA.mean",
-                             "trend.SON.mean"),
-                           c("Timing: 1/3", "Annual Max", "Spring Max",
-                             "Summer Min", "Timing: 1/2", "Annual Mean",
-                             "Annual Min" , "Winter Mean", "Spring Mean",
-                             "Summer Mean", "Fall Mean"),
-                           vectorize_all = FALSE),
+  Trend_Type = factor(trend_labels[trend_type], levels = trend_labels),
   Sign = ifelse(Estimate > 0, "increase",
                 ifelse(Estimate == 0, "stable", "decrease")),
   StartYear = as.integer(StartYear),
