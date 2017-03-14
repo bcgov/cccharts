@@ -80,12 +80,12 @@ map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bound
 ### RIVER FLOW TIMING ####
 
 ##100 year timing trend results
-flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
+# flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
 flow_station_timing <- cccharts::change_period(flow_station_timing, 100L)
 
 ## map with points
-timing <- map_estimates_pngs(data = flow_station_timing, station = TRUE,
-                   low = "#8c510a", high = "#2166ac", ask = FALSE, insig = "grey40")
+map_estimates(data = dplyr::filter(flow_station_timing, Term == "Medium"), station = TRUE,
+                   low = "#8c510a", high = "#2166ac", insig = "grey40")
 
 ## add annotation to map
 timing[[1]] <- timing[[1]] +
@@ -203,9 +203,7 @@ plot_river_estimates <- function(
 library(magrittr)
 library(dplyr)
 library(cowplot)
-ordered_seasons <- c("Annual Mean", "Annual Min", "Annual Max",
-                     "Fall Mean", "Winter Mean", "Early Spring Mean",
-                     "Late Spring Max", "Early Summer Mean", "Late Summer Min")
+library(extrafont)
 
 # Convert estimate from percent per year to total % change, format seasons
 flow_station_discharge <- cccharts::flow_station_discharge %>%
@@ -214,8 +212,10 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
     Estimate = (Estimate * range) * 100,
     Lower = (Lower * range) * 100,
     Upper = (Upper * range) * 100,
-    Season_stat = factor(paste(Season, gsub("imum$", "", Statistic)), levels = ordered_seasons),
-    Seasonal = as.factor(ifelse(Season == "Annual", "Annual", "Seasonal")))
+    Seasonal = factor(ifelse(Season == "Annual", "Annual",
+                                ifelse(Statistic == "Mean", "Seasonal Means",
+                                       "Other")),
+                      levels = c("Annual", "Seasonal Means", "Other")))
 
 out_dir <- "cccharts/estimates/flow_station_discharge/"
 dir.create(out_dir, showWarnings = FALSE)
@@ -227,7 +227,7 @@ make_river_plot <- function(data, station, term, ylims, base_family) {
     cat("No", term, "data for", station, "\n")
     p <- NULL
   } else {
-    p <- plot_river_estimates(sub_data, x = "Season_stat", ylimits = ylims,
+    p <- plot_river_estimates(sub_data, x = "Trend_Type", ylimits = ylims,
                                   low = "#a6611a", mid = "#f5f5f5", high = "#018571",
                                   ylab = function(...) "Change in Flow (%)",
                               base_family = base_family) +
