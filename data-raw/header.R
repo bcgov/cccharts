@@ -77,12 +77,12 @@ get_flow_statistic_season <- function(data, col) {
   data$Season <- str_replace(col, "(^\\w+)([.]\\w+$)", "\\1")
 
   data$Season %<>% str_replace("ann", "Annual") %>%
+    str_replace("SON", "Fall") %>%
     str_replace("DJF", "Winter") %>%
+    str_replace("AMJ", "Spring") %>%
+    str_replace("JJA", "Summer") %>%
     str_replace("MAM", "Early Spring") %>%
-    str_replace("AMJ", "Late Spring") %>%
-    str_replace("JJA", "Early Summer") %>%
-    str_replace("JAS", "Late Summer") %>%
-    str_replace("SON", "Fall")
+    str_replace("JAS", "Late Summer")
 
   data$Season %<>% factor(levels = season)
 
