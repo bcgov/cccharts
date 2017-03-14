@@ -33,6 +33,8 @@ flow_station_timing %<>% rename(Station = station_name,
 
 flow_station_timing$Term %<>% str_to_title() %>% factor(levels = term)
 flow_station_timing$Station %<>% str_to_title() %>% str_replace("(.*)(\\sRiver\\s)(At|Near)(.*)", "\\1")
+flow_station_timing$StartYear %<>% as.integer()
+flow_station_timing$EndYear %<>% as.integer()
 
 flow_station_timing %<>% get_ecoprovince()
 
