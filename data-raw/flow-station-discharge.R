@@ -58,7 +58,7 @@ trend_labels <- c("trend.ann.1thrdate"   = "Timing: 1/3",
                   "trend.DJF.mean"       = "Winter Mean",
                   "trend.MAM.mean"       = "Spring Mean",
                   "trend.JJA.mean"       = "Summer Mean",
-                  "trend.AMJ.max"        = "Early Spring Max",
+                  "trend.AMJ.max"        = "Late Spring Max",
                   "trend.JAS.min"        = "Late Summer Min")
 
 flow_station_discharge %<>% mutate(

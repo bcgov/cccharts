@@ -243,7 +243,7 @@ make_river_plot <- function(data, station, term, ylims, base_family) {
 
 make_subtitle <- function(d) {
   mad <- round(d$MeanAnnualFlow[d$Trend_Type == "Annual Mean"], 1)
-  bquote(.(d$StartYear[1])~"-"~.(d$EndYear[1])~scriptstyle((Mean~Annual~Discharge:~.(mad)~m^{3}/s)))
+  bquote(.(d$StartYear[1])~"-"~.(d$EndYear[1])~scriptstyle((Mean~Annual~Flow:~.(mad)~m^{3}/s)))
 }
 
 ## Create y limits (nearest 10 of max and min upper and lower CLs)
