@@ -214,8 +214,8 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
     Upper = (Upper * range) * 100,
     Seasonal = factor(ifelse(Season == "Annual", "Annual",
                                 ifelse(Statistic == "Mean", "Seasonal Means",
-                                       "Other")),
-                      levels = c("Annual", "Seasonal Means", "Other")))
+                                       "Seasonal Extremes")),
+                      levels = c("Annual", "Seasonal Means", "Seasonal Extremes")))
 
 out_dir <- "cccharts/estimates/flow_station_discharge/"
 dir.create(out_dir, showWarnings = FALSE)
@@ -231,7 +231,7 @@ make_river_plot <- function(data, station, term, ylims, base_family) {
                                   low = "#a6611a", mid = "#f5f5f5", high = "#018571",
                                   ylab = function(...) "Change in Flow (%)",
                               base_family = base_family) +
-      facet_grid(.~Seasonal, scales = "free_x", space = "free_x") +
+      facet_grid(.~Seasonal, scales = "free_x", space = "free_x", labeller = label_wrap_gen(15)) +
       theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
             plot.margin = unit(c(25, 1, 1, 1), "points"),
             plot.subtitle = element_text(size = 14),
