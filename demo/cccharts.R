@@ -247,8 +247,8 @@ make_subtitle <- function(d) {
 }
 
 ## Create y limits (nearest 10 of max and min upper and lower CLs)
-ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE) / 10) * 10,
-           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE) / 10) * 10)
+ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE)),
+           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE)))
 
 for (s in unique(flow_station_discharge$Station)) {
 
