@@ -10,8 +10,8 @@ map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = 
 
 ## sea level annual estimates plot
 estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station",
-                                 width = 500L, height = 500L, ybreaks = seq(-15,15,by = 5),
-                                 low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
+                                    width = 500L, height = 500L, ybreaks = seq(-15,15,by = 5),
+                                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
 ## tweaking theme of sea level estimates plot
 estimates.sl[[1]] <- estimates.sl[[1]] +
@@ -32,7 +32,7 @@ sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station
 
 
 estimate_sst <- plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
-                    width = 520L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
+                                    width = 520L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
 
 ## tweaking theme of SST annual estimates plot
 estimate_sst[[1]] <- estimate_sst[[1]] +
@@ -85,7 +85,7 @@ flow_station_timing <- cccharts::change_period(flow_station_timing, 100L)
 
 ## map with points
 map_estimates(data = dplyr::filter(flow_station_timing, Term == "Medium"), station = TRUE,
-                   low = "#8c510a", high = "#2166ac", insig = "grey40")
+              low = "#8c510a", high = "#2166ac", insig = "grey40")
 
 ## add annotation to map
 timing[[1]] <- timing[[1]] +
@@ -125,7 +125,7 @@ plot_river_estimates <- function(
     check_vector(facet, "", min_length = 1, max_length = 2)
     check_cols(data, facet)
   }
-  if (!is.null(insig)) check_string(insig)
+  if (!is.null(insig)) datacheckr::check_string(insig)
 
   if (data$Units[1] %in% c("percent", "Percent")) {
     data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
@@ -175,7 +175,7 @@ plot_river_estimates <- function(
       geom_point(size = 4, aes_string(fill = "Sign", shape = "Sign"), color = outline) +
       scale_shape_manual(values = c(stable = 21, increase = 24, decrease = 25), guide = "none")
     if (!is.null(insig))
-      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 4, shape = 21, fill = insig, color = outline)
+      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 4, aes_string(shape = "Sign"), fill = insig, color = outline)
   } else {
     gp <- gp + geom_hline(aes(yintercept = 0)) +
       geom_col(aes_string(fill = "Sign"), color = outline)
@@ -213,12 +213,12 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
     Lower = (Lower * range) * 100,
     Upper = (Upper * range) * 100,
     Seasonal = factor(ifelse(Season == "Annual", "Annual",
-                                ifelse(Statistic == "Mean", "Seasonal Means",
-                                       "Seasonal Extremes")),
+                             ifelse(Statistic == "Mean", "Seasonal Means",
+                                    "Seasonal Extremes")),
                       levels = c("Annual", "Seasonal Means", "Seasonal Extremes")))
 
 out_dir <- "cccharts/estimates/flow_station_discharge/"
-dir.create(out_dir, showWarnings = FALSE)
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
 make_river_plot <- function(data, station, term, ylims, base_family) {
   sub_data <- data[data$Station == station & data$Term == term, ]
@@ -228,9 +228,9 @@ make_river_plot <- function(data, station, term, ylims, base_family) {
     p <- NULL
   } else {
     p <- plot_river_estimates(sub_data, x = "Trend_Type", ylimits = ylims,
-                                  low = "#a6611a", mid = "#f5f5f5", high = "#018571",
-                                  ylab = function(...) "Change in Flow (%)",
-                              base_family = base_family) +
+                              low = "#a6611a", mid = "#f5f5f5", high = "#018571",
+                              ylab = function(...) "Change in Flow (%)",
+                              insig = "grey80", base_family = base_family) +
       facet_grid(.~Seasonal, scales = "free_x", space = "free_x", labeller = label_wrap_gen(15)) +
       theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
             plot.margin = unit(c(25, 1, 1, 1), "points"),
@@ -270,7 +270,7 @@ for (s in unique(flow_station_discharge$Station)) {
     p <- p + draw_text("Insufficient Data for Long-Term Analysis", y = 0.25, size = 14)
   }
   png(filename = paste0(out_dir, stn_id, "_discharge.png"),
-      width = 350, height = 600, units = "px", type = "cairo")
+      width = 350, height = 600, units = "px")
   plot(p)
   dev.off()
 }
@@ -376,8 +376,8 @@ for (s in unique(flow_station_discharge$Station)) {
 
 ## snow annual ecoprovince estimates
 snow_estimates_plot <- plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), geom = "bar",
-                    low = "#8c510a", high = "#f6e8c3", insig = "grey90",
-                    width = 500L, height = 500L, ask = FALSE)
+                                           low = "#8c510a", high = "#f6e8c3", insig = "grey90",
+                                           width = 500L, height = 500L, ask = FALSE)
 
 ## lists for reordering bars by Estimate
 depth_order <- c("SI", "CI", "SIM","GD", "BP", "CM",  "SBI", "TP","NBM")
@@ -407,7 +407,7 @@ dev.off()
 
 ## snow annual ecoprovince estimates map
 snow_maps <- map_estimates_pngs(data = cccharts::snow, low = "#8c510a", high = "#f6e8c3",
-      width = 500L, height = 500L, ask = FALSE, insig = "grey90")
+                                width = 500L, height = 500L, ask = FALSE, insig = "grey90")
 
 ## add annotation to maps
 snow_maps[[1]] <- snow_maps[[1]] +
