@@ -141,13 +141,6 @@ plot_river_estimates <- function(
 
   ci <- any(!is.na(data$Lower))
 
-  # if (ci) {
-  #   data %<>% inconsistent_significance()
-  #   if (any(data$Inconsistent)) {
-  #     warning(sum(data$Inconsistent), " data points have inconsistent significance and confidence limits", call. = FALSE, immediate. = TRUE)
-  #   }
-  # }
-
   data$Significant %<>% cccharts:::not_significant()
 
   if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
@@ -187,7 +180,7 @@ plot_river_estimates <- function(
     }
   }
 
-  gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
+  # gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
 
   gp <- gp + scale_fill_manual(values = c(stable = mid, increase = high, decrease = low), guide = FALSE)
 
@@ -202,6 +195,7 @@ plot_river_estimates <- function(
 
 library(magrittr)
 library(dplyr)
+library(forcats)
 library(cowplot)
 library(extrafont)
 
@@ -215,7 +209,10 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
     Seasonal = factor(ifelse(Season == "Annual", "Annual",
                              ifelse(Statistic == "Mean", "Seasonal Means",
                                     "Seasonal Extremes")),
-                      levels = c("Annual", "Seasonal Means", "Seasonal Extremes")))
+                      levels = c("Annual", "Seasonal Means", "Seasonal Extremes")),
+    Trend_Type = fct_recode(Trend_Type, Mean = "Annual Mean", Minimum = "Annual Min",
+                            Maximum = "Annual Max", Fall = "Fall Mean",
+                            Winter = "Winter Mean", Spring = "Spring Mean", Summer = "Summer Mean"))
 
 out_dir <- "cccharts/estimates/flow_station_discharge/"
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
@@ -236,7 +233,8 @@ make_river_plot <- function(data, station, term, ylims, base_family) {
             plot.margin = unit(c(25, 1, 1, 1), "points"),
             plot.subtitle = element_text(size = 14),
             panel.spacing = unit(0, "points")) +
-      labs(subtitle = make_subtitle(sub_data))
+      # labs(subtitle = make_subtitle(sub_data))
+      labs(subtitle = tools::toTitleCase(paste0(term, "-Term")))
   }
   p
 }
@@ -270,7 +268,7 @@ for (s in unique(flow_station_discharge$Station)) {
     p <- p + draw_text("Insufficient Data for Long-Term Analysis", y = 0.25, size = 14)
   }
   png(filename = paste0(out_dir, stn_id, "_discharge.png"),
-      width = 350, height = 600, units = "px")
+      width = 350, height = 600, units = "px", type = "cairo")
   plot(p)
   dev.off()
 }
