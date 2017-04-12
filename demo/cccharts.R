@@ -234,7 +234,7 @@ make_river_plot <- function(data, station, term, ylims, base_family) {
             plot.subtitle = element_text(size = 14),
             panel.spacing = unit(0, "points")) +
       # labs(subtitle = make_subtitle(sub_data))
-      labs(subtitle = tools::toTitleCase(paste0(term, "-Term")))
+      labs(subtitle = tools::toTitleCase(paste0(term, "-Term Change")))
   }
   p
 }
