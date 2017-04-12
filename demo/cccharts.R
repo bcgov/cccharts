@@ -258,14 +258,14 @@ for (s in unique(flow_station_discharge$Station)) {
   p_long <- make_river_plot(flow_station_discharge, s, "Long", ylims, "Arial")
 
   p <- plot_grid(p_med, p_long, nrow = 2) +
-    draw_plot_label(label = stn_name, x = 0.5, y = 1, size = 16, hjust = 0.5)
+    draw_plot_label(label = stn_name, x = 0, y = 1, size = 16, hjust = 0, vjust = 1.3)
 
   if (is.null(p_med)) {
-    p <- p + draw_text("Insufficient Data for Medium-Term Analysis", y = 0.75, size = 14)
+    p <- p + draw_text("Insufficient Data for Medium-Term Change Analysis", y = 0.75, size = 14)
   }
 
   if (is.null(p_long)) {
-    p <- p + draw_text("Insufficient Data for Long-Term Analysis", y = 0.25, size = 14)
+    p <- p + draw_text("Insufficient Data for Long-Term Change Analysis", y = 0.25, size = 14)
   }
   png(filename = paste0(out_dir, stn_id, "_discharge.png"),
       width = 350, height = 600, units = "px", type = "cairo")
