@@ -234,11 +234,12 @@ complete_estimate_data <- function(data) {
   if (!tibble::has_name(data, "Statistic")) data$Statistic <- factor("Mean", levels = .statistic)
   if (!tibble::has_name(data, "Season")) data$Season <- factor("Annual", levels = .season)
   if (!tibble::has_name(data, "Significant")) data$Significant <- NA
+  if (!tibble::has_name(data, "Sign")) data$Sign <- NA_character_
 
   data %<>% dplyr::select_(
     ~Indicator, ~Statistic, ~Units, ~Period, ~Term, ~StartYear, ~EndYear,
     ~Ecoprovince, ~Season, ~Station, ~Latitude, ~Longitude,
-    ~Estimate, ~Lower, ~Upper, ~Intercept, ~Scale, ~Significant)
+    ~Estimate, ~Lower, ~Upper, ~Intercept, ~Scale, ~Significant, ~Sign)
 
   data %<>% dplyr::arrange_(~Indicator, ~Statistic, ~Ecoprovince, ~Station,
                             ~Season, ~StartYear, ~EndYear)

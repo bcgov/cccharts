@@ -10,8 +10,8 @@ map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = 
 
 ## sea level annual estimates plot
 estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station",
-                                 width = 500L, height = 500L, ybreaks = seq(-15,15,by = 5),
-                                 low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
+                                    width = 500L, height = 500L, ybreaks = seq(-15,15,by = 5),
+                                    low = "#8c510a", mid = "#f5f5f5", high = "#2166ac", ask = FALSE)
 
 ## tweaking theme of sea level estimates plot
 estimates.sl[[1]] <- estimates.sl[[1]] +
@@ -32,7 +32,7 @@ sea_surface_temperature_station <- dplyr::filter(sea_surface_temperature_station
 
 
 estimate_sst <- plot_estimates_pngs(data = sea_surface_temperature_station, x = "Station", geom = "bar", ask = FALSE,
-                    width = 520L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
+                                    width = 520L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c")
 
 ## tweaking theme of SST annual estimates plot
 estimate_sst[[1]] <- estimate_sst[[1]] +
@@ -77,26 +77,26 @@ map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bound
                    width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE, insig = NULL)
 
 
-### RIVER FLOW TIMING ####
-
-##100 year timing trend results
-flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
-flow_station_timing <- cccharts::change_period(flow_station_timing, 100L)
-
-## map with points
-timing <- map_estimates_pngs(data = flow_station_timing, station = TRUE,
-                   low = "#8c510a", high = "#2166ac", ask = FALSE, insig = "grey40")
-
-## add annotation to map
-timing[[1]] <- timing[[1]] +
-  labs(caption = "*Grey-coloured stations have trend\nestimates that are not significant (NS)")
-plot(timing[[1]])
-
-## print out PNG maps
-png(filename = "cccharts/map/flow_station_timing/Flow_Timing_map.png",
-    width = 500, height = 500, units = "px")
-timing[[1]]
-dev.off()
+# ### RIVER FLOW TIMING ####
+#
+# ##100 year timing trend results
+# # flow_station_timing <- dplyr::filter(cccharts::flow_station_timing, Term == "Long")
+# flow_station_timing <- cccharts::change_period(flow_station_timing, 100L)
+#
+# ## map with points
+# map_estimates(data = dplyr::filter(flow_station_timing, Term == "Medium"), station = TRUE,
+#               low = "#8c510a", high = "#2166ac", insig = "grey40")
+#
+# ## add annotation to map
+# timing[[1]] <- timing[[1]] +
+#   labs(caption = "*Grey-coloured stations have trend\nestimates that are not significant (NS)")
+# plot(timing[[1]])
+#
+# ## print out PNG maps
+# png(filename = "cccharts/map/flow_station_timing/Flow_Timing_map.png",
+#     width = 500, height = 500, units = "px")
+# timing[[1]]
+# dev.off()
 
 # ## estimate plots
 # plot_estimates_pngs(data = flow_station_timing, x = "Station",
@@ -112,96 +112,253 @@ dev.off()
 
 
 ### RIVER FLOW DISCHARGE ####
+plot_river_estimates <- function(
+  data, x, facet = NULL, nrow = NULL, ylimits = NULL, climits = NULL, geom = "point",
+  low = getOption("cccharts.low"), mid = getOption("cccharts.mid"), high = getOption("cccharts.high"),
+  insig = NULL, ybreaks = waiver(), xbreaks = waiver(), ylab = ylab_estimates,
+  base_family = "") {
+  # test_estimate_data(data)
+  # data %<>% complete_estimate_data()
+  cccharts:::check_all_identical(data$Indicator)
+
+  if (!is.null(facet)) {
+    check_vector(facet, "", min_length = 1, max_length = 2)
+    check_cols(data, facet)
+  }
+  if (!is.null(insig)) datacheckr::check_string(insig)
+
+  if (data$Units[1] %in% c("percent", "Percent")) {
+    data %<>% dplyr::mutate_(Estimate = ~Estimate / 100,
+                             Lower = ~Lower / 100,
+                             Upper = ~Upper / 100)
+    if (is.numeric(ylimits))
+      ylimits %<>% magrittr::divide_by(100)
+    if (is.numeric(climits))
+      climits %<>% magrittr::divide_by(100)
+    if (is.numeric(ybreaks))
+      ybreaks %<>% magrittr::divide_by(100)
+  }
+
+  ci <- any(!is.na(data$Lower))
+
+  data$Significant %<>% cccharts:::not_significant()
+
+  if (x == "Ecoprovince") levels(data[[x]]) <- acronym(levels(data[[x]]))
+  if (x == "Station") levels(data[[x]]) <- stringr::str_replace_all(levels(data[[x]]), " ", "\n")
+
+  outline <- "grey25"
+  if (identical(low, high)) {
+    mid <- NULL
+    outline <- "grey25"
+  }
+
+  gp <- ggplot(data, aes_string(x = x, y = "Estimate")) +
+    scale_y_continuous(ylab(data), labels = cccharts:::get_labels(data),
+                       limits = ylimits, breaks = ybreaks)
+
+  if (is.vector(xbreaks))
+    gp <- gp + scale_x_continuous(breaks = xbreaks)
+
+  if (geom == "point") {
+    if (ci) {
+      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
+                                width = 0.15, size = 0.5, color = outline)
+    }
+    gp <- gp + geom_hline(aes(yintercept = 0), linetype = 2) +
+      geom_point(size = 4, aes_string(fill = "Sign", shape = "Sign"), color = outline) +
+      scale_shape_manual(values = c(stable = 21, increase = 24, decrease = 25), guide = "none")
+    if (!is.null(insig))
+      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == "NS"), size = 4, aes_string(shape = "Sign"), fill = insig, color = outline)
+  } else {
+    gp <- gp + geom_hline(aes(yintercept = 0)) +
+      geom_col(aes_string(fill = "Sign"), color = outline)
+    if (!is.null(insig))
+      gp <- gp + geom_col(data = dplyr::filter_(data, ~Significant == "NS"), fill = insig, color = outline)
+    if (ci) {
+      gp <- gp +  geom_errorbar(aes_string(ymax = "Upper", ymin = "Lower"),
+                                width = 0.2, size = 0.5, color = outline)
+    }
+  }
+
+  # gp <- gp + geom_text(aes_(y = ~Estimate, label = ~Significant), hjust = 1.2, vjust = 1.8, size = 2.8)
+
+  gp <- gp + scale_fill_manual(values = c(stable = mid, increase = high, decrease = low), guide = FALSE)
+
+  if (length(facet) == 1) {
+    gp <- gp + facet_wrap(facet, nrow = nrow)
+  } else if (length(facet) == 2) {
+    gp <- gp + facet_grid(stringr::str_c(facet[1], " ~ ", facet[2]))
+  }
+  gp <- gp + theme_cccharts(facet = !is.null(facet), map = FALSE, base_family = base_family)
+  gp
+}
+
 library(magrittr)
-flow_station_discharge <- cccharts::flow_station_discharge
-flow_station_discharge$range <- flow_station_discharge$EndYear - flow_station_discharge$StartYear
-flow_station_discharge %<>% dplyr::mutate(Estimate = (Estimate * range)*100,
-                                   Lower = (Lower * range)*100, Upper = (Upper * range)*100)
-flow_station_discharge$Period <- as.integer(100)
+library(dplyr)
+library(cowplot)
+library(extrafont)
+
+# Convert estimate from percent per year to total % change, format seasons
+flow_station_discharge <- cccharts::flow_station_discharge %>%
+  dplyr::mutate(
+    range = EndYear - StartYear,
+    Estimate = (Estimate * range) * 100,
+    Lower = (Lower * range) * 100,
+    Upper = (Upper * range) * 100,
+    Seasonal = factor(ifelse(Season == "Annual", "Annual",
+                             ifelse(Statistic == "Mean", "Seasonal Means",
+                                    "Seasonal Extremes")),
+                      levels = c("Annual", "Seasonal Means", "Seasonal Extremes")),
+    Trend_Type = factor(ifelse(Season == "Annual",
+                                            as.character(Statistic),
+                                            ifelse(Season %in% c("Fall", "Winter", "Spring", "Summer"),
+                                                   as.character(Season),
+                                                   paste(Season, substr(Statistic, 1, 3)))),
+                        levels = c("Mean", "Minimum", "Maximum", "Fall", "Winter",
+                        "Spring", "Summer", "Late Spring Max", "Late Summer Min")))
+
+out_dir <- "cccharts/estimates/flow_station_discharge/"
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+make_river_plot <- function(data, station, term, ylims, base_family) {
+  sub_data <- data[data$Station == station & data$Term == term, ]
+
+  if (nrow(sub_data) == 0) {
+    cat("No", term, "data for", station, "\n")
+    p <- NULL
+  } else {
+    p <- plot_river_estimates(sub_data, x = "Trend_Type", ylimits = ylims,
+                              low = "#a6611a", mid = "#f5f5f5", high = "#018571",
+                              ylab = function(...) "Change in Flow (%)",
+                              insig = "grey80", base_family = base_family) +
+      facet_grid(.~Seasonal, scales = "free_x", space = "free_x", labeller = label_wrap_gen(15)) +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
+            plot.margin = unit(c(25, 1, 1, 1), "points"),
+            plot.subtitle = element_text(size = 14),
+            panel.spacing = unit(0, "points")) +
+      # labs(subtitle = make_subtitle(sub_data))
+      labs(subtitle = tools::toTitleCase(paste0(term, "-Term Change")))
+  }
+  p
+}
+
+make_subtitle <- function(d) {
+  mad <- round(d$MeanAnnualFlow[d$Trend_Type == "Annual Mean"], 1)
+  bquote(.(d$StartYear[1])~"-"~.(d$EndYear[1])~scriptstyle((Mean~Annual~Flow:~.(mad)~m^{3}/s)))
+}
+
+## Create y limits (nearest 10 of max and min upper and lower CLs)
+ylims <- c(floor(min(flow_station_discharge$Lower, na.rm = TRUE)),
+           ceiling(max(flow_station_discharge$Upper, na.rm = TRUE)))
+
+for (s in unique(flow_station_discharge$Station)) {
+
+  stn_name <- tools::toTitleCase(tolower(s))
+  stn_id <- flow_station_discharge$station[flow_station_discharge$Station == s][1]
+
+  p_med <- make_river_plot(flow_station_discharge, s, "Medium", ylims, "Arial")
+
+  p_long <- make_river_plot(flow_station_discharge, s, "Long", ylims, "Arial")
+
+  p <- plot_grid(p_med, p_long, nrow = 2) +
+    draw_plot_label(label = stn_name, x = .5, y = 1, size = 16, hjust = .5, vjust = 1.3)
+
+  if (is.null(p_med)) {
+    p <- p + draw_text("Insufficient Data for Medium-Term Change Analysis", y = 0.75, size = 14)
+  }
+
+  if (is.null(p_long)) {
+    p <- p + draw_text("Insufficient Data for Long-Term Change Analysis", y = 0.25, size = 14)
+  }
+  png(filename = paste0(out_dir, stn_id, "_discharge.png"),
+      width = 350, height = 600, units = "px", type = "cairo")
+  plot(p)
+  dev.off()
+}
 
 ##100 year timing trend results
 ##annual
-discharge.mean.annual <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
-                               Season == "Annual", Term == "Long")
-
-discharge.min.annual <- dplyr::filter(flow_station_discharge, Statistic == "Minimum",
-                                      Season == "Annual", Term == "Long")
-
-# discharge.max.annual <- dplyr::filter(flow_station_discharge, Statistic == "Maximum",
+# discharge.mean.annual <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
+#                                Season == "Annual", Term == "Long")
+#
+# discharge.min.annual <- dplyr::filter(flow_station_discharge, Statistic == "Minimum",
 #                                       Season == "Annual", Term == "Long")
-# ##spring
-# discharge.max.spring <- dplyr::filter(flow_station_discharge, Statistic == "Maximum",
-#                                       Season == "Late Spring", Term == "Long")
 #
-# discharge.mean.spring <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
-#                                       Season == "Early Spring", Term == "Long")
-##summer
-discharge.min.summer <- dplyr::filter(flow_station_discharge, Statistic == "Minimum",
-                                       Season == "Late Summer", Term == "Long")
-
-discharge.mean.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
-                                Season == "Early Summer", Term == "Long")
-# ##fall and winter
-# discharge.mean.winter <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
-#                                       Season == "Winter", Term == "Long")
+# # discharge.max.annual <- dplyr::filter(flow_station_discharge, Statistic == "Maximum",
+# #                                       Season == "Annual", Term == "Long")
+# # ##spring
+# # discharge.max.spring <- dplyr::filter(flow_station_discharge, Statistic == "Maximum",
+# #                                       Season == "Late Spring", Term == "Long")
+# #
+# # discharge.mean.spring <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
+# #                                       Season == "Early Spring", Term == "Long")
+# ##summer
+# discharge.min.summer <- dplyr::filter(flow_station_discharge,
+#                                        Trend_Type == "Summer Mean", Term == "Long")
 #
-# discharge.mean.fall <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
-#                                       Season == "Fall", Term == "Long")
-
-## estimate plots
-min.summer <- plot_estimates_pngs(data = discharge.min.summer, x = "Station", low = "#3182bd",
-                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
-                    ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
-
-min.annual <- plot_estimates_pngs(data = discharge.min.annual, x = "Station", low = "#3182bd",
-                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
-                    ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
-
-mean.annual <- plot_estimates_pngs(data = discharge.mean.annual, x = "Station", low = "#3182bd",
-                                  high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
-                                  ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
-
-mean.summer <- plot_estimates_pngs(data = discharge.mean.summer, x = "Station", low = "#3182bd",
-                                   high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
-                                   ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
-
-## add titles to plots
-min.summer[[1]] <- min.summer[[1]] +
- ggtitle("Minimum Summer River Flow")
-plot(min.summer[[1]])
-
-mean.summer[[1]] <- mean.summer[[1]] +
-  ggtitle("Mean Summer River Flow")
-plot(min.summer[[1]])
-
-min.annual[[1]] <- min.annual[[1]] +
-  ggtitle("Minimum Annual River Flow")
-plot(min.annual[[1]])
-
-mean.annual[[1]] <- mean.annual[[1]] +
-  ggtitle("Mean Annual River Flow")
-plot(mean.annual[[1]])
-
-## print out PNG plots
-png(filename = "cccharts/estimates/discharge.min.summer/Discharge_MinSummer_estimates.png",
-    width = 500, height = 500, units = "px")
-min.summer[[1]]
-dev.off()
-
-png(filename = "cccharts/estimates/discharge.min.annual/Discharge_MinAnnual_estimates.png",
-    width = 500, height = 500, units = "px")
-min.annual[[1]]
-dev.off()
-
-png(filename = "cccharts/estimates/discharge.mean.summer/Discharge_MeanSummer_estimates.png",
-    width = 500, height = 500, units = "px")
-mean.summer[[1]]
-dev.off()
-
-png(filename = "cccharts/estimates/discharge.mean.annual/Discharge_MeanAnnual_estimates.png",
-    width = 500, height = 500, units = "px")
-mean.annual[[1]]
-dev.off()
+# discharge.mean.summer <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
+#                                 Season == "Early Summer", Term == "Long")
+# # ##fall and winter
+# # discharge.mean.winter <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
+# #                                       Season == "Winter", Term == "Long")
+# #
+# # discharge.mean.fall <- dplyr::filter(flow_station_discharge, Statistic == "Mean",
+# #                                       Season == "Fall", Term == "Long")
+#
+# ## estimate plots
+# min.summer <- plot_estimates(data = discharge.min.summer, x = "Station", #low = "#3182bd",
+#                     #high = "#3182bd", #ask = FALSE, width = 500L, height = 500L,
+#                     ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
+#
+# min.annual <- plot_estimates_pngs(data = discharge.min.annual, x = "Station", low = "#3182bd",
+#                     high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+#                     ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
+#
+# mean.annual <- plot_estimates_pngs(data = discharge.mean.annual, x = "Station", low = "#3182bd",
+#                                   high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+#                                   ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
+#
+# mean.summer <- plot_estimates_pngs(data = discharge.mean.summer, x = "Station", low = "#3182bd",
+#                                    high = "#3182bd", ask = FALSE, width = 500L, height = 500L,
+#                                    ylimits = (c(-75,75)), ybreaks = seq(-75,75,by = 15))
+#
+# ## add titles to plots
+# min.summer <- min.summer +
+#  ggtitle("Minimum Summer River Flow")
+# plot(min.summer)
+#
+# mean.summer[[1]] <- mean.summer[[1]] +
+#   ggtitle("Mean Summer River Flow")
+# plot(min.summer[[1]])
+#
+# min.annual[[1]] <- min.annual[[1]] +
+#   ggtitle("Minimum Annual River Flow")
+# plot(min.annual[[1]])
+#
+# mean.annual[[1]] <- mean.annual[[1]] +
+#   ggtitle("Mean Annual River Flow")
+# plot(mean.annual[[1]])
+#
+# ## print out PNG plots
+# png(filename = "cccharts/estimates/discharge.min.summer/Discharge_MinSummer_estimates.png",
+#     width = 500, height = 500, units = "px")
+# min.summer[[1]]
+# dev.off()
+#
+# png(filename = "cccharts/estimates/discharge.min.annual/Discharge_MinAnnual_estimates.png",
+#     width = 500, height = 500, units = "px")
+# min.annual[[1]]
+# dev.off()
+#
+# png(filename = "cccharts/estimates/discharge.mean.summer/Discharge_MeanSummer_estimates.png",
+#     width = 500, height = 500, units = "px")
+# mean.summer[[1]]
+# dev.off()
+#
+# png(filename = "cccharts/estimates/discharge.mean.annual/Discharge_MeanAnnual_estimates.png",
+#     width = 500, height = 500, units = "px")
+# mean.annual[[1]]
+# dev.off()
 
 # ## facet of station plots with trends lines
 # plot_fit_pngs(data = flow_station_discharge, observed = cccharts::flow_station_discharge_observed,
@@ -220,8 +377,8 @@ dev.off()
 
 ## snow annual ecoprovince estimates
 snow_estimates_plot <- plot_estimates_pngs(data = cccharts::snow, ybreaks = seq(-20,10,by = 5), geom = "bar",
-                    low = "#8c510a", high = "#f6e8c3", insig = "grey90",
-                    width = 500L, height = 500L, ask = FALSE)
+                                           low = "#8c510a", high = "#f6e8c3", insig = "grey90",
+                                           width = 500L, height = 500L, ask = FALSE)
 
 ## lists for reordering bars by Estimate
 depth_order <- c("SI", "CI", "SIM","GD", "BP", "CM",  "SBI", "TP","NBM")
@@ -251,7 +408,7 @@ dev.off()
 
 ## snow annual ecoprovince estimates map
 snow_maps <- map_estimates_pngs(data = cccharts::snow, low = "#8c510a", high = "#f6e8c3",
-      width = 500L, height = 500L, ask = FALSE, insig = "grey90")
+                                width = 500L, height = 500L, ask = FALSE, insig = "grey90")
 
 ## add annotation to maps
 snow_maps[[1]] <- snow_maps[[1]] +

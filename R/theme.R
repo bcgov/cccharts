@@ -16,14 +16,15 @@
 #'
 #' @param facet A flag indicating whether to use the theme for facetted graphs.
 #' @param map A flag indicating whether to use the theme for maps.
+#' @param base_family Base font family for plotting
 #' @seealso \code{\link[envreportutils]{theme_soe}} and
 #'  \code{\link[envreportutils]{theme_soe_facet}}
 #' @export
-theme_cccharts <- function(facet = FALSE, map = FALSE) {
+theme_cccharts <- function(facet = FALSE, map = FALSE, base_family = "") {
   if (facet) {
-    theme <- envreportutils::theme_soe_facet(base_family = "")
+    theme <- envreportutils::theme_soe_facet(base_family = base_family)
   } else
-    theme <- envreportutils::theme_soe(base_family = "")
+    theme <- envreportutils::theme_soe(base_family = base_family)
 
   theme <- theme + theme(
     plot.title = element_text(size = rel(1.2)),

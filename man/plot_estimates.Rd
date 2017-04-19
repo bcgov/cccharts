@@ -49,4 +49,3 @@ Plots trend estimates with uncertainty if available.
 plot_estimates(cccharts::precipitation, x = "Season",
   facet = "Ecoprovince", nrow = 2)
 }
-

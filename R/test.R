@@ -24,6 +24,7 @@ test_observed_data <- function(data) {
     Units = ""))
 }
 
+
 test_estimate_data <- function(data) {
   data %<>% complete_estimate_data()
 
@@ -45,5 +46,6 @@ test_estimate_data <- function(data) {
     Upper = c(1, NA),
     Intercept = c(1, NA),
     Scale = c(1),
-    Significant = c(TRUE, FALSE, NA)))
+    Significant = c(TRUE, FALSE, NA),
+    Sign = c("", NA)))
 }

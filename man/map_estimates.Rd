@@ -46,4 +46,3 @@ A ggplot2 object.
 \description{
 Maps trend estimates
 }
-

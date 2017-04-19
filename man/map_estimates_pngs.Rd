@@ -57,4 +57,3 @@ map_estimates_pngs(data = cccharts::precipitation, by = "Indicator",
 \description{
 Generates maps of climate indicator data as png files.
 }
-

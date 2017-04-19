@@ -12,4 +12,3 @@ A string of the platform specific png type.
 \description{
 Get PNG Type
 }
-

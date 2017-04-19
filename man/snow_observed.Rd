@@ -19,4 +19,3 @@ snow_observed
 Snow Data Observed
 }
 \keyword{datasets}
-
