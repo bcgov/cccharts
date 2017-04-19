@@ -195,7 +195,6 @@ plot_river_estimates <- function(
 
 library(magrittr)
 library(dplyr)
-library(forcats)
 library(cowplot)
 library(extrafont)
 
@@ -210,9 +209,13 @@ flow_station_discharge <- cccharts::flow_station_discharge %>%
                              ifelse(Statistic == "Mean", "Seasonal Means",
                                     "Seasonal Extremes")),
                       levels = c("Annual", "Seasonal Means", "Seasonal Extremes")),
-    Trend_Type = fct_recode(Trend_Type, Mean = "Annual Mean", Minimum = "Annual Min",
-                            Maximum = "Annual Max", Fall = "Fall Mean",
-                            Winter = "Winter Mean", Spring = "Spring Mean", Summer = "Summer Mean"))
+    Trend_Type = factor(ifelse(Season == "Annual",
+                                            as.character(Statistic),
+                                            ifelse(Season %in% c("Fall", "Winter", "Spring", "Summer"),
+                                                   as.character(Season),
+                                                   paste(Season, substr(Statistic, 1, 3)))),
+                        levels = c("Mean", "Minimum", "Maximum", "Fall", "Winter",
+                        "Spring", "Summer", "Late Spring Max", "Late Summer Min")))
 
 out_dir <- "cccharts/estimates/flow_station_discharge/"
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)

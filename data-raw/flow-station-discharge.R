@@ -49,20 +49,7 @@ flow_station_discharge$Units <- "Cumecs"
 flow_station_discharge$Period <- 1L
 flow_station_discharge$Indicator <- "Discharge"
 
-trend_labels <- c("trend.ann.1thrdate"   = "Timing: 1/3",
-                  "trend.ann.1halfdate"  = "Timing: 1/2",
-                  "trend.ann.mean"       = "Annual Mean",
-                  "trend.ann.min"        = "Annual Min",
-                  "trend.ann.max"        = "Annual Max",
-                  "trend.SON.mean"       = "Fall Mean",
-                  "trend.DJF.mean"       = "Winter Mean",
-                  "trend.MAM.mean"       = "Spring Mean",
-                  "trend.JJA.mean"       = "Summer Mean",
-                  "trend.AMJ.max"        = "Late Spring Max",
-                  "trend.JAS.min"        = "Late Summer Min")
-
 flow_station_discharge %<>% mutate(
-  Trend_Type = factor(trend_labels[trend_type], levels = trend_labels),
   Sign = ifelse(Estimate > 0, "increase",
                 ifelse(Estimate == 0, "stable", "decrease")),
   StartYear = as.integer(StartYear),
@@ -72,7 +59,7 @@ flow_station_discharge %<>% get_flow_statistic_season(col = "trend_type")
 
 flow_station_discharge %<>% select(
   Indicator, Statistic, Units, Period, Term, StartYear, EndYear, Ecoprovince,
-  Season, Station, Latitude, Longitude, Trend_Type, Estimate, Lower, Upper,
+  Season, Station, Latitude, Longitude, Estimate, Lower, Upper,
   MeanAnnualFlow, MinAnnualFlow, MaxAnnualFlow, Intercept, Significant, Sign, station)
 
 flow_station_discharge %<>% arrange(Indicator, Statistic, Ecoprovince, Station, Season, Term, StartYear, EndYear)
