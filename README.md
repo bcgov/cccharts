@@ -76,7 +76,7 @@ To generate the plot files (creates a folder in the working directory called `cc
 Getting Help or Reporting an Issue
 ----------------------------------
 
-To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/rcaaqs/issues/).
+To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/cccharts/issues).
 
 How to Contribute
 -----------------
