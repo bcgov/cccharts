@@ -73,7 +73,7 @@ snow_station_observed$Value %<>% as.numeric()
 
 snow_station %<>% mutate(Intercept = Intercept + Estimate * StartYear)
 
-snow %<>% change_period(10L)
+snow_station %<>% cccharts::change_period(10L)
 
 use_data(snow_station, overwrite = TRUE)
 use_data(snow_station_observed, overwrite = TRUE)

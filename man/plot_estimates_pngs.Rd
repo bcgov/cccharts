@@ -56,4 +56,3 @@ plot_estimates_pngs(data = cccharts::precipitation, x = NULL,
 \description{
 Generates plots of climate indicator data as png files.
 }
-

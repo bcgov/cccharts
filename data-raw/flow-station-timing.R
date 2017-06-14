@@ -33,6 +33,8 @@ flow_station_timing %<>% rename(Station = station_name,
 
 flow_station_timing$Term %<>% str_to_title() %>% factor(levels = term)
 flow_station_timing$Station %<>% str_to_title() %>% str_replace("(.*)(\\sRiver\\s)(At|Near)(.*)", "\\1")
+flow_station_timing$StartYear %<>% as.integer()
+flow_station_timing$EndYear %<>% as.integer()
 
 flow_station_timing %<>% get_ecoprovince()
 
@@ -75,7 +77,7 @@ flow_station_timing_observed %<>% arrange(Indicator, Statistic, Season, Ecoprovi
 
 flow_station_timing_observed$Station %<>% factor(levels = levels(flow_station_timing$Station))
 
-flow_station_timing %<>% cccharts::change_period(10L)
+# flow_station_timing %<>% cccharts::change_period(10L)
 
 use_data(flow_station_timing, overwrite = TRUE)
 use_data(flow_station_timing_observed, overwrite = TRUE)

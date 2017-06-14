@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](http://bcdevexchange.org/badge/3.svg)](https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md) [![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
+<a rel="Exploration" href="https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
+
+[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
 
 cccharts
 ========
@@ -51,22 +53,21 @@ Usage
 library(cccharts)
 #> Loading required package: ggplot2
 plot_estimates(data = cccharts::sea_surface_temperature_station, x = "Season", facet = "Station")
-#> Warning: 1 data points have inconsistent significance and confidence limits
-```
-
-![](README-unnamed-chunk-2-1.png)
-
-``` r
-map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.55))
 ```
 
 ![](README-unnamed-chunk-3-1.png)
 
 ``` r
-plot_fit(data = dplyr::filter(cccharts::flow_station_discharge, Term == "Medium", Statistic == "Mean", Season == "Annual"), observed = cccharts::flow_station_discharge_observed, free_y = TRUE, facet = "Station")
+map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.55))
 ```
 
 ![](README-unnamed-chunk-4-1.png)
+
+``` r
+plot_fit(data = dplyr::filter(cccharts::flow_station_discharge, Term == "Medium", Statistic == "Mean", Season == "Annual"), observed = cccharts::flow_station_discharge_observed, free_y = TRUE, facet = "Station")
+```
+
+![](README-unnamed-chunk-5-1.png)
 
 To generate the plot files (creates a folder in the working directory called `cccharts`).
 

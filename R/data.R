@@ -62,7 +62,7 @@
 #' Flow Station Discharge Trend Data
 #'
 #' Flow station discharge trend data imported and reformatted from
-#' \url{https://catalogue.data.gov.bc.ca/dataset/xx}.
+#' \url{https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8-45b5-808e-210036f25044}.
 #'
 #' Data licensed under the Open Data License-BC.
 #' See metadata record in BC Data Catalogue for more details on the original data set.
@@ -92,7 +92,7 @@
 #' Flow Station Timing Trend Data
 #'
 #' Flow station timing trend data imported and reformatted from
-#' \url{https://catalogue.data.gov.bc.ca/dataset/xx}.
+#' \url{https://catalogue.data.gov.bc.ca/dataset/d6f30634-a6a8-45b5-808e-210036f25044}.
 #'
 #' Data licensed under the Open Data License-BC.
 #' See metadata record in BC Data Catalogue for more details on the original data set.

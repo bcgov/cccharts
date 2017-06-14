@@ -1,5 +1,6 @@
 ---
 output: github_document
+html_preview: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -12,7 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![Travis-CI Build Status](http://bcdevexchange.org/badge/3.svg)](https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md)
+
+```{r echo=FALSE, results='asis'}
+## Insert 'inspiration', 'exploration', or 'delivery'
+envreportutils::devex_badge('exploration')
+```
+  
 [![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
 
 # cccharts

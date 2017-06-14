@@ -43,4 +43,3 @@ plot_fit_pngs(data = cccharts::precipitation, observed, by = "Indicator",
 \description{
 Fit PNGS
 }
-

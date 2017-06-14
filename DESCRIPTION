@@ -8,7 +8,7 @@ Authors@R: c(
     person("Andy", "Teucher", role = "aut"),
     person("Jane", "Wang", role = "aut"))
 Description: Plots climate change indicator trends for British Columbia.
-License: 	Apache License 2.0 | file LICENSE
+License: Apache License 2.0 | file LICENSE
 Depends:
     R (>= 3.3.1),
     ggplot2
@@ -44,4 +44,4 @@ Remotes:
     poissonconsulting/yesno
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

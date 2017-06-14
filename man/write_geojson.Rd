@@ -14,4 +14,3 @@ write_geojson(map = cccharts::bc, file = "map")
 \description{
 Write GeoJSON file
 }
-

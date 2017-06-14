@@ -84,7 +84,7 @@ map_estimates <- function(
                  size = 6, shape = 21, color = "grey33")
 
     if (!is.null(insig)) {
-      gp <- gp + geom_point(data = dplyr::filter(data, Significant == FALSE),
+      gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == FALSE),
                               ggplot2::aes_string(x = "Easting", y = "Northing", fill = "Estimate"),
                               fill = insig, color = "black",  size = 6, shape = 21)
     }

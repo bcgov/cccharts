@@ -18,4 +18,3 @@ Creates an Acronym by just extracting the capital letters.
 \examples{
 acronym(levels(snow$Ecoprovince))
 }
-
