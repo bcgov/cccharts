@@ -1,11 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<a rel="Exploration" href="https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>
-
-[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
-
 cccharts
 ========
+
+<a rel="Exploration" href="https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
+
+Overview
+--------
 
 `cccharts` is an R package to plot climate change indicator data for British Columbia. It is essentially a wrapper on top of `ggplot2` code.
 
@@ -55,19 +56,19 @@ library(cccharts)
 plot_estimates(data = cccharts::sea_surface_temperature_station, x = "Season", facet = "Station")
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](README-unnamed-chunk-2-1.png)
 
 ``` r
 map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.55))
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](README-unnamed-chunk-3-1.png)
 
 ``` r
 plot_fit(data = dplyr::filter(cccharts::flow_station_discharge, Term == "Medium", Statistic == "Mean", Season == "Annual"), observed = cccharts::flow_station_discharge_observed, free_y = TRUE, facet = "Station")
 ```
 
-![](README-unnamed-chunk-5-1.png)
+![](README-unnamed-chunk-4-1.png)
 
 To generate the plot files (creates a folder in the working directory called `cccharts`).
 
@@ -77,7 +78,7 @@ To generate the plot files (creates a folder in the working directory called `cc
 Getting Help or Reporting an Issue
 ----------------------------------
 
-To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/cccharts/issues).
+To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/rcaaqs/issues/).
 
 How to Contribute
 -----------------

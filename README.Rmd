@@ -13,16 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-
-```{r echo=FALSE, results='asis'}
-## Insert 'inspiration', 'exploration', or 'delivery'
-envreportutils::devex_badge('exploration')
-```
-  
-[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
-
 # cccharts
 
+<div id="devex-badge"><a rel="Exploration" href="https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)</div>
+  
+
+## Overview
 
 `cccharts` is an R package to plot climate change indicator data for British Columbia.
 It is essentially a wrapper on top of `ggplot2` code.
