@@ -12,6 +12,8 @@ addons:
       - libproj-dev
       - libv8-dev
       - libprotobuf-dev # for protolite, a dependency of geojson and thus geojsonio
+      - libprotoc-dev
+      - protobuf-compiler
 
 notifications:
   email:
