@@ -81,12 +81,12 @@ map_estimates <- function(
                             ggplot2::aes_string(x = "long", y = "lat", group = "group"),
                             fill = "grey75", color = "white") +
          geom_point(data = data, aes_string(x = "Easting", y = "Northing", fill = "Estimate"),
-                 size = 6, shape = 21, color = "grey33")
+                 size = 5, shape = 21, color = "grey33")
 
     if (!is.null(insig)) {
       gp <- gp + geom_point(data = dplyr::filter_(data, ~Significant == FALSE),
                               ggplot2::aes_string(x = "Easting", y = "Northing", fill = "Estimate"),
-                              fill = insig, color = "black",  size = 6, shape = 21)
+                              fill = insig, color = "black",  size = 5, shape = 21)
     }
 
     if (is.null(mid)) {
