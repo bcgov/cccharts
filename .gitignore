@@ -5,3 +5,4 @@
 
 cccharts
 *.geojson
+.DS_Store
