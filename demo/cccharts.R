@@ -442,13 +442,23 @@ snow_estimates_plot[[2]] <- snow_estimates_plot[[2]] +
 plot(snow_estimates_plot[[2]])
 
 ## print out PNG plots
-png(filename = "cccharts/estimates/snow/Snow_Depth_estimates.png",
-    width = 500, height = 500, units = "px")
+# png(filename = "cccharts/estimates/snow/Snow_Depth_estimates.png",
+#     width = 500, height = 500, units = "px")
+# snow_estimates_plot[[1]]
+# dev.off()
+#
+# png(filename = "cccharts/estimates/snow/Snow_Water_Equivalent_estimates.png",
+#     width = 500, height = 500, units = "px")
+# snow_estimates_plot[[2]]
+# dev.off()
+
+svg_px(file = "cccharts/estimates/snow/Snow_Depth_estimates.svg",
+    width = 500, height = 500)
 snow_estimates_plot[[1]]
 dev.off()
 
-png(filename = "cccharts/estimates/snow/Snow_Water_Equivalent_estimates.png",
-    width = 500, height = 500, units = "px")
+svg_px(file = "cccharts/estimates/snow/Snow_Water_Equivalent_estimates.svg",
+    width = 500, height = 500)
 snow_estimates_plot[[2]]
 dev.off()
 
@@ -458,24 +468,39 @@ snow_maps <- map_estimates_pngs(data = cccharts::snow, low = "#8c510a", high = "
 
 ## add annotation to maps
 snow_maps[[1]] <- snow_maps[[1]] +
-  labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)")
+  labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)") +
+  theme(legend.title = element_text(size = 14),
+        legend.text = element_text(size = 12),
+        plot.caption = element_text(size = 12))
 plot(snow_maps[[1]])
 
 snow_maps[[2]] <- snow_maps[[2]] +
-  labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)")
+  labs(caption = "*Grey-shaded ecoprovinces have trend\nestimates that are not significant (NS)") +
+  theme(legend.title = element_text(size = 14),
+        legend.text = element_text(size = 12),
+        plot.caption = element_text(size = 12))
 plot(snow_maps[[2]])
 
 ## print out PNG maps
-png(filename = "cccharts/map/snow/Snow_Depth_map.png",
-    width = 500, height = 500, units = "px")
+# png(filename = "cccharts/map/snow/Snow_Depth_map.png",
+#     width = 500, height = 500, units = "px")
+# snow_maps[[1]]
+# dev.off()
+#
+# png(filename = "cccharts/map/snow/Snow_Water_Equivalent_map.png",
+#     width = 500, height = 500, units = "px")
+# snow_maps[[2]]
+# dev.off()
+
+svg_px(file = "cccharts/map/snow/Snow_Depth_map.svg",
+    width = 500, height = 500)
 snow_maps[[1]]
 dev.off()
 
-png(filename = "cccharts/map/snow/Snow_Water_Equivalent_map.png",
-    width = 500, height = 500, units = "px")
+svg_px(file = "cccharts/map/snow/Snow_Water_Equivalent_map.svg",
+    width = 500, height = 500)
 snow_maps[[2]]
 dev.off()
-
 
 ### SNOW STATION ###
 # plot_estimates_pngs(data = cccharts::snow_station, ybreaks = seq(-20,10,by = 5),
