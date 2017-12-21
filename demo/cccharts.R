@@ -1,12 +1,24 @@
 library(cccharts)
+library(envreportutils) #svg_px()
 
 ### SEA LEVEL ####
 
 ## sea level annual estimates map
 ## set ggrepel::geom_text_repel(point.padding = unit(0.4, "lines"), min.segment.length = unit(0.6, "lines")
-map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
+map.sl <- map_estimates_pngs(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.65,0,0.55),
                    width = 500L, height = 500L, low = "#8c510a", mid = "#f5f5f5", high = "#2166ac",
                    ask = FALSE, insig = NULL)
+
+## tweaking theme of sea level map plot
+map.sl[[1]] <- map.sl[[1]] +
+  theme(legend.title = element_text(size = 14),
+        legend.text = element_text(siz =12))
+plot(map.sl[[1]])
+
+svg_px(file = "cccharts/map/sea_level_station/Sea_Level_map.svg",
+       width = 500, height = 500)
+map.sl[[1]]
+dev.off()
 
 ## sea level annual estimates plot
 estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Station",
@@ -15,15 +27,21 @@ estimates.sl <- plot_estimates_pngs(data = cccharts::sea_level_station, x = "Sta
 
 ## tweaking theme of sea level estimates plot
 estimates.sl[[1]] <- estimates.sl[[1]] +
-  theme(plot.margin = unit(c(13,10,10,0),"mm"))
+  theme(plot.margin = unit(c(13,10,10,0),"mm"),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(siz =12))
 plot(estimates.sl[[1]])
 
 ## print sea level estimates plot to PNG
-png(filename = "cccharts/estimates/sea_level_station/Sea_Level_estimates.png",
-    width = 500, height = 500, units = "px")
+# png(filename = "cccharts/estimates/sea_level_station/Sea_Level_estimates.png",
+#     width = 500, height = 500, units = "px")
+# estimates.sl[[1]]
+# dev.off()
+
+svg_px(file = "cccharts/estimates/sea_level_station/Sea_Level_estimates.svg",
+    width = 500, height = 500)
 estimates.sl[[1]]
 dev.off()
-
 
 ### SEA SURFACE TEMPERATURE ####
 
@@ -37,19 +55,37 @@ estimate_sst <- plot_estimates_pngs(data = sea_surface_temperature_station, x = 
 ## tweaking theme of SST annual estimates plot
 estimate_sst[[1]] <- estimate_sst[[1]] +
   theme(plot.margin = unit(c(17,10,10,0),"mm"),
+        axis.title = element_text(size = 14),
         axis.text.x = element_text(size = 12))
 plot(estimate_sst[[1]])
 
 ## print SST annual estimates to PNG
-png(filename = "cccharts/estimates/sea_surface_temperature_station/Sea_Surface_Temperature_estimates.png",
-    width = 520, height = 500, units = "px")
+# png(filename = "cccharts/estimates/sea_surface_temperature_station/Sea_Surface_Temperature_estimates.png",
+#     width = 520, height = 500, units = "px")
+# estimate_sst[[1]]
+# dev.off()
+
+svg_px(file = "cccharts/estimates/sea_surface_temperature_station/Sea_Surface_Temperature_estimates.svg",
+    width = 520, height = 500)
 estimate_sst[[1]]
 dev.off()
 
 ## SST seasonal estimates facet plot
-plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"),
+sst_seasonal <- plot_estimates_pngs(data = dplyr::filter(cccharts::sea_surface_temperature_station, Season != "Annual"),
                     x = "Season", facet = "Station", low = "#6baed6", mid = NULL, high = "#6baed6", ask = FALSE,
-                    width = 800L, height = 600L, dir = "sea_surface_temperature_station", prefix = "Seasonal")
+                    dir = "sea_surface_temperature_station", prefix = "Seasonal")
+
+
+## tweaking theme of SST seasonal estimates plot
+sst_seasonal[[1]] <- sst_seasonal[[1]] +
+  theme(strip.text.x = element_text(size = 14))
+plot(sst_seasonal[[1]])
+
+svg_px(file = "cccharts/estimates/sea_surface_temperature_station/Seasonal_Sea_Surface_Temperature_estimates.svg",
+       width = 800, height = 600)
+sst_seasonal[[1]]
+dev.off()
+
 
 ## SST annual estimates map
 ## separate Departure Bay and Entrance Island map points
@@ -73,9 +109,19 @@ sea_surface_temperature_station$Latitude[sea_surface_temperature_station$Station
 sea_surface_temperature_station$Longitude[sea_surface_temperature_station$Station == "Pine Island"] <- -127.72
 
 ## set ggrepel::geom_text_repel() min.segment.length = unit(0.4, "lines") for this map in map-estimates.R
-map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5),
+sst_map <- map_estimates_pngs(data = sea_surface_temperature_station, station = TRUE, bounds = c(0.1,0.65,0,0.5),
                    width = 500L, height = 500L, low = "#f5f5f5", mid = NULL, high = "#08519c",ask = FALSE, insig = NULL)
 
+## tweaking theme of SST annual estimates plot
+sst_map[[1]] <- sst_map[[1]] +
+  theme(legend.title = element_text(size = 14),
+        legend.text = element_text(size = 12))
+plot(sst_map[[1]])
+
+svg_px(file = "cccharts/map/sea_surface_temperature_station/Sea_Surface_Temperature_map.svg",
+       width = 520, height = 500)
+sst_map
+dev.off()
 
 # ### RIVER FLOW TIMING ####
 #
