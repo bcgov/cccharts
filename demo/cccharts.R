@@ -66,7 +66,7 @@ plot(estimate_sst[[1]])
 # dev.off()
 
 svg_px(file = "cccharts/estimates/sea_surface_temperature_station/Sea_Surface_Temperature_estimates.svg",
-    width = 520, height = 500)
+    width = 500, height = 500)
 estimate_sst[[1]]
 dev.off()
 
@@ -119,7 +119,7 @@ sst_map[[1]] <- sst_map[[1]] +
 plot(sst_map[[1]])
 
 svg_px(file = "cccharts/map/sea_surface_temperature_station/Sea_Surface_Temperature_map.svg",
-       width = 520, height = 500)
+       width = 500, height = 500)
 sst_map
 dev.off()
 
