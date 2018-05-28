@@ -3,12 +3,14 @@
 cccharts
 ========
 
-<a rel="Exploration" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a>[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
+<a id="devex-badge" rel="Retired" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="No longer being used or supported, recommend not using an alternative option." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/retired.svg" title="No longer being used or supported, recommend not using an alternative option." /></a>[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
 
 Overview
 --------
 
 `cccharts` is an R package to plot climate change indicator data for British Columbia. It is essentially a wrapper on top of `ggplot2` code.
+
+The package was developed and used to generate supporting data visualizations for a set of climate change indicators published on [Environmental Reporting BC in 2017](https://www2.gov.bc.ca/gov/content/environment/research-monitoring-reporting/reporting/environmental-reporting-bc/climate-change-indicators).
 
 Installation
 ------------
@@ -60,6 +62,8 @@ plot_estimates(data = cccharts::sea_surface_temperature_station, x = "Season", f
 
 ``` r
 map_estimates(data = cccharts::sea_level_station, station = TRUE, bounds = c(0.1,0.7,0,0.55))
+#> Warning in seq.default(.limits[1], .limits[2], length = guide$nbin):
+#> partial argument match of 'length' to 'length.out'
 ```
 
 ![](README-unnamed-chunk-3-1.png)
