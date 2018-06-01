@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # cccharts
 
-<a id="devex-badge" rel="Retired" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="No longer being used or supported, recommend not using an alternative option." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/retired.svg" title="No longer being used or supported, recommend not using an alternative option." /></a>[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)
+<a id="devex-badge" rel="Retired" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="No longer being used or supported, recommend not using an alternative option." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/retired.svg" title="No longer being used or supported, recommend not using an alternative option." /></a>[![Travis-CI Build Status](https://travis-ci.org/bcgov/cccharts.svg?branch=master)](https://travis-ci.org/bcgov/cccharts)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
 ## Overview
@@ -118,5 +118,5 @@ Please note that this project is released with a [Contributor Code of Conduct](C
     limitations under the License.
 
 
-This repository is maintained by [Environmental Reporting BC](http://www2.gov.bc.ca/gov/content?id=FF80E0B985F245CEA62808414D78C41B). Click [here](https://github.com/bcgov/EnvReportBC-RepoList) for a complete list of our repositories on GitHub.
+This repository is maintained by [Environmental Reporting BC](http://www2.gov.bc.ca/gov/content?id=FF80E0B985F245CEA62808414D78C41B). Click [here](https://github.com/bcgov/EnvReportBC) for a complete list of our repositories on GitHub.
 
